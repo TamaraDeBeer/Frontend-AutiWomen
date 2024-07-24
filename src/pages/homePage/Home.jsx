@@ -1,11 +1,21 @@
 import styles from './Home.module.css';
+import hero from '../../assets/home-hero.jpg';
 
 function Home() {
     return (
-        <div className={styles.home}>
-            <h1>Welcome to Home Page</h1>
-            <p>Click on the links above to navigate</p>
-        </div>
+
+        <section className={styles['section-hero__outer-container']}>
+
+            <div className={styles['section-hero__inner-container-image']}>
+                <img src={hero} alt="Hero" />
+            </div>
+
+            <div className={styles['section-hero__inner-container-text']}>
+            <h1>Auti-Women</h1>
+            <h2>De plek waar autistische vrouwen elkaar helpen</h2>
+            </div>
+
+        </section>
     );
 }
 

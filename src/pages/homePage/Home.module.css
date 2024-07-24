@@ -1,0 +1,20 @@
+.section-hero__outer-container {
+    display: flex;
+    width: 90rem;
+    height: 31.25rem;
+    padding: 5rem 0rem;
+    justify-content: center;
+    align-items: center;
+    /*gap: -3.125rem;*/
+    flex-shrink: 0;
+}
+
+.section-hero__inner-container-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    width: 32.8125rem;
+
+}
