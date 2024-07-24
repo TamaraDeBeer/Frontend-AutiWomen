@@ -16,5 +16,23 @@
     align-items: center;
     gap: 1.25rem;
     width: 32.8125rem;
+}
 
+.section-benefits__outer-container {
+    display: flex;
+    width: 90rem;
+    height: 31.25rem;
+    padding: 0.9375rem 13.75rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-shrink: 0;
+    background-color: var(--primary-bg-color);
+}
+
+.section-benefits__inner-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 9.1875rem;
 }
