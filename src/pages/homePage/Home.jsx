@@ -29,6 +29,7 @@ function Home() {
                 <BenefitCard image={benefit} imageAlt="benefit" title="Advies"
                              text="Ontvang advies en tips van andere vrouwen"/>
             </div>
+            <h2>Button</h2>
         </section>
 
     </>);
