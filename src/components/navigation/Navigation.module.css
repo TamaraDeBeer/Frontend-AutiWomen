@@ -1,0 +1,47 @@
+.navigation__outer-container {
+    width: 90rem;
+    height: 6.25rem;
+    background-color: var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 11.625rem;
+}
+
+.navigation__inner-container {
+    display: flex;
+    width: 25.8125rem;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    margin-left: 32.12rem;
+}
+
+.navigation__inner-container--forum {
+    display: flex;
+    width: 6.375rem;
+    padding: 0.125rem 0.6875rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    border-radius: 0.25rem;
+    background-color: var(--secondary-color);
+}
+
+/*Pending - lukt niet om de styling van de nav links aan te passen*/
+
+.active-menu-link {
+    text-decoration: underline;
+    color: white;
+    font-weight: 600;
+}
+
+.navigation__inner-container .default-menu-link {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+.navigation__inner-container .active-menu-link:hover,
+.navigation__inner-container .default-menu-link:hover{
+    color: orange;
+}

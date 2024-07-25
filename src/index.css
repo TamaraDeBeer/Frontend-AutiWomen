@@ -4,8 +4,8 @@
 :root {
     --primary-bg-color: hsla(36, 43%, 93%, 1);
     --secondary-bg-color: white;
-    --primary-color: F7ABA78;
-    --secondary-color: F0A6847;
+    --primary-color: hsla(118, 32%, 60%, 1);
+    --secondary-color: hsla(159, 82%, 22%, 1);
     --primary-bg-button: hsla(45, 87%, 64%, 1);
     --secondary-bg-button: hsla(45, 87%, 64%, 0.6);
     --primary-text-color: hsla(0, 0%, 0%, 1);
