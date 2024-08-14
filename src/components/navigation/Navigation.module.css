@@ -1,8 +1,11 @@
 .navigation__outer-container {
-    width: 90rem;
+    padding: 0.9375rem 13.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 2px solid black;
     height: 6.25rem;
     background-color: var(--primary-color);
-    display: inline-flex;
     align-items: center;
     gap: 11.625rem;
 }
