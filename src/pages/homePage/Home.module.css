@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border: 2px solid black;
     padding: 20px 0;
 }
 
@@ -12,7 +11,7 @@
     flex-direction: column;
     justify-content: center;
     margin: 0 20px;
-    border: 2px dashed orange;
+    gap: 2.12rem;
 }
 
 .section-hero__inner-container {
@@ -21,10 +20,15 @@
 }
 
 .section-hero__inner-container-text {
-    gap: 1.25rem;
     width: 32.8125rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    margin-left: 1rem;
+}
+
+.section-hero__subtitle {
+    text-align: left;
 }
 
 .section-benefits__outer-container {
@@ -35,17 +39,22 @@
     display: flex;
     justify-content: center;
     gap: 6.1875rem;
-    margin: 30px 0;
-    border: 2px dashed green;
 }
 
 .section-forums__inner-container {
     display: flex;
     flex-wrap: wrap;
-    border: 2px dashed brown;
     gap: 2.75rem;
     justify-content: center;
-    margin: 30px 0;
+}
 
+.section-reviews__outer-container {
+    background-color: var(--primary-bg-color);
+}
 
+.section-reviews__inner-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6.75rem;
 }
