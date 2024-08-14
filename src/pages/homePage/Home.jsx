@@ -17,7 +17,6 @@ function Home() {
                     <h2>De plek waar autistische vrouwen elkaar helpen</h2>
                 </div>
             </div>
-
         </section>
 
         <section className={`${styles['outer-container']} ${styles['section-benefits__outer-container']}`}>
@@ -33,6 +32,14 @@ function Home() {
                 </div>
                 <h2>Button</h2>
             </div>
+        </section>
+
+        <section className={`${styles['outer-container']} ${styles['section-forums__outer-container']}`}>
+            <div className={styles['inner-container']}>
+                <h2>Populaire Forums</h2>
+                <div className={styles['section-forums__inner-container']}></div>
+            </div>
+
         </section>
 
     </>);

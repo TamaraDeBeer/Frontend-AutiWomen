@@ -1,22 +1,25 @@
-.navigation__outer-container {
-    padding: 0.9375rem 13.75rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border: 2px solid black;
+.outer-container {
     height: 6.25rem;
     background-color: var(--primary-color);
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 11.625rem;
+    justify-content: center;
+}
+
+.navigation__outer-container {
+    flex-basis: 1200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
 }
 
 .navigation__inner-container {
     display: flex;
-    width: 25.8125rem;
+    width: 27.8125rem;
     justify-content: space-between;
     align-items: center;
     list-style: none;
-    margin-left: 32.12rem;
 }
 
 .navigation__inner-container--forum {
@@ -30,21 +33,22 @@
     background-color: var(--secondary-color);
 }
 
+
 /*Pending - lukt niet om de styling van de nav links aan te passen*/
 
-.active-menu-link {
-    text-decoration: underline;
-    color: white;
-    font-weight: 600;
-}
+/*.active-menu-link {*/
+/*    text-decoration: underline;*/
+/*    color: white;*/
+/*    font-weight: 600;*/
+/*}*/
 
-.navigation__inner-container .default-menu-link {
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-}
+/*.navigation__inner-container .default-menu-link {*/
+/*    text-decoration: none;*/
+/*    color: white;*/
+/*    font-weight: 600;*/
+/*}*/
 
-.navigation__inner-container .active-menu-link:hover,
-.navigation__inner-container .default-menu-link:hover{
-    color: orange;
-}
+/*.navigation__inner-container .active-menu-link:hover,*/
+/*.navigation__inner-container .default-menu-link:hover{*/
+/*    color: orange;*/
+/*}*/

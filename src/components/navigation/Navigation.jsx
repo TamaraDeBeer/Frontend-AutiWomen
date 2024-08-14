@@ -6,7 +6,11 @@ import {NavLink} from 'react-router-dom';
 function Navigation() {
 
     return (
-        <nav className={styles['navigation__outer-container']}>
+        <nav className={styles['outer-container']}>
+            <div className={styles['navigation__outer-container']}>
+                <span className={styles['navigation-logo']}>
+                    <h3>LOGO</h3>
+                </span>
             <ul className={styles['navigation__inner-container']}>
                 <li>
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
@@ -25,8 +29,10 @@ function Navigation() {
                              to={"/forum"}>Forum</NavLink>
                 </li>
             </ul>
-
+                <div className={styles['navigation-button']}>
             <h3>Button</h3>
+                </div>
+            </div>
         </nav>
     );
 }
