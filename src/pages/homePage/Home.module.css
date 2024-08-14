@@ -38,3 +38,14 @@
     margin: 30px 0;
     border: 2px dashed green;
 }
+
+.section-forums__inner-container {
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px dashed brown;
+    gap: 2.75rem;
+    justify-content: center;
+    margin: 30px 0;
+
+
+}
