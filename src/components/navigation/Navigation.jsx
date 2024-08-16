@@ -1,5 +1,6 @@
 import styles from './Navigation.module.css';
 import {NavLink} from 'react-router-dom';
+import Button from "../button/Button.jsx";
 
 // import React from 'react';
 
@@ -31,7 +32,8 @@ function Navigation() {
             </ul>
 
                 <div className={styles['navigation-button']}>
-            <h3>Button</h3>
+            <Button type="button" variant="primary">Inloggen</Button>
+
                 </div>
             </div>
         </nav>
