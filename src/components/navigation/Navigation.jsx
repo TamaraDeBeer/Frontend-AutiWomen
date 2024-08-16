@@ -29,6 +29,7 @@ function Navigation() {
                              to={"/forum"}>Forum</NavLink>
                 </li>
             </ul>
+
                 <div className={styles['navigation-button']}>
             <h3>Button</h3>
                 </div>

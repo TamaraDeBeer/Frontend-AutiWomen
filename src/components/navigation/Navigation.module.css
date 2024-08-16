@@ -5,6 +5,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    width: 100%;
 }
 
 .navigation__outer-container {
@@ -20,6 +22,7 @@
     justify-content: space-between;
     align-items: center;
     list-style: none;
+    text-decoration: none;
 }
 
 .navigation__inner-container--forum {
@@ -33,22 +36,24 @@
     background-color: var(--secondary-color);
 }
 
+.navigation__inner-container a {
+    color: black;
+    text-decoration: none;
+}
 
-/*Pending - lukt niet om de styling van de nav links aan te passen*/
+.navigation__inner-container--forum a {
+    color: white;
+    text-decoration: none;
+}
 
-/*.active-menu-link {*/
-/*    text-decoration: underline;*/
-/*    color: white;*/
-/*    font-weight: 600;*/
-/*}*/
+.navigation__inner-container a:hover {
+    color: var(--primary-bg-button);
+    font-weight: bold;
+}
 
-/*.navigation__inner-container .default-menu-link {*/
-/*    text-decoration: none;*/
-/*    color: white;*/
-/*    font-weight: 600;*/
-/*}*/
+.navigation__inner-container a:active {
+    color: var(--primary-bg-button);
+    font-weight: bold;
+}
 
-/*.navigation__inner-container .active-menu-link:hover,*/
-/*.navigation__inner-container .default-menu-link:hover{*/
-/*    color: orange;*/
-/*}*/
+/* de active link css is te vinden in app.css - deze werkt niet wanneer ik hem hier toevoeg*/
