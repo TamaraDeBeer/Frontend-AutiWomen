@@ -16,8 +16,12 @@ import moana from '../../assets/profilePhoto/moana.jpg';
 import BenefitCard from "../../components/benefitCard/BenefitCard.jsx";
 import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
 import Reviews from "../../components/reviews/Reviews.jsx";
+import Button from "../../components/button/Button.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Home() {
+    const navigate = useNavigate();
+
     return (<>
 
         <section className={styles['outer-container']}>
@@ -44,7 +48,11 @@ function Home() {
                     <BenefitCard image={benefit} imageAlt="benefit" title="Advies"
                                  text="Ontvang advies en tips van andere vrouwen"/>
                 </div>
-                <h2>Button</h2>
+                <div className={styles['button-register']}>
+                    <Button type="button"
+                            onClick={() => navigate('/register')}
+                    >Word gratis lid</Button>
+                </div>
             </div>
         </section>
 
@@ -75,7 +83,6 @@ function Home() {
                 <div className={styles['section-reviews__inner-container']}>
                     <Reviews text="Ik kwam op aanraden van een vriendin op deze website. Ik ben al meerdere forums gestart en krijg veel goede tips van mede auties." image={belle} name="Belle" age="36 jaar" diagnoseYear="2000"/>
                     <Reviews text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.." image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
-
                 </div>
             </div>
         </section>

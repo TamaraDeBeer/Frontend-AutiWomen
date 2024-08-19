@@ -13,5 +13,9 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: 0.15625rem;
+    height: 3.125rem;
 }
 
+button:hover {
+    cursor: pointer;
+}
