@@ -56,7 +56,7 @@ function AccountLogin() {
                         errors={errors}
                     />
 
-                    <Button type="submit">Registreren</Button>
+                    <Button type="submit">Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
                 </form>
 
