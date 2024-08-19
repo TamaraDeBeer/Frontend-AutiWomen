@@ -31,36 +31,3 @@
 .section-hero__subtitle {
     text-align: left;
 }
-
-.section-benefits__outer-container {
-    background-color: var(--primary-bg-color);
-}
-
-.section-benefits__inner-container {
-    display: flex;
-    justify-content: center;
-    gap: 6.1875rem;
-}
-
-.button-register {
-    display: flex;
-    justify-content: center;
-}
-
-.section-forums__inner-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2.75rem;
-    justify-content: center;
-}
-
-.section-reviews__outer-container {
-    background-color: var(--primary-bg-color);
-}
-
-.section-reviews__inner-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 6.75rem;
-}

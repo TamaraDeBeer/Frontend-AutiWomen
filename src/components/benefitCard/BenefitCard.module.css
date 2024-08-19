@@ -1,0 +1,14 @@
+.section-benefits__card {
+    display: flex;
+    width: 14.6875rem;
+    height: 15.6875rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5625rem;
+}
+
+h3,
+p {
+    text-align: center;
+}
