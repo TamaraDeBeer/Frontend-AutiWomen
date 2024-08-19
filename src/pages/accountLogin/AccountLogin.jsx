@@ -1,25 +1,66 @@
-import styles from "../homePage/Home.module.css";
-import hero from "../../assets/home-hero.jpg";
+import styles from "./AccountLogin.module.css";
+import {useForm} from 'react-hook-form';
+import Button from "../../components/button/Button.jsx";
 
 function AccountLogin() {
-    return (
-        <div>
-            <section className={styles['outer-container']}>
-                <div className={`${styles['inner-container']} ${styles['section-hero__inner-container']}`}>
-                    <figure className={styles['section-hero__inner-container-image']}>
-                        <img src={hero} alt="Hero"/>
-                    </figure>
+    const {handleSubmit, formState: {errors}, register, } = useForm( {
+        defaultValues: {
+            email: "......@....com",
+            password: "********",
+        }
+    });
 
-                    <div className={styles['section-hero__inner-container-text']}>
-                        <h1>Auti-Women</h1>
-                        <h2 className={styles['section-hero__subtitle']}>De plek waar autistische vrouwen elkaar helpen</h2>
-                    </div>
+    function handleFormSubmit(data) {
+        console.log(data);
+    }
+
+    return (<>
+
+            <section className={styles['outer-container']}>
+                <div className={`${styles['inner-container']} ${styles['section-login__inner-container']}`}>
+                    <h1>Login</h1>
+                    <form onSubmit={handleSubmit(handleFormSubmit)}>
+                        <label htmlFor="email-field">
+                            Email:
+                            <input
+                                type="text"
+                                id="email-field"
+                                {...register("email", {
+                                    required: {
+                                        value: true,
+                                        message: "Email is verplicht",
+                                    },
+                                    validate: (value) => value.includes('@') || "Email moet een @ bevatten",
+                                })}
+                            />
+                            {errors.email && <p>{errors.email.message}</p>}
+                        </label>
+
+                        <label htmlFor="password">
+                            Wachtwoord:
+                            <input
+                                type="text"
+                                id="password-field"
+                                {...register("password", {
+                                    required: {
+                                        value: true,
+                                        message: "Password is verplicht",
+                                    },
+                                    minLength: {
+                                        value: 8,
+                                        message: "Wachtwoord is tenminste 8 karakters lang",
+                                    }
+                                })}
+                            />
+                            {errors.password && <p>{errors.password.message}</p>}
+                        </label>
+
+                        <Button type="submit">Login</Button>
+                    </form>
+
                 </div>
             </section>
-
-
-        </div>
-    );
+        </>);
 }
 
 export default AccountLogin;

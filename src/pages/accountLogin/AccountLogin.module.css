@@ -12,22 +12,7 @@
     justify-content: center;
     margin: 30px 20px 50px 20px;
     gap: 3.12rem;
-}
-
-.section-hero__inner-container {
-    flex-direction: row;
-    justify-content: center;
     padding-top: 7.75rem;
+    border: 2px solid orange;
 }
 
-.section-hero__inner-container-text {
-    width: 32.8125rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 1rem;
-}
-
-.section-hero__subtitle {
-    text-align: left;
-}
