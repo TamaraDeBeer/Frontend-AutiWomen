@@ -1,10 +1,12 @@
+import styles from './InputField.module.css';
+
 // eslint-disable-next-line react/prop-types
 function InputField({ inputId, inputLabel, inputType, inputName, validationRules, register, errors }) {
     return (
         <>
-            <label htmlFor={inputId}>
+            <label className={styles['label-field']} htmlFor={inputId}>
                 {inputLabel}
-                <input
+                <input className={styles['input-field']}
                     type={inputType}
                     id={inputId}
                     {...register(inputName, validationRules)}
