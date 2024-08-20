@@ -13,6 +13,7 @@ import ForumPost from "./pages/forumPost/ForumPost.jsx";
 import NotFound from "./pages/notFound/NotFound.jsx";
 import Footer from './components/footer/Footer.jsx';
 import {Routes, Route} from 'react-router-dom';
+import ErrorPage from "./pages/errorPage/ErrorPage.jsx";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path={"/forum/create"} element={<ForumCreate/>}/>
                     <Route path={"/forum/:id"} element={<ForumPost/>}/>
                     <Route path={"*"} element={<NotFound/>}/>
+                    <Route path={"/error"} element={<ErrorPage/>}/>
                 </Routes>
             </main>
             <Footer/>
