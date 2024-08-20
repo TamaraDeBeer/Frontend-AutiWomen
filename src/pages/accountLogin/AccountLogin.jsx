@@ -1,25 +1,69 @@
-import styles from "../homePage/Home.module.css";
-import hero from "../../assets/home-hero.jpg";
+import styles from "./AccountLogin.module.css";
+import {useForm} from 'react-hook-form';
+import Button from "../../components/button/Button.jsx";
+import InputField from "../../components/inputField/InputField.jsx";
+import {Link} from "react-router-dom";
 
 function AccountLogin() {
-    return (
-        <div>
-            <section className={styles['outer-container']}>
-                <div className={`${styles['inner-container']} ${styles['section-hero__inner-container']}`}>
-                    <figure className={styles['section-hero__inner-container-image']}>
-                        <img src={hero} alt="Hero"/>
-                    </figure>
+    const {handleSubmit, formState: {errors}, register,} = useForm({
+        defaultValues: {
+            email: '',
+            password: '',
+        }
+    });
 
-                    <div className={styles['section-hero__inner-container-text']}>
-                        <h1>Auti-Women</h1>
-                        <h2 className={styles['section-hero__subtitle']}>De plek waar autistische vrouwen elkaar helpen</h2>
-                    </div>
-                </div>
-            </section>
+    function handleFormSubmit(data) {
+        console.log(data);
+    }
+
+    return (<>
+
+        <section className={styles['outer-container']}>
+            <div className={`${styles['inner-container']} ${styles['section-login__inner-container']}`}>
+                <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['login-form']}>
+                    <InputField
+                        inputId="email-field"
+                        inputLabel="Email:"
+                        inputType="text"
+                        inputName="email"
+                        validationRules={{
+                            required: {
+                                value: true,
+                                message: "Email is verplicht",
+                            },
+                            validate: (value) => value.includes('@') || "Email moet een @ bevatten",
+                        }}
+                        register={register}
+                        errors={errors}
+                    />
+
+                    <InputField
+                        inputId="password-field"
+                        inputLabel="Wachtwoord:"
+                        inputType="password"
+                        inputName="password"
+                        validationRules={{
+                            required: {
+                                value: true,
+                                message: "Wachtwoord is verplicht",
+                            },
+                            minLength: {
+                                value: 8,
+                                message: "Wachtwoord is tenminste 8 karakters lang",
+                            }
+                        }}
+                        register={register}
+                        errors={errors}
+                    />
+
+                    <Button type="submit">Log in</Button>
+                    <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
+                </form>
 
 
-        </div>
-    );
+            </div>
+        </section>
+    </>);
 }
 
 export default AccountLogin;

@@ -11,6 +11,8 @@
     --primary-text-color: hsla(0, 0%, 0%, 1);
 }
 
+/*background-color: hsla(46, 88%, 84%, 50);*/
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -75,3 +77,4 @@ p {
 /*    margin: 0 20px;*/
 /*    border: 2px dashed orange;*/
 /*}*/
+
