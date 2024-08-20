@@ -15,7 +15,7 @@ function ForumHome() {
               <h2>Deel je problemen, geef advies en wees respectvol</h2>
               <div>
                   <Button type="button" className={styles['button-forum']}
-                          onClick={() => navigate('/ForumCreate')}
+                          onClick={() => navigate('/forum/create')}
                   >Schrijf een forum</Button>
               </div>
               <div>
