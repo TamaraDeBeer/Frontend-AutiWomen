@@ -70,19 +70,25 @@ function ForumCreate() {
                                 {...register("text-content", {
                                     required: {
                                         value: true,
-                                        message: "Text is verplicht",
+                                        message: "Tekst is verplicht",
                                     },
                                     maxLength: {
                                         value: 2000,
                                         message: "De tekst mag maximaal 2000 karakters lang zijn",
                                     }
                                 })}>
-                                {errors['text-content'] && <p>{errors['text-content'].message}</p>}
                             </textarea>
+                            {errors['text-content'] && <p>{errors['text-content'].message}</p>}
                         </label>
 
                         <p className={styles['forum-form__topic']}>Selecteer het bijpassende onderwerp:</p>
-                        <select className={styles['forum-form__topic-select']} {...register("topic", {required: true})}>
+                        <select className={styles['forum-form__topic-select']} {...register("topic", {
+                            required: {
+                                value: true,
+                                message: "Maak een keuze",
+                            },
+                        })}>
+                            <option value="" disabled selected>-- Selecteer een onderwerp --</option>
                             <option value="fysiek">Fysieke Gezondheid</option>
                             <option value="mentaal">Mentale Gezondheid</option>
                             <option value="structuur">Structuur</option>
@@ -93,9 +99,8 @@ function ForumCreate() {
                             <option value="vriendschappen">Vriendschappen</option>
                             <option value="rouw">Rouw</option>
                             <option value="overig">Overig</option>
-                            {errors['topic'] && <p>{errors['topic'].message}</p>}
                         </select>
-
+                        {errors.topic && <p>{errors.topic.message}</p>}
 
                         <div className={styles['forum-form__buttons']}>
                             <Button type="reset">Annuleren</Button>

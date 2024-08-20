@@ -5,15 +5,17 @@ import InputField from "../../components/inputField/InputField.jsx";
 import {Link} from "react-router-dom";
 
 function AccountRegister() {
-    const {handleSubmit, formState: {errors}, register,} = useForm({
+    const {handleSubmit, formState: {errors}, register, watch} = useForm({
         defaultValues: {
             name: "",
             email: "",
             password: "",
-            gender: 'Vrouw',
+            gender: "",
             dob: "",
         }
     });
+
+    const watchSelectedAutism = watch('autism-question');
 
     function handleFormSubmit(data) {
         console.log(data);
@@ -47,13 +49,9 @@ function AccountRegister() {
                         inputName="gender"
                         validationRules={{
                             required: {
-                                contains: true,
-                                message: "Dit veld is verplicht",
+                                value: true,
+                                message: "Geslacht is verplicht",
                             },
-                            // contains: {
-                            //     value: "vrouw",
-                            //     message: "Deze website is alleen bedoeld voor vrouwen, sorry mannen",
-                            // }
                         }}
                         register={register}
                         errors={errors}
@@ -74,15 +72,46 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-                    <p className={styles['section-register__autism']}>Autisme?</p>
-                    <select {...register("autisme", { required: true })}>
-                        <option value="Ja">Ja</option>
-                        <option value="Nee">Nee</option>
-                        <option value="Vermoeden">Vermoeden</option>
-                        {errors['autisme'] && <p>{errors['autisme'].message}</p>}
-                    </select>
+                    <label htmlFor="autism">
+                        <p className={styles['section-register__autism']}>Autisme?</p>
+                        <select id="autism" {...register("autism-question", {
+                            required: {
+                                value: true,
+                                message: "Maak een keuze",
+                            },
+                        })}>
+                            <option value="" disabled selected>-- Selecteer een optie --</option>
+                            <option value="Ja">Ja</option>
+                            <option value="Nee">Nee</option>
+                            <option value="Vermoeden">Vermoeden</option>
+                        </select>
+                        {errors['autism-question'] && <p>{errors['autism-question'].message}</p>}
+                    </label>
 
-                    {/*als je naar extra invoerveld jaartal diagnose react hoofdstuk 6.5*/}
+                    {watchSelectedAutism === "Ja" &&
+                        <label htmlFor="diagnoses-year">
+                            <p className={styles['section-register__autism']}>In welk jaartal heb je de diagnose
+                                gekregen?</p>
+                            <input
+                                type="number"
+                                name="year"
+                                id="diagnoses-year"
+                                {...register("autism-question-Ja", {
+                                    required: {
+                                        value: true,
+                                        message: "Jaartal is verplicht",
+                                    },
+                                    min: {
+                                        value: 1900,
+                                        message: "Jaartal moet na 1900 zijn"
+                                    },
+                                    max: {
+                                        value: 2006,
+                                        message: "Jaartal moet voor 2006 zijn"
+                                    }
+                                })}
+                            /></label>}
+
 
                     <InputField
                         inputId="email-field"
