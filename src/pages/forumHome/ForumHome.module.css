@@ -42,7 +42,7 @@
 .section-forum__main {
     display: flex;
     justify-content: space-around;
-    margin: 30px 20px 50px 20px;
+    margin: 30px 60px 50px 60px;
 }
 
 .section-forum__posts-short {

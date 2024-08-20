@@ -52,6 +52,7 @@ function AccountRegister() {
                                 value: true,
                                 message: "Geslacht is verplicht",
                             },
+                            validate: (value) => value.includes('vrouw') || "Sorry, alleen vrouwen zijn welkom op deze website",
                         }}
                         register={register}
                         errors={errors}

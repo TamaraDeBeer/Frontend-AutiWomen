@@ -8,9 +8,9 @@ import views1 from "../../assets/logo/views.png";
 function ForumPostShort({image, name, age, title, text, likes, comments, views, lastReaction}) {
     return (
         <article className={styles['section-forum__card']}>
-            <div>
+            <span>
                 <img src={image} alt={name}/>
-            </div>
+            </span>
             <div className={styles['section-forum__card-information']}>
                 <h4 className={styles['card-information__text']}>{name} ({age})</h4>
                 <p className={styles['card-information__title']}>{title}</p>

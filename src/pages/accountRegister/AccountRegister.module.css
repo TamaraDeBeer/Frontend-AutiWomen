@@ -45,3 +45,8 @@
     font-family: 'Poppins', sans-serif;
     color: var(--primary-text-color);
 }
+
+.register-form select, input:focus {
+    outline: none;
+    border: 2px solid var(--primary-color);
+}

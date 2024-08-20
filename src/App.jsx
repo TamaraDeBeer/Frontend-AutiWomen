@@ -32,6 +32,8 @@ function App() {
                     <Route path={"/forum/:id"} element={<ForumPost/>}/>
                     <Route path={"*"} element={<NotFound/>}/>
                     <Route path={"/error"} element={<ErrorPage/>}/>
+                    {/*to be deleted: as test*/}
+                    <Route path={"/forum/1"} element={<ForumPost/>}/>
                 </Routes>
             </main>
             <Footer/>
