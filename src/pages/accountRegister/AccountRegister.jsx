@@ -74,7 +74,7 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-                    <p>Autisme?</p>
+                    <p className={styles['section-register__autism']}>Autisme?</p>
                     <select {...register("Autisme", { required: true })}>
                         <option value="Ja">Ja</option>
                         <option value="Nee">Nee</option>
