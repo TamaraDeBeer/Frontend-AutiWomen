@@ -75,10 +75,11 @@ function AccountRegister() {
                     />
 
                     <p className={styles['section-register__autism']}>Autisme?</p>
-                    <select {...register("Autisme", { required: true })}>
+                    <select {...register("autisme", { required: true })}>
                         <option value="Ja">Ja</option>
                         <option value="Nee">Nee</option>
                         <option value="Vermoeden">Vermoeden</option>
+                        {errors['autisme'] && <p>{errors['autisme'].message}</p>}
                     </select>
 
                     {/*als je naar extra invoerveld jaartal diagnose react hoofdstuk 6.5*/}

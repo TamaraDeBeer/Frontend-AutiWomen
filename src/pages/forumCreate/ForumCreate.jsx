@@ -82,7 +82,7 @@ function ForumCreate() {
                         </label>
 
                         <p className={styles['forum-form__topic']}>Selecteer het bijpassende onderwerp:</p>
-                        <select {...register("topic", { required: true })}>
+                        <select className={styles['forum-form__topic-select']} {...register("topic", {required: true})}>
                             <option value="fysiek">Fysieke Gezondheid</option>
                             <option value="mentaal">Mentale Gezondheid</option>
                             <option value="structuur">Structuur</option>
@@ -93,12 +93,13 @@ function ForumCreate() {
                             <option value="vriendschappen">Vriendschappen</option>
                             <option value="rouw">Rouw</option>
                             <option value="overig">Overig</option>
+                            {errors['topic'] && <p>{errors['topic'].message}</p>}
                         </select>
 
 
                         <div className={styles['forum-form__buttons']}>
-                        <Button type="reset">Annuleren</Button>
-                        <Button type="submit">Verstuur</Button>
+                            <Button type="reset">Annuleren</Button>
+                            <Button type="submit">Verstuur</Button>
                         </div>
 
                     </form>
