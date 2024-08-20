@@ -10,18 +10,18 @@ function ForumPostShort({image, name, age, title, text, likes, comments, views, 
         <article className={styles['section-forum__card']}>
             <div>
                 <img src={image} alt={name}/>
-                <div>
-                    <h4>{name} ({age})</h4>
-                    <h3>{title}</h3>
-                    <p>{text} ... lees meer</p>
-                    {/*lees meer wordt een link naar de specifieke post*/}
-                    <div>
-                        <p><img src={likes1} alt="Likes Logo"/>{likes}</p>
-                        <p><img src={comments1} alt="Comments Logo"/>{comments}</p>
-                        <p><img src={views1} alt="Views Logo"/>{views}</p>
-                    </div>
-                    <p>Laatste reactie: {lastReaction}</p>
+            </div>
+            <div className={styles['section-forum__card-information']}>
+                <h4 className={styles['card-information__text']}>{name} ({age})</h4>
+                <p className={styles['card-information__title']}>{title}</p>
+                <p className={styles['card-information__text']}>{text} ... lees meer</p>
+                {/*lees meer wordt een link naar de specifieke post*/}
+                <div className={styles['card-information__logo-section']}>
+                    <p className={styles['card-information__logo']}><img src={likes1} alt="Likes Logo"/>{likes}</p>
+                    <p className={styles['card-information__logo']}><img src={comments1} alt="Comments Logo"/>{comments}</p>
+                    <p className={styles['card-information__logo']}><img src={views1} alt="Views Logo"/>{views}</p>
                 </div>
+                <p className={styles['card-information__reaction']}>Laatste reactie: {lastReaction}</p>
             </div>
         </article>
     );
