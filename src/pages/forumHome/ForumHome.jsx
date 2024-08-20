@@ -27,7 +27,83 @@ function ForumHome() {
 
         <section className={styles['section-forum__main']}>
             <section className={styles['section-forum__posts-short']}>
-                <h3>Populair Forum Posts</h3>
+
+                <div>
+                    <h3>slider nieuwste / trending</h3>
+                </div>
+
+                <ForumPostShort
+                    image={anna}
+                    name="Anna"
+                    age="33 jaar"
+                    title="Hoe kan ik structuur in mijn dag krijgen?"
+                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
+                    likes="4"
+                    comments="13"
+                    views="86"
+                    lastReaction="06-05-2024"
+                />
+
+                <ForumPostShort
+                    image={anna}
+                    name="Anna"
+                    age="33 jaar"
+                    title="Hoe kan ik structuur in mijn dag krijgen?"
+                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
+                    likes="4"
+                    comments="13"
+                    views="86"
+                    lastReaction="06-05-2024"
+                />
+
+                <ForumPostShort
+                    image={anna}
+                    name="Anna"
+                    age="33 jaar"
+                    title="Hoe kan ik structuur in mijn dag krijgen?"
+                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
+                    likes="4"
+                    comments="13"
+                    views="86"
+                    lastReaction="06-05-2024"
+                />
+
+                <ForumPostShort
+                    image={anna}
+                    name="Anna"
+                    age="33 jaar"
+                    title="Hoe kan ik structuur in mijn dag krijgen?"
+                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
+                    likes="4"
+                    comments="13"
+                    views="86"
+                    lastReaction="06-05-2024"
+                />
+
+                <ForumPostShort
+                    image={anna}
+                    name="Anna"
+                    age="33 jaar"
+                    title="Hoe kan ik structuur in mijn dag krijgen?"
+                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
+                    likes="4"
+                    comments="13"
+                    views="86"
+                    lastReaction="06-05-2024"
+                />
+
+                <ForumPostShort
+                    image={anna}
+                    name="Anna"
+                    age="33 jaar"
+                    title="Hoe kan ik structuur in mijn dag krijgen?"
+                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
+                    likes="4"
+                    comments="13"
+                    views="86"
+                    lastReaction="06-05-2024"
+                />
+
                 <ForumPostShort
                     image={anna}
                     name="Anna"
@@ -41,9 +117,18 @@ function ForumHome() {
                 />
             </section>
 
-
             <section className={styles['section-forum__sidebar']}>
-                <h3>Component Populair Topics</h3>
+                <h2>Populaire Onderwerpen</h2>
+                <ul className={styles['section-forum__sidebar-list']}>
+                    <li>Fysieke Gezondheid</li>
+                    <li>Mentale Gezondheid</li>
+                    <li>Huishouden</li>
+                    <li>Werk</li>
+                    <li>School</li>
+                    <li>Relaties</li>
+                    <li>Vriendschappen</li>
+                    <li>Rouw</li>
+                </ul>
             </section>
 
         </section>

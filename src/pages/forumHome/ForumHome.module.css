@@ -46,3 +46,26 @@
     justify-content: space-around;
     margin: 30px 20px 50px 20px;
 }
+
+.section-forum__posts-short {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+}
+
+.section-forum__sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.25rem;
+}
+
+.section-forum__sidebar-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-size: 1.5625rem;
+    font-weight: 400;
+}
