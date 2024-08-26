@@ -13,7 +13,6 @@ function InputField({ inputId, inputLabel, inputType, inputName, validationRules
                     {...register(inputName, validationRules)}
                 />
             </label>
-            {/* eslint-disable-next-line react/prop-types */}
             {errors[inputName] && <p>{errors[inputName].message}</p>}
         </>
     );

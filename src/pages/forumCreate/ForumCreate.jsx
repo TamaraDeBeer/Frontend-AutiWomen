@@ -3,18 +3,20 @@ import InputField from "../../components/inputField/InputField.jsx";
 import Button from "../../components/button/Button.jsx";
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import {useState} from "react";
 
 function ForumCreate() {
+
     const {handleSubmit, formState: {errors}, register,} = useForm({
         defaultValues: {
             name: '',
             title: '',
+            text: '',
+            topic: '',
         }
     });
 
-    function handleFormSubmit(data) {
-        console.log(data);
-    }
+
 
     return (<>
 
@@ -27,7 +29,7 @@ function ForumCreate() {
 
             <section className={styles['outer-container']}>
                 <div className={`${styles['inner-container']} ${styles['section-post__inner-container']}`}>
-                    <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['forum-form']}>
+                    <form onSubmit={handleSubmit(addForum)} className={styles['forum-form']}>
                         <InputField
                             inputId="name-field"
                             inputLabel="Naam:"
