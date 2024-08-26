@@ -2,6 +2,7 @@ import styles from "../forumCreate/ForumCreate.module.css";
 import InputField from "../../components/inputField/InputField.jsx";
 import Button from "../../components/button/Button.jsx";
 import {useForm} from "react-hook-form";
+import axios from "axios";
 
 function ForumCreate() {
     const {handleSubmit, formState: {errors}, register,} = useForm({

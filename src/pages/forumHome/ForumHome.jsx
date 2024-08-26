@@ -4,25 +4,50 @@ import search from "../../assets/logo/search.png";
 import {useNavigate} from "react-router-dom";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import anna from '../../assets/profilePhoto/anna.jpg';
+import axios from 'axios';
+import {useEffect, useState} from "react";
+import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 
 function ForumHome() {
     const navigate = useNavigate();
+    const [forums, setForums] = useState([]);
+    const [error, toggleError] = useState(false);
 
-  return (<>
-      <section className={styles['outer-container']}>
-          <div className={`${styles['inner-container']} ${styles['section-forum__inner-container']}`}>
-              <h1>Auti-Women Forum</h1>
-              <h2>Deel je problemen, geef advies en wees respectvol</h2>
-              <div>
-                  <Button type="button" className={styles['button-forum']}
-                          onClick={() => navigate('/forum/create')}
-                  >Schrijf een forum</Button>
-              </div>
-              <div>
-                  <button className={styles['section-forum__button-search']}>Zoeken in alle forums.. <img src={search} alt="search logo"/>
-                  </button>
-              </div>
-          </div>
+
+    useEffect(() => {
+        async function fetchForums() {
+            toggleError(false);
+
+            try {
+                const response = await axios.get('http://localhost:1991/forums');
+                setForums(response.data);
+                console.log(response.data);
+            } catch (e) {
+                console.error(e);
+                toggleError(true);
+            }
+        }
+
+        fetchForums();
+    }, []);
+
+
+    return (<>
+        <section className={styles['outer-container']}>
+            <div className={`${styles['inner-container']} ${styles['section-forum__inner-container']}`}>
+                <h1>Auti-Women Forum</h1>
+                <h2>Deel je problemen, geef advies en wees respectvol</h2>
+                <div>
+                    <Button type="button" className={styles['button-forum']}
+                            onClick={() => navigate('/forum/create')}
+                    >Schrijf een forum</Button>
+                </div>
+                <div>
+                    <button className={styles['section-forum__button-search']}>Zoeken in alle forums.. <img src={search}
+                                                                                                            alt="search logo"/>
+                    </button>
+                </div>
+            </div>
         </section>
 
         <section className={styles['section-forum__main']}>
@@ -32,89 +57,22 @@ function ForumHome() {
                     <h3>slider nieuwste / trending</h3>
                 </div>
 
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
+                {forums.map((forum) => {
+                    return <ForumPostShort
+                        key={forum.id}
+                        image={anna}
+                        name={forum.name}
+                        age={forum.age}
+                        title={forum.title}
+                        text={forum.text}
+                        likes={forum.likes}
+                        comments={forum.comments}
+                        views={forum.views}
+                        lastReaction={forum.lastReaction}
+                    />
+                })}
+                {error && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw." />}
 
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
-
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
-
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
-
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
-
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
-
-                <ForumPostShort
-                    image={anna}
-                    name="Anna"
-                    age="33 jaar"
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                    lastReaction="06-05-2024"
-                />
             </section>
 
             <section className={styles['section-forum__sidebar']}>
@@ -134,8 +92,7 @@ function ForumHome() {
         </section>
 
 
-
-  </>);
+    </>);
 }
 
 export default ForumHome;
