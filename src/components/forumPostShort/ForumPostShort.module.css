@@ -38,6 +38,12 @@
     text-align: left;
 }
 
+.card-information__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary-text-color);
+}
+
 .card-information__reaction {
     font-size: 0.875rem;
     font-weight: 275;

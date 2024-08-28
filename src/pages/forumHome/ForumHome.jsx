@@ -64,8 +64,8 @@ function ForumHome() {
                         name={forum.name}
                         age={forum.age}
                         title={forum.title}
-                        // to do: van de tekst de eerste 20 woorden laten zien...
-                        text={forum.text}
+                        text={forum.text.split(' ').slice(0, 40).join(' ')}
+                        link={`/forum/${forum.id}`}
                         likes={forum.likes}
                         comments={forum.comments}
                         views={forum.views}
