@@ -1,22 +1,43 @@
 import styles from "../forumCreate/ForumCreate.module.css";
-import InputField from "../../components/inputField/InputField.jsx";
 import Button from "../../components/button/Button.jsx";
-import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+
 
 function ForumCreate() {
+    const [name, setName] = useState('');
+    const [title, setTitle] = useState('');
+    const [text, setText] = useState('');
+    const [topic, setTopic] = useState('');
+    // eslint-disable-next-line no-unused-vars
+    const [likes, setLikes] = useState(0);
+    // eslint-disable-next-line no-unused-vars
+    const [comments, setComments] = useState(0);
+    // eslint-disable-next-line no-unused-vars
+    const [views, setViews] = useState(0);
+    const navigate = useNavigate();
 
-    const {handleSubmit, formState: {errors}, register,} = useForm({
-        defaultValues: {
-            name: '',
-            title: '',
-            text: '',
-            topic: '',
+    async function addForum(e) {
+        e.preventDefault();
+        console.log(name, title, text, topic);
+
+        try {
+            const response = await axios.post('http://localhost:1991/forums', {
+                name: name,
+                title: title,
+                text: text,
+                topic: topic,
+                // likes: setLikes(0),
+                // comments: setComments(0),
+                // views: setViews(0),
+            });
+            console.log(response.data);
+            navigate(`/forum/${response.data.id}`);
+        } catch (e) {
+            console.error(e);
         }
-    });
-
-
+    }
 
     return (<>
 
@@ -29,81 +50,59 @@ function ForumCreate() {
 
             <section className={styles['outer-container']}>
                 <div className={`${styles['inner-container']} ${styles['section-post__inner-container']}`}>
-                    <form onSubmit={handleSubmit(addForum)} className={styles['forum-form']}>
-                        <InputField
-                            inputId="name-field"
-                            inputLabel="Naam:"
-                            inputType="text"
-                            inputName="name"
-                            validationRules={{
-                                required: {
-                                    value: true,
-                                    message: "naam is verplicht",
-                                },
-                            }}
-                            register={register}
-                            errors={errors}
-                        />
+                    <form onSubmit={addForum} className={styles['forum-form']}>
 
-                        <InputField
-                            inputId="title-field"
-                            inputLabel="Titel:"
-                            inputType="textarea"
-                            inputName="title"
-                            validationRules={{
-                                required: {
-                                    value: true,
-                                    message: "Titel is verplicht",
-                                },
-                                maxLength: {
-                                    value: 40,
-                                    message: "De titel mag maximaal 40 karakters lang zijn",
-                                }
-                            }}
-                            register={register}
-                            errors={errors}
-                        />
-
-                        <label htmlFor="text-field" className={styles['forum-form__textarea']}>
-                            Tekst:
-                            <textarea
-                                id="text-field"
-                                rows="10"
-                                cols="60"
-                                {...register("text-content", {
-                                    required: {
-                                        value: true,
-                                        message: "Tekst is verplicht",
-                                    },
-                                    maxLength: {
-                                        value: 2000,
-                                        message: "De tekst mag maximaal 2000 karakters lang zijn",
-                                    }
-                                })}>
-                            </textarea>
-                            {errors['text-content'] && <p>{errors['text-content'].message}</p>}
+                        <label htmlFor="name">Naam:
+                            <input type="text"
+                                   name="name"
+                                   id="name"
+                                   value={name}
+                                   onChange={(e) => setName(e.target.value)}
+                            />
                         </label>
 
-                        <p className={styles['forum-form__topic']}>Selecteer het bijpassende onderwerp:</p>
-                        <select className={styles['forum-form__topic-select']} {...register("topic", {
-                            required: {
-                                value: true,
-                                message: "Maak een keuze",
-                            },
-                        })}>
-                            <option value="" disabled selected>-- Selecteer een onderwerp --</option>
-                            <option value="fysiek">Fysieke Gezondheid</option>
-                            <option value="mentaal">Mentale Gezondheid</option>
-                            <option value="structuur">Structuur</option>
-                            <option value="werk">Werk</option>
-                            <option value="relaties">Relaties</option>
-                            <option value="school">School</option>
-                            <option value="huishouden">Huishouden</option>
-                            <option value="vriendschappen">Vriendschappen</option>
-                            <option value="rouw">Rouw</option>
-                            <option value="overig">Overig</option>
-                        </select>
-                        {errors.topic && <p>{errors.topic.message}</p>}
+                        <label htmlFor="name">Titel:
+                            <input type="text"
+                                   name="title"
+                                   id="title"
+                                   value={title}
+                                   onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </label>
+
+                        <label htmlFor="text-field" className={styles['forum-form__textarea']}> Tekst:
+                            <textarea
+                                name="forum-text"
+                                id="forum-text"
+                                cols="60"
+                                rows="10"
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                            ></textarea>
+
+                        </label>
+
+
+                        <label htmlFor="topic" className={styles['forum-form__topic']}> Selecteer het bijpassende onderwerp:
+                            <select className={styles['forum-form__topic-select']}
+                                    id="topic"
+                                    name="topic"
+                                    value={topic}
+                                    onChange={(e) => setTopic(e.target.value)}>
+                                <option value="" disabled selected>-- Selecteer een onderwerp --</option>
+                                <option value="fysiek">Fysieke Gezondheid</option>
+                                <option value="mentaal">Mentale Gezondheid</option>
+                                <option value="structuur">Structuur</option>
+                                <option value="werk">Werk</option>
+                                <option value="relaties">Relaties</option>
+                                <option value="school">School</option>
+                                <option value="huishouden">Huishouden</option>
+                                <option value="vriendschappen">Vriendschappen</option>
+                                <option value="rouw">Rouw</option>
+                                <option value="overig">Overig</option>
+                            </select>
+                        </label>
+
 
                         <div className={styles['forum-form__buttons']}>
                             <Button type="reset">Annuleren</Button>

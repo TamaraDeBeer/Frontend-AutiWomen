@@ -15,7 +15,10 @@ function ForumHome() {
 
 
     useEffect(() => {
-        async function fetchForums() {
+        void fetchAllForums();
+    }, []);
+
+        async function fetchAllForums() {
             toggleError(false);
 
             try {
@@ -27,9 +30,6 @@ function ForumHome() {
                 toggleError(true);
             }
         }
-
-        fetchForums();
-    }, []);
 
 
     return (<>
