@@ -1,11 +1,37 @@
 import styles from './ForumPost.module.css';
 import Button from "../../components/button/Button.jsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ForumPostLong from "../../components/forumPostLong/ForumPostLong.jsx";
 import elsa from "../../assets/profilePhoto/elsa.jpg";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import createDateToString from "../../helpers/createDateToString.jsx";
 
 function ForumPost() {
+    const {id} = useParams();
     const navigate = useNavigate();
+    const [errorById, toggleErrorById] = useState(false);
+    const [loading, toggleLoading] = useState(false);
+    const [forumById, setForumById] = useState([]);
+
+    useEffect(() => {
+        void fetchForumById();
+    }, [id]);
+
+    async function fetchForumById() {
+        toggleErrorById(false);
+
+        try {
+            toggleLoading(true);
+            const response = await axios.get(`http://localhost:1991/forums/${id}`);
+            setForumById(response.data);
+            console.log(response.data);
+        } catch (e) {
+            console.error(e);
+            toggleErrorById(true);
+        }
+        toggleLoading(false);
+    }
 
     return (<>
 
@@ -23,19 +49,25 @@ function ForumPost() {
 
         <section className={`${styles['outer-container']} ${styles['section-forum__main']}`}>
             <section className={styles['section-forum__posts-long']}>
-                <ForumPostLong
-                    title="Hoe kan ik structuur in mijn dag krijgen?"
-                    image={elsa}
-                    name="Elsa"
-                    age="33 jaar"
-                    date="04-05-2024"
-                    lastReaction="06-05-2024"
-                    text="Ik struggle momenteel heel erg met een dagstructuur. Ik heb vooral moeite met naar bed gaan. Ik wil om 1 uur gaan slapen, maar dan blijf ik toch wakker tot 3 uur. Uiteraard kom ik dan de volgende dag niet om 8 uur mijn bed uit.
-                        Ik vind gewoon de avond heel erg fijn, het is eindelijk rustig & stil. Mijn hoofd raast alsnog wel door maar vele malen minder want er zijn geen verplichtingen meer op deze dag. Herkennen jullie dit? Of heb jij dit overwonnen? Ik lees graag hoe je dit hebt gedaan en wat heeft geholpen (of wat juist niet)."
-                    likes="4"
-                    comments="13"
-                    views="86"
-                />
+
+                {errorById && <p className="error-message">Deze forum post bestaat niet (meer).</p>}
+                {loading && <p>Loading...</p>}
+
+                {Object.keys(forumById).length > 0 &&
+                    <ForumPostLong
+                        title={forumById.title}
+                        image={elsa}
+                        name={forumById.name}
+                        age={forumById.age}
+                        date={createDateToString(forumById.date)}
+                        lastReaction={forumById.lastReaction}
+                        text={forumById.text}
+                        likes={forumById.likes}
+                        comments={forumById.comments}
+                        views={forumById.views}
+                    />
+                }
+
 
                 <p>LIJN</p>
 
