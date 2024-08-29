@@ -19,7 +19,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, butto
 
                     <div>
                         <h1 className={styles['card-information__name']}>{name} ({age})</h1>
-                        <h4 className={styles['card-information__date']}>Geplaatst op: npm {date}</h4>
+                        <h4 className={styles['card-information__date']}>Geplaatst op: {date}</h4>
                         <p className={styles['card-information__reaction']}>Laatste reactie: {lastReaction}</p>
                     </div>
 

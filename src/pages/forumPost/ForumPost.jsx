@@ -86,7 +86,7 @@ function ForumPost() {
                 }
 
 
-                <p>LIJN</p>
+                <div className={styles['section-forum__line']}></div>
 
                 <h3>slider nieuwste / trending</h3>
 
