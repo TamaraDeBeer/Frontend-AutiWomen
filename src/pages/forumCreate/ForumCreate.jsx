@@ -11,12 +11,6 @@ function ForumCreate() {
     const [text, setText] = useState('');
     const [topic, setTopic] = useState('');
     const [date] = useState('');
-    // eslint-disable-next-line no-unused-vars
-    const [likes, setLikes] = useState(0);
-    // eslint-disable-next-line no-unused-vars
-    const [comments, setComments] = useState(0);
-    // eslint-disable-next-line no-unused-vars
-    const [views, setViews] = useState(0);
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [postForum, setPostForum] = useState([]);
@@ -32,9 +26,6 @@ function ForumCreate() {
                 text: text,
                 topic: topic,
                 date: new Date().toISOString(),
-                likes: likes,
-                comments: comments,
-                views: views,
             });
             setPostForum(response.data);
             console.log(response.data);

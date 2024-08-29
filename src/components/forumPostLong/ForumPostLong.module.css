@@ -50,6 +50,7 @@
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    /*width: 19px;*/
 }
 
 .section-forum__main {

@@ -6,6 +6,7 @@ import elsa from "../../assets/profilePhoto/elsa.jpg";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import createDateToString from "../../helpers/createDateToString.jsx";
+import likes2 from "../../assets/logo/likes2.png";
 
 function ForumPost() {
     const {id} = useParams();
@@ -13,6 +14,8 @@ function ForumPost() {
     const [errorById, toggleErrorById] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const [forumById, setForumById] = useState([]);
+    // eslint-disable-next-line no-unused-vars
+    const [image, setImage] = useState();
 
     useEffect(() => {
         void fetchForumById();
@@ -31,6 +34,19 @@ function ForumPost() {
             toggleErrorById(true);
         }
         toggleLoading(false);
+    }
+
+    async function addLike() {
+        try {
+            const response = await axios.put(`http://localhost:1991/forums/${id}/like`, {
+                likes: forumById.likes,
+            });
+            setForumById(response.data);
+            console.log(response.data);
+            setImage(likes2);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (<>
@@ -62,6 +78,7 @@ function ForumPost() {
                         date={createDateToString(forumById.date)}
                         lastReaction={forumById.lastReaction}
                         text={forumById.text}
+                        buttonLike={addLike}
                         likes={forumById.likes}
                         comments={forumById.comments}
                         views={forumById.views}
