@@ -11,11 +11,11 @@ function CommentForum({image, name, age, date, text}) {
 
             <section className={styles['section-comment__card-information']}>
                 <div className={styles['section-comment__card-persona']}>
-                    <h3>{name} ({age})</h3>
-                    <h4>{date}</h4>
+                    <h3 className={styles['card-persona__name']}>{name} ({age})</h3>
+                    <h4 className={styles['card-persona__date']}>{date}</h4>
                 </div>
 
-                <p>{text}</p>
+                <p className={styles['section-comment__text']}>{text}</p>
 
             </section>
 

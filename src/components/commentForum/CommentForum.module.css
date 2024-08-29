@@ -1,6 +1,8 @@
 .section-comment__card {
     display: flex;
     gap: 1.125rem;
+    padding: 0 2.19rem;
+
 }
 
 .section-comment__card-information {
@@ -12,5 +14,20 @@
 
 .section-comment__card-persona {
     display: flex;
+    align-items: baseline;
     gap: 2rem;
+}
+
+.card-persona__name {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.card-persona__date {
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.section-comment__text {
+    text-align: left;
 }

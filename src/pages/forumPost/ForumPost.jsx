@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import createDateToString from "../../helpers/createDateToString.jsx";
 import likes2 from "../../assets/logo/likes2.png";
+import CommentForum from "../../components/commentForum/CommentForum.jsx";
 
 function ForumPost() {
     const {id} = useParams();
@@ -85,17 +86,26 @@ function ForumPost() {
                     />
                 }
 
-
                 <div className={styles['section-forum__line']}></div>
 
                 <h3>slider nieuwste / trending</h3>
 
-                <p>REACTIES</p>
+                <CommentForum
+                    image={elsa}
+                    name="Jane"
+                    age="23 jaar"
+                    date="10 uur gelden"
+                    text="Oef ik snap je uitdaging. Soms lukt het mij heel goed en soms totaal niet. Heb je een slaapritueel? Bij mij gaat, heel streng, om 22.00 uur de TV uit en mobiel weg. In stilte nog even bijkomen van de dag en dan rond 23.00 uur lekker naar bed."
+                    />
+
+
+                <div className={styles['section-forum__line']}></div>
 
                 <h4>POST REACTIE</h4>
 
-
             </section>
+
+
 
             <section className={styles['section-forum__sidebar']}>
                 <h2>Component Populaire onderwerpen</h2>
