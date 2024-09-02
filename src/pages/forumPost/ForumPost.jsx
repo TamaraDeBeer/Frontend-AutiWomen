@@ -18,6 +18,13 @@ function ForumPost() {
     // eslint-disable-next-line no-unused-vars
     const [image, setImage] = useState();
 
+    const [commentName, setCommentName] = useState('');
+    const [commentText, setCommentText] = useState('');
+    // eslint-disable-next-line no-unused-vars
+    const [commentDate, setCommentDate] = useState('');
+    // eslint-disable-next-line no-unused-vars
+    const [postComment, setPostComment] = useState([]);
+
     useEffect(() => {
         void fetchForumById();
     }, [id]);
@@ -47,6 +54,26 @@ function ForumPost() {
             setImage(likes2);
         } catch (e) {
             console.error(e);
+        }
+    }
+
+    async function addComment(e) {
+        e.preventDefault();
+        console.log(commentName, commentText, commentDate);
+
+        try {
+            const response = await axios.post('http://localhost:1991/comments', {
+                name: commentName,
+                text: commentText,
+                date: new Date().toISOString(),
+                // age:
+                // image:
+            });
+            setPostComment(response.data);
+            console.log(response.data);
+            // navigate(`/forum/${response.data.id}`);
+        } catch (e) {
+            console.log(e);
         }
     }
 
@@ -88,7 +115,7 @@ function ForumPost() {
 
                 <div className={styles['section-forum__line']}></div>
 
-                <h3>slider nieuwste / trending</h3>
+                {/*<h3>slider nieuwste / trending</h3>*/}
 
                 <CommentForum
                     image={elsa}
@@ -96,15 +123,48 @@ function ForumPost() {
                     age="23 jaar"
                     date="10 uur gelden"
                     text="Oef ik snap je uitdaging. Soms lukt het mij heel goed en soms totaal niet. Heb je een slaapritueel? Bij mij gaat, heel streng, om 22.00 uur de TV uit en mobiel weg. In stilte nog even bijkomen van de dag en dan rond 23.00 uur lekker naar bed."
-                    />
+                />
 
 
                 <div className={styles['section-forum__line']}></div>
 
-                <h4>POST REACTIE</h4>
+                <div  className={styles['section-forum__comment']}>
+                    <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
+                    <form onSubmit={addComment} className={styles['section-forum__comment-card']}>
+                        <label htmlFor="name">Naam:
+                            <input type="text"
+                                   name="name"
+                                   id="name"
+                                   value={commentName}
+                                   onChange={(e) => setCommentName(e.target.value)}
+                            />
+                        </label>
+
+                        <label htmlFor="text-field"> Tekst:
+                            <textarea
+                                name="forum-text"
+                                id="forum-text"
+                                cols="60"
+                                rows="10"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                            ></textarea>
+
+                        </label>
+
+                        <div className={styles['section-forum__comment-button']}>
+                            <Button type="reset">Annuleren</Button>
+                            <Button type="submit">Verstuur</Button>
+                        </div>
+
+
+                    </form>
+                    </div>
+
+
+
 
             </section>
-
 
 
             <section className={styles['section-forum__sidebar']}>

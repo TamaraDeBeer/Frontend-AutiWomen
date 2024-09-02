@@ -53,3 +53,28 @@
     background-image: linear-gradient(180deg, rgba(122, 186, 120, 0.60) 0%, rgba(10, 104, 71, 0.80) 100%);
     align-self: center;
 }
+
+.section-forum__comment-reactie {
+    font-size: 1.25rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.section-forum__comment-card input {
+    background-color: var(--primary-bg-color);
+}
+
+.section-forum__comment {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    gap: 0.75rem;
+    padding-left: 7.01rem;
+    padding-bottom: 2rem;
+}
+
+.section-forum__comment-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

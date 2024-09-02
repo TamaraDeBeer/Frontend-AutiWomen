@@ -57,7 +57,7 @@ function ForumCreate() {
                             />
                         </label>
 
-                        <label htmlFor="name">Titel:
+                        <label htmlFor="title">Titel:
                             <input type="text"
                                    name="title"
                                    id="title"
