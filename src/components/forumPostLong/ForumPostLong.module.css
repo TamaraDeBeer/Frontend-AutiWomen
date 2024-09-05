@@ -1,0 +1,59 @@
+.card-information__title {
+    text-align: left;
+}
+
+.card-information__name {
+    font-size: 1.25rem;
+    line-height: 2;
+}
+
+.card-information__date {
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.card-information__reaction {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 275;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.card-information__text {
+    text-align: left;
+}
+
+.section-forum__card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.06rem 1.31rem 0.75rem 1.38rem;
+    gap: 1.25rem;
+    width: 52.5rem;
+}
+
+.section-forum__card-information {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.25rem;
+}
+
+.card-information__logo-section {
+    display: flex;
+    align-items: baseline;
+    gap: 1.0625rem;
+}
+
+.card-information__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    /*width: 19px;*/
+}
+
+.section-forum__main {
+    display: flex;
+    gap: 1.25rem;
+}

@@ -6,9 +6,17 @@
 
 .input-field {
   width: 100%;
-  padding: 4px 8px;
+  padding: 10px 8px;
   margin: 6px 0;
   border: none;
   font-family: 'Poppins', sans-serif;
   color: var(--primary-text-color);
 }
+
+.input-field:focus {
+  outline: none;
+  border: 2px solid var(--primary-color);
+}
+
+
+
