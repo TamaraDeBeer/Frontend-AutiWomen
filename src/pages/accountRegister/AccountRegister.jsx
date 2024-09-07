@@ -2,7 +2,9 @@ import styles from './AccountRegister.module.css';
 import {useForm} from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 function AccountRegister() {
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
@@ -15,10 +17,44 @@ function AccountRegister() {
         }
     });
 
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
+    const navigate = useNavigate();
+    const source = axios.CancelToken.source();
     const watchSelectedAutism = watch('autism-question');
 
-    function handleFormSubmit(data) {
-        console.log(data);
+    useEffect(() => {
+        return function cleanup() {
+            source.cancel();
+        }
+    }, []);
+
+
+    async function handleFormSubmit(data) {
+        console.log(data)
+        toggleError(false);
+        toggleLoading(true);
+
+        try {
+            await axios.post('http://localhost:1991/register', {
+                email: data.email,
+                username: data.username,
+                password: data.password,
+                name: data.name,
+                gender: data.gender,
+                dob: data.dob,
+                autismDiagnoses: data['autism-question'],
+                autismDiagnosesYear: data['autism-question-Ja'],
+            },{
+                cancelToken: source.token,
+            });
+            navigate('/login');
+        } catch(e) {
+            console.error(e);
+            toggleError(true);
+        }
+
+        toggleLoading(false);
     }
 
     return (<>
@@ -173,7 +209,8 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-                    <Button type="submit">Registreren</Button>
+                    {error && <p>Dit account bestaat al. Probeer een ander emailadres.</p>}
+                    <Button type="submit" disabled={loading}>Registreren</Button>
                     <p>Heb je al een account? <Link to="/login">Log</Link> dan in.</p>
                 </form>
 
