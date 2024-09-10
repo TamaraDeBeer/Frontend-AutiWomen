@@ -2,18 +2,46 @@ import styles from "./AccountLogin.module.css";
 import {useForm} from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useContext, useState} from "react";
+import { AuthContext } from "../../context/AuthContextProvider";
+import axios from "axios";
 
 function AccountLogin() {
     const {handleSubmit, formState: {errors}, register,} = useForm({
         defaultValues: {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
         }
     });
 
-    function handleFormSubmit(data) {
-        console.log(data);
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
+    const navigate = useNavigate();
+    const source = axios.CancelToken.source();
+    const {login} = useContext(AuthContext);
+
+    async function handleFormSubmit(data) {
+        toggleError(false);
+        toggleLoading(true);
+
+        try {
+            const result = await axios.post('http://localhost:1991/login', {
+                email: data.email,
+                password: data.password
+            },{
+                cancelToken: source.token,
+            });
+            console.log(result.data);
+            login(result.data.accessToken);
+            navigate('/profile');
+
+        } catch(e) {
+            console.error(e);
+            toggleError(true);
+        } finally {
+            toggleLoading(false);
+        }
     }
 
     return (<>
@@ -55,8 +83,8 @@ function AccountLogin() {
                         register={register}
                         errors={errors}
                     />
-
-                    <Button type="submit">Log in</Button>
+                    {error && <p>Er bestaat geen account met dit emailadres en wachtwoord.</p>}
+                    <Button type="submit" disabled={loading}>Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
                 </form>
 
