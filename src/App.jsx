@@ -12,19 +12,24 @@ import ForumHome from "./pages/forumHome/ForumHome.jsx";
 import ForumPost from "./pages/forumPost/ForumPost.jsx";
 import NotFound from "./pages/notFound/NotFound.jsx";
 import Footer from './components/footer/Footer.jsx';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import ErrorPage from "./pages/errorPage/ErrorPage.jsx";
+import {AuthContext} from "./Context/AuthContextProvider.jsx";
+import {useContext} from "react";
 
 function App() {
+    const { isAuth } = useContext(AuthContext);
+
     return (
         <>
+
             <Navigation/>
             <main>
                 <Routes>
                     <Route path={"/"} element={<Home/>}/>
                     <Route path={"/login"} element={<AccountLogin/>}/>
                     <Route path={"/register"} element={<AccountRegister/>}/>
-                    <Route path={"/profile"} element={<AccountProfile/>}/>
+                    <Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/login"/>}/>
                     <Route path={"/articles"} element={<ArticlesHome/>}/>
                     <Route path={"/blog"} element={<BlogHome/>}/>
                     <Route path={"/forum"} element={<ForumHome/>}/>
@@ -35,6 +40,7 @@ function App() {
                 </Routes>
             </main>
             <Footer/>
+
 
         </>
     );
