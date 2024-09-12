@@ -28,10 +28,10 @@ function AuthContextProvider({children}) {
 
     const navigate = useNavigate();
 
-    function login( token ) {
-        localStorage.setItem( 'token', token );
-        const decoded = jwtDecode( token );
-        void fetchUserData( decoded.sub, token);
+    function login(token) {
+        localStorage.setItem('token', token);
+        const decoded = jwtDecode(token);
+        void fetchUserData(decoded.sub, token);
     }
 
     function logout() {
@@ -45,12 +45,12 @@ function AuthContextProvider({children}) {
         navigate('/');
     }
 
-    async function fetchUserData( username, token) {
+    async function fetchUserData(username, token) {
         try {
             const result = await axios.get( `http://localhost:1991/users/${username}`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${ token }`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
             toggleIsAuth( {
@@ -60,15 +60,14 @@ function AuthContextProvider({children}) {
                     email: result.data.email,
                 },
                 status: 'done',
-            } );
-
+            });
         } catch ( e ) {
             console.error( e );
             toggleIsAuth( {
                 isAuth: false,
                 user: null,
                 status: 'done',
-            } );
+            });
         }
     }
 
@@ -79,7 +78,7 @@ function AuthContextProvider({children}) {
     };
 
     return (
-        <AuthContext.Provider value={contextData}>
+        <AuthContext.Provider value={{contextData}}>
             {isAuth.status === 'done' ? children : <p>Loading...</p>}
         </AuthContext.Provider>
     );

@@ -14,7 +14,7 @@ import NotFound from "./pages/notFound/NotFound.jsx";
 import Footer from './components/footer/Footer.jsx';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import ErrorPage from "./pages/errorPage/ErrorPage.jsx";
-import {AuthContext} from "./Context/AuthContextProvider.jsx";
+import {AuthContext} from "./context/AuthContextProvider.jsx";
 import {useContext} from "react";
 
 function App() {
@@ -22,7 +22,6 @@ function App() {
 
     return (
         <>
-
             <Navigation/>
             <main>
                 <Routes>
@@ -40,8 +39,6 @@ function App() {
                 </Routes>
             </main>
             <Footer/>
-
-
         </>
     );
 }
