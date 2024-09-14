@@ -10,7 +10,7 @@ import axios from "axios";
 function AccountLogin() {
     const { handleSubmit, formState: { errors }, register } = useForm({
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         }
     });
@@ -28,13 +28,13 @@ function AccountLogin() {
 
         try {
             const result = await axios.post('http://localhost:1991/login', {
-                email: data.email,
+                username: data.username,
                 password: data.password
             }, {
                 cancelToken: source.token,
             });
             console.log(result.data);
-            login(result.data.accessToken);
+            login(result.data.jwt);
             navigate('/profile');
         } catch (e) {
             console.error(e);
@@ -49,16 +49,15 @@ function AccountLogin() {
             <div className={`${styles['inner-container']} ${styles['section-login__inner-container']}`}>
                 <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['login-form']}>
                     <InputField
-                        inputId="email-field"
-                        inputLabel="Email:"
+                        inputId="username-field"
+                        inputLabel="Username:"
                         inputType="text"
-                        inputName="email"
+                        inputName="username"
                         validationRules={{
                             required: {
                                 value: true,
-                                message: "Email is verplicht",
+                                message: "Username is verplicht",
                             },
-                            validate: (value) => value.includes('@') || "Email moet een @ bevatten",
                         }}
                         register={register}
                         errors={errors}
@@ -82,7 +81,7 @@ function AccountLogin() {
                         register={register}
                         errors={errors}
                     />
-                    {error && <p>Er bestaat geen account met dit emailadres en wachtwoord.</p>}
+                    {error && <p>Er bestaat geen account met deze username en wachtwoord.</p>}
                     <Button type="submit" disabled={loading}>Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
                 </form>

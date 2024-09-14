@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const AuthContext = createContext({});
 
-function AuthContextProvider({children}) {
+const AuthContextProvider = ({children}) => {
     const [isAuth, toggleIsAuth] = useState({
         isAuth: false,
         user: null,
@@ -13,7 +13,7 @@ function AuthContextProvider({children}) {
     });
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('jwt');
         if (token) {
             const decoded = jwtDecode(token);
             void fetchUserData(decoded.sub, token);
@@ -29,7 +29,7 @@ function AuthContextProvider({children}) {
     const navigate = useNavigate();
 
     function login(token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem('jwt', token);
         const decoded = jwtDecode(token);
         void fetchUserData(decoded.sub, token);
     }
@@ -57,7 +57,7 @@ function AuthContextProvider({children}) {
                 isAuth: true,
                 user: {
                     username: result.data.username,
-                    email: result.data.email,
+                    // email: result.data.email,
                 },
                 status: 'done',
             });
