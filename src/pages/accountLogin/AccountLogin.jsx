@@ -37,8 +37,8 @@ function AccountLogin() {
             login(result.data.jwt);
             navigate('/profile');
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            // console.error(e);
+            // toggleError(true);
         } finally {
             toggleLoading(false);
         }

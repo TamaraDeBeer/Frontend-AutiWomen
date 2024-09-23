@@ -8,6 +8,7 @@ import axios from "axios";
 import createDateToString from "../../helpers/createDateToString.jsx";
 import likes2 from "../../assets/logo/likes2.png";
 import CommentForum from "../../components/commentForum/CommentForum.jsx";
+import calculateAge from "../../helpers/calculateAge.jsx";
 
 function ForumPost() {
     const {id} = useParams();
@@ -62,7 +63,7 @@ function ForumPost() {
         console.log(commentName, commentText, commentDate);
 
         try {
-            const response = await axios.post('http://localhost:1991/comments', {
+            const response = await axios.post('http://localhost:1991/{forumId}/comments/{username}', {
                 name: commentName,
                 text: commentText,
                 date: new Date().toISOString(),
@@ -102,7 +103,7 @@ function ForumPost() {
                         title={forumById.title}
                         image={elsa}
                         name={forumById.name}
-                        age={forumById.age}
+                        age={calculateAge(forumById.age)}
                         date={createDateToString(forumById.date)}
                         lastReaction={forumById.lastReaction}
                         text={forumById.text}
@@ -128,8 +129,9 @@ function ForumPost() {
 
                 <div className={styles['section-forum__line']}></div>
 
-                <div  className={styles['section-forum__comment']}>
+                <div className={styles['section-forum__comment']}>
                     <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
+
                     <form onSubmit={addComment} className={styles['section-forum__comment-card']}>
                         <label htmlFor="name">Naam:
                             <input type="text"
@@ -159,10 +161,7 @@ function ForumPost() {
 
 
                     </form>
-                    </div>
-
-q
-
+                </div>
 
             </section>
 
