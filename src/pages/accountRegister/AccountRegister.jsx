@@ -114,8 +114,9 @@ function AccountRegister() {
                         <select id="autism" {...register("autism-question", {
                             required: {
                                 value: true,
-                                message: "Maak een keuze",
+                                message: "Deze vraag is verplicht",
                             },
+                            validate: (value) => value !== "Nee" || "Sorry, Deze website is voor vrouwen met autisme of een vermoeden van",
                         })}>
                             <option value="" disabled selected>-- Selecteer een optie --</option>
                             <option value="Ja">Ja</option>
@@ -134,18 +135,10 @@ function AccountRegister() {
                                 name="year"
                                 id="diagnoses-year"
                                 {...register("autism-question-Ja", {
-                                    required: {
-                                        value: true,
-                                        message: "Jaartal is verplicht",
-                                    },
                                     min: {
                                         value: 1900,
                                         message: "Jaartal moet na 1900 zijn"
                                     },
-                                    max: {
-                                        value: 2006,
-                                        message: "Jaartal moet voor 2006 zijn"
-                                    }
                                 })}
                             /></label>}
 
@@ -178,7 +171,7 @@ function AccountRegister() {
                             },
                             minLength: {
                                 value: 8,
-                                message: "Wachtwoord is tenminste 8 karakters lang",
+                                message: "Wachtwoord moet tenminste 8 karakters lang zijn",
                             }
                         }}
                         register={register}

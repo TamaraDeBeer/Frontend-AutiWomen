@@ -15,12 +15,12 @@ function ForumCreate() {
     // eslint-disable-next-line no-unused-vars
     const [postForum, setPostForum] = useState([]);
 
-    async function addForum(e) {
+    async function addForum(username, e) {
         e.preventDefault();
         console.log(name, title, text, topic, date);
 
         try {
-            const response = await axios.post('http://localhost:1991/forums', {
+            const response = await axios.post(`http://localhost:1991/forums/${username}`, {
                 name: name,
                 title: title,
                 text: text,
@@ -31,7 +31,7 @@ function ForumCreate() {
             console.log(response.data);
             navigate(`/forum/${response.data.id}`);
         } catch (e) {
-            console.error(e);
+            // console.error(e);
         }
     }
 

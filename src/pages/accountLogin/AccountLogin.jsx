@@ -1,16 +1,16 @@
 import styles from "./AccountLogin.module.css";
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
-import {Link, useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
-import { AuthContext } from "../../context/AuthContextProvider";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContextProvider.jsx";
 import axios from "axios";
 
 function AccountLogin() {
-    const {handleSubmit, formState: {errors}, register,} = useForm({
+    const { handleSubmit, formState: { errors }, register } = useForm({
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         }
     });
@@ -18,25 +18,25 @@ function AccountLogin() {
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-    const source = axios.CancelToken.source();
-    const {login} = useContext(AuthContext);
+    // const source = axios.CancelToken.source();
+    const { login } = useContext(AuthContext);
 
     async function handleFormSubmit(data) {
+        console.log(data);
         toggleError(false);
         toggleLoading(true);
 
         try {
             const result = await axios.post('http://localhost:1991/login', {
-                email: data.email,
+                username: data.username,
                 password: data.password
-            },{
-                cancelToken: source.token,
+            }, {
+                // cancelToken: source.token,
             });
             console.log(result.data);
-            login(result.data.accessToken);
+            login(result.data.jwt);
             navigate('/profile');
-
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             toggleError(true);
         } finally {
@@ -44,22 +44,20 @@ function AccountLogin() {
         }
     }
 
-    return (<>
-
+    return (
         <section className={styles['outer-container']}>
             <div className={`${styles['inner-container']} ${styles['section-login__inner-container']}`}>
                 <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['login-form']}>
                     <InputField
-                        inputId="email-field"
-                        inputLabel="Email:"
+                        inputId="username-field"
+                        inputLabel="Username:"
                         inputType="text"
-                        inputName="email"
+                        inputName="username"
                         validationRules={{
                             required: {
                                 value: true,
-                                message: "Email is verplicht",
+                                message: "Username is verplicht",
                             },
-                            validate: (value) => value.includes('@') || "Email moet een @ bevatten",
                         }}
                         register={register}
                         errors={errors}
@@ -83,15 +81,13 @@ function AccountLogin() {
                         register={register}
                         errors={errors}
                     />
-                    {error && <p>Er bestaat geen account met dit emailadres en wachtwoord.</p>}
+                    {error && <p>Er bestaat geen account met deze username en wachtwoord.</p>}
                     <Button type="submit" disabled={loading}>Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
                 </form>
-
-
             </div>
         </section>
-    </>);
+    );
 }
 
 export default AccountLogin;

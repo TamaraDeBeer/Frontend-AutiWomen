@@ -7,6 +7,7 @@ import anna from '../../assets/profilePhoto/anna.jpg';
 import axios from 'axios';
 import {useEffect, useState} from "react";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
+import calculateAge from "../../helpers/calculateAge.jsx";
 
 function ForumHome() {
     const navigate = useNavigate();
@@ -62,7 +63,7 @@ function ForumHome() {
                         key={forum.id}
                         image={anna}
                         name={forum.name}
-                        age={forum.age}
+                        age={calculateAge(forum.age) + ' jaar'}
                         title={forum.title}
                         text={forum.text.split(' ').slice(0, 40).join(' ')}
                         link={`/forum/${forum.id}`}
