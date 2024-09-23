@@ -1,11 +1,14 @@
 import styles from './Navigation.module.css';
 import {NavLink, useNavigate} from 'react-router-dom';
 import Button from "../button/Button.jsx";
+import {AuthContext} from "../../context/AuthContextProvider.jsx";
+import {useContext} from "react";
 
 // import React from 'react';
 
 function Navigation() {
     const navigate = useNavigate();
+    const {isAuth, logout} = useContext(AuthContext);
 
     return (
         <nav className={styles['outer-container']}>
@@ -33,9 +36,19 @@ function Navigation() {
                 </ul>
 
                 <div>
-                    <Button type="button" variant="primary"
-                            onClick={() => navigate('/login')}
-                    >Inloggen</Button>
+
+                    {isAuth ?
+                        <Button type="button"
+                                onClick={logout}
+                        >Log uit</Button>
+                        :
+                        <Button type="button"
+                                onClick={() => navigate('/login')}
+                        >Log in</Button>
+                    }
+
+
+
                 </div>
             </div>
         </nav>
