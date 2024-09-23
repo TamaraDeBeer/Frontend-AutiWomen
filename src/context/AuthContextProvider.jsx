@@ -57,6 +57,7 @@ function AuthContextProvider ({children}) {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
+            console.log('Result:', result.data);
             toggleIsAuth( {
                 isAuth: true,
                 user: {
@@ -65,9 +66,20 @@ function AuthContextProvider ({children}) {
                 },
                 status: 'done',
             });
-        } catch ( e ) {
-            console.error( e );
-            toggleIsAuth( {
+        } catch (e) {
+            if (e.response) {
+                // Server responded with a status other than 200 range
+                console.error('Error fetching user data:', e.response.data);
+                console.error('Status code:', e.response.status);
+                console.error('Headers:', e.response.headers);
+            } else if (e.request) {
+                // Request was made but no response was received
+                console.error('Error fetching user data: No response received', e.request);
+            } else {
+                // Something else happened while setting up the request
+                console.error('Error fetching user data2:', e.message);
+            }
+            toggleIsAuth({
                 isAuth: false,
                 user: null,
                 status: 'done',

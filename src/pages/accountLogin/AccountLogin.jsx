@@ -18,7 +18,7 @@ function AccountLogin() {
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-    const source = axios.CancelToken.source();
+    // const source = axios.CancelToken.source();
     const { login } = useContext(AuthContext);
 
     async function handleFormSubmit(data) {
@@ -31,14 +31,14 @@ function AccountLogin() {
                 username: data.username,
                 password: data.password
             }, {
-                cancelToken: source.token,
+                // cancelToken: source.token,
             });
             console.log(result.data);
             login(result.data.jwt);
             navigate('/profile');
         } catch (e) {
-            // console.error(e);
-            // toggleError(true);
+            console.error(e);
+            toggleError(true);
         } finally {
             toggleLoading(false);
         }
