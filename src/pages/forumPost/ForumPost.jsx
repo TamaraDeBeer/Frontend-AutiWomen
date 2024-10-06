@@ -6,12 +6,12 @@ import elsa from "../../assets/profilePhoto/elsa.jpg";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import createDateToString from "../../helpers/createDateToString.jsx";
-import likes2 from "../../assets/logo/likes2.png";
+// import likes2 from "../../assets/logo/likes2.png";
 import CommentForum from "../../components/commentForum/CommentForum.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 
 function ForumPost() {
-    const {id} = useParams();
+    const {id, username, forumId} = useParams();
     const navigate = useNavigate();
     const [errorById, toggleErrorById] = useState(false);
     const [loading, toggleLoading] = useState(false);
@@ -45,25 +45,25 @@ function ForumPost() {
         toggleLoading(false);
     }
 
-    async function addLike() {
-        try {
-            const response = await axios.put(`http://localhost:1991/forums/${id}/like`, {
-                likes: forumById.likes,
-            });
-            setForumById(response.data);
-            console.log(response.data);
-            setImage(likes2);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // async function addLike() {
+    //     try {
+    //         const response = await axios.put(`http://localhost:1991/forums/${id}/like`, {
+    //             likes: forumById.likes,
+    //         });
+    //         setForumById(response.data);
+    //         console.log(response.data);
+    //         setImage(likes2);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 
     async function addComment(e) {
         e.preventDefault();
         console.log(commentName, commentText, commentDate);
 
         try {
-            const response = await axios.post('http://localhost:1991/{forumId}/comments/{username}', {
+            const response = await axios.post(`http://localhost:1991/forums/${forumId}/comments/${username}`, {
                 name: commentName,
                 text: commentText,
                 date: new Date().toISOString(),
@@ -107,7 +107,7 @@ function ForumPost() {
                         date={createDateToString(forumById.date)}
                         lastReaction={forumById.lastReaction}
                         text={forumById.text}
-                        buttonLike={addLike}
+                        // buttonLike={addLike}
                         likes={forumById.likes}
                         comments={forumById.comments}
                         views={forumById.views}

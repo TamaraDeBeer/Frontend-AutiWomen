@@ -29,27 +29,36 @@ function AccountRegister() {
         }
     }, []);
 
-
-    async function handleFormSubmit(data) {
-        console.log(data)
+    async function registerUser(data) {
+        console.log(data);
         toggleError(false);
         toggleLoading(true);
 
+        const formData = new FormData();
+        formData.append('user', new Blob([JSON.stringify({
+            email: data.email,
+            username: data.username,
+            password: data.password,
+            name: data.name,
+            gender: data.gender,
+            dob: data.dob,
+            autismDiagnoses: data['autism-question'],
+            autismDiagnosesYear: data['autism-question-Ja'],
+        })], { type: 'application/json' }));
+
+        if (data.file && data.file[0]) {
+            formData.append('file', data.file[0]);
+        }
+
         try {
-            await axios.post('http://localhost:1991/register', {
-                email: data.email,
-                username: data.username,
-                password: data.password,
-                name: data.name,
-                gender: data.gender,
-                dob: data.dob,
-                autismDiagnoses: data['autism-question'],
-                autismDiagnosesYear: data['autism-question-Ja'],
-            },{
+            await axios.post('http://localhost:1991/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 cancelToken: source.token,
             });
             navigate('/login');
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             toggleError(true);
         }
@@ -57,11 +66,40 @@ function AccountRegister() {
         toggleLoading(false);
     }
 
+
+
+    // async function registerUser(data) {
+    //     console.log(data)
+    //     toggleError(false);
+    //     toggleLoading(true);
+    //
+    //     try {
+    //         await axios.post('http://localhost:1991/register', {
+    //             email: data.email,
+    //             username: data.username,
+    //             password: data.password,
+    //             name: data.name,
+    //             gender: data.gender,
+    //             dob: data.dob,
+    //             autismDiagnoses: data['autism-question'],
+    //             autismDiagnosesYear: data['autism-question-Ja'],
+    //         },{
+    //             cancelToken: source.token,
+    //         });
+    //         navigate('/login');
+    //     } catch(e) {
+    //         console.error(e);
+    //         toggleError(true);
+    //     }
+    //
+    //     toggleLoading(false);
+    // }
+
     return (<>
 
         <section className={styles['outer-container']}>
             <div className={`${styles['inner-container']} ${styles['section-register__inner-container']}`}>
-                <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['register-form']}>
+                <form onSubmit={handleSubmit(registerUser)} className={styles['register-form']}>
 
                     <InputField
                         inputId="name-field"
