@@ -32,10 +32,9 @@ function ForumHome() {
             }
         }
 
-
     return (<>
-        <section className={styles['outer-container']}>
-            <div className={`${styles['inner-container']} ${styles['section-forum__inner-container']}`}>
+        <section className="outer-container">
+            <div className={`inner-container ${styles['section-forum__inner-container']}`}>
                 <h1>Auti-Women Forum</h1>
                 <h2>Deel je problemen, geef advies en wees respectvol</h2>
                 <div>

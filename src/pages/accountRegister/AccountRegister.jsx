@@ -14,6 +14,10 @@ function AccountRegister() {
             password: "",
             gender: "",
             dob: "",
+            username: "",
+            'autism-question': "",
+            'autism-question-Ja': "",
+            photo: null,
         }
     });
 
@@ -46,8 +50,11 @@ function AccountRegister() {
             autismDiagnosesYear: data['autism-question-Ja'],
         })], { type: 'application/json' }));
 
-        if (data.file && data.file[0]) {
-            formData.append('file', data.file[0]);
+        if (data.photo && data.photo[0]) {
+            formData.append('file', data.photo[0]);
+            console.log('File appended:', data.photo[0]);
+        } else {
+            console.log('No file to append');
         }
 
         try {
@@ -59,41 +66,21 @@ function AccountRegister() {
             });
             navigate('/login');
         } catch (e) {
-            console.error(e);
+            console.error('Error during registration:', e);
+            if (e.response) {
+                console.error('Response data:', e.response.data);
+                console.error('Status code:', e.response.status);
+                console.error('Headers:', e.response.headers);
+            } else if (e.request) {
+                console.error('Request made but no response received:', e.request);
+            } else {
+                console.error('Error setting up request:', e.message);
+            }
             toggleError(true);
         }
 
         toggleLoading(false);
     }
-
-
-
-    // async function registerUser(data) {
-    //     console.log(data)
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //
-    //     try {
-    //         await axios.post('http://localhost:1991/register', {
-    //             email: data.email,
-    //             username: data.username,
-    //             password: data.password,
-    //             name: data.name,
-    //             gender: data.gender,
-    //             dob: data.dob,
-    //             autismDiagnoses: data['autism-question'],
-    //             autismDiagnosesYear: data['autism-question-Ja'],
-    //         },{
-    //             cancelToken: source.token,
-    //         });
-    //         navigate('/login');
-    //     } catch(e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //
-    //     toggleLoading(false);
-    // }
 
     return (<>
 

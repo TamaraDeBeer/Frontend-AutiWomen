@@ -37,6 +37,8 @@ function ForumCreate() {
 
     return (<>
 
+
+
             <section className={styles['outer-container']}>
                 <div className={`${styles['inner-container']} ${styles['section-hero__inner-container']}`}>
                     <h1>Auti-Women Forum</h1>
