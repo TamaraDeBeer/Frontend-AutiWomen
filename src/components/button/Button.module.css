@@ -5,7 +5,7 @@
     align-items: center;
     gap: 0.625rem;
     border-radius: 3.125rem;
-    background-color: var(--primary-bg-button);
+    background-color: hsla(45, 87%, 64%, 1);
     color: var(--primary-text-color);
     border: none;
     font-size: 1.5625rem;

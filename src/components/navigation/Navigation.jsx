@@ -27,23 +27,17 @@ function Navigation() {
     }, [isAuth, user]);
 
     return (
-        <nav id="navigation" className={styles['outer-container']}>
+        <nav className={styles['outer-container']}>
             <div className={styles['navigation__outer-container']}>
+
                 <span className={styles['navigation-logo']}>
                     <h3>LOGO</h3>
                 </span>
+
                 <ul className={styles['navigation__inner-container']}>
                     <li>
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to={"/"}>Home</NavLink>
-                    </li>
-                    <li>
-                        <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                                 to={"/blog"}>Blog</NavLink>
-                    </li>
-                    <li>
-                        <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                                 to={"/articles"}>Artikelen</NavLink>
                     </li>
                     <li className={styles['navigation__inner-container--forum']}>
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
@@ -57,13 +51,17 @@ function Navigation() {
                         <>
                             {userData && userData.profilePictureUrl ? (
                                 <div className={styles['user-info']}>
-                                    <img src={userData.profilePictureUrl} alt="Profielfoto" className={styles['profile-photo']} />
-                                    <span>Welkom, {user.username}</span>
+                                    <button onClick={() => navigate('/profile')}
+                                            className={styles['profile-photo-button']}>
+                                        <img src={userData.profilePictureUrl} alt="Profielfoto"
+                                             className={styles['profile-photo']}/>
+                                        <span>{user.username}</span>
+                                    </button>
                                 </div>
                             ) : (
                                 <span>Welkom {user.username}</span>
                             )}
-                            <Button type="button" onClick={logout}>Log uit</Button>
+                            <button type="button" onClick={logout} className={styles['logout-button']}>Log uit</button>
                         </>
                     ) : (
                         <Button type="button" onClick={() => navigate('/login')}>Log in</Button>
