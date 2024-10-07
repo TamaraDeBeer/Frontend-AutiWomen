@@ -37,17 +37,16 @@ function ForumCreate() {
 
     return (<>
 
+            <div className={styles['background-color']}>
 
+                <section className="outer-container">
+                    <div className={`inner-container ${styles['section-hero__inner-container']}`}>
+                        <h1>Auti-Women Forum</h1>
+                        <h2>Deel je problemen, geef advies en wees respectvol</h2>
+                    </div>
+                </section>
 
-            <section className={styles['outer-container']}>
-                <div className={`${styles['inner-container']} ${styles['section-hero__inner-container']}`}>
-                    <h1>Auti-Women Forum</h1>
-                    <h2>Deel je problemen, geef advies en wees respectvol</h2>
-                </div>
-            </section>
-
-            <section className={styles['outer-container']}>
-                <div className={`${styles['inner-container']} ${styles['section-post__inner-container']}`}>
+                <section className={styles['section-forum']}>
                     <form onSubmit={addForum} className={styles['forum-form']}>
 
                         <label htmlFor="name">Naam:
@@ -80,8 +79,8 @@ function ForumCreate() {
 
                         </label>
 
-
-                        <label htmlFor="topic" className={styles['forum-form__topic']}> Selecteer het bijpassende onderwerp:
+                        <label htmlFor="topic" className={styles['forum-form__topic']}> Selecteer het bijpassende
+                            onderwerp:
                             <select className={styles['forum-form__topic-select']}
                                     id="topic"
                                     name="topic"
@@ -101,7 +100,6 @@ function ForumCreate() {
                             </select>
                         </label>
 
-
                         <div className={styles['forum-form__buttons']}>
                             <Button type="reset">Annuleren</Button>
                             <Button type="submit">Verstuur</Button>
@@ -109,11 +107,9 @@ function ForumCreate() {
 
                     </form>
 
+                </section>
 
-                </div>
-            </section>
-
-
+            </div>
         </>
 
     );
