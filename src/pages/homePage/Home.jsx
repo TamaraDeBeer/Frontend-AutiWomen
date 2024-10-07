@@ -24,8 +24,8 @@ function Home() {
 
     return (<>
 
-        <section className={styles['outer-container']}>
-            <div className={`${styles['inner-container']} ${styles['section-hero__inner-container']}`}>
+        <section className="outer-container">
+            <div className={styles['section-hero__inner-container']}>
                 <figure className={styles['section-hero__inner-container-image']}>
                     <img src={hero} alt="Hero"/>
                 </figure>
@@ -37,9 +37,8 @@ function Home() {
             </div>
         </section>
 
-        <section className={`${styles['outer-container']} ${styles['section-benefits__outer-container']}`}>
-            <div className={styles['inner-container']}>
-                <h2>Wat bieden wij?</h2>
+        <section className={styles['section-benefits__outer-container']}>
+                <h2 className={styles['section-title']}>Wat bieden wij?</h2>
                 <div className={styles['section-benefits__inner-container']}>
                     <BenefitCard image={benefit} imageAlt="benefit" title="Community"
                                  text="Ontmoet andere autistische vrouwen en deel ervaringen"/>
@@ -53,12 +52,10 @@ function Home() {
                             onClick={() => navigate('/register')}
                     >Word gratis lid</Button>
                 </div>
-            </div>
         </section>
 
-        <section className={`${styles['outer-container']} ${styles['section-forums__outer-container']}`}>
-            <div className={styles['inner-container']}>
-                <h2>Populaire Forums</h2>
+        <section className={styles['section-forums']}>
+                <h2 className={styles['section-title']}>Populaire Forums</h2>
                 <div className={styles['section-forums__inner-container']}>
                     <PopulairForum name="Aurora" age="62 jaar" image={aurora}
                                    title="Waar begin jij in het huishouden?"/>
@@ -74,17 +71,14 @@ function Home() {
                     <PopulairForum name="Sarabi" age="38 jaar" image={sarabi}
                                    title="Hoe stop ik met zoveel tv kijken?!"/>
                 </div>
-            </div>
         </section>
 
-        <section className={`${styles['outer-container']} ${styles['section-reviews__outer-container']}`}>
-            <div className={styles['inner-container']}>
-                <h2>Wat leden zeggen:</h2>
+        <section className={styles['section-reviews__outer-container']}>
+                <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
                 <div className={styles['section-reviews__inner-container']}>
                     <Reviews text="Ik kwam op aanraden van een vriendin op deze website. Ik ben al meerdere forums gestart en krijg veel goede tips van mede auties." image={belle} name="Belle" age="36 jaar" diagnoseYear="2000"/>
                     <Reviews text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.." image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
                 </div>
-            </div>
         </section>
 
     </>);

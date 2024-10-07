@@ -1,23 +1,9 @@
-.outer-container {
+.section-hero__inner-container {
+    flex-basis: 1400px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    padding: 20px 0;
-}
-
-.inner-container {
-    flex-basis: 1200px;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     margin: 30px 20px 50px 20px;
-    gap: 3.12rem;
-}
-
-.section-hero__inner-container {
-    flex-direction: row;
-    justify-content: center;
-    padding-top: 7.75rem;
 }
 
 .section-hero__inner-container-text {
@@ -34,6 +20,7 @@
 
 .section-benefits__outer-container {
     background-color: var(--primary-bg-color);
+    padding: 3rem 1rem;
 }
 
 .section-benefits__inner-container {
@@ -47,6 +34,12 @@
     justify-content: center;
 }
 
+.section-forums {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 8rem;
+}
+
 .section-forums__inner-container {
     display: flex;
     flex-wrap: wrap;
@@ -56,6 +49,8 @@
 
 .section-reviews__outer-container {
     background-color: var(--primary-bg-color);
+    padding: 3rem 8rem;
+
 }
 
 .section-reviews__inner-container {
@@ -63,4 +58,8 @@
     flex-direction: row;
     justify-content: center;
     gap: 6.75rem;
+}
+
+.section-title {
+    margin-bottom: 2rem;
 }
