@@ -84,8 +84,8 @@ function AccountRegister() {
 
     return (<>
 
-        <section className={styles['outer-container']}>
-            <div className={`${styles['inner-container']} ${styles['section-register__inner-container']}`}>
+        <section className="outer-container">
+            <div className="inner-container">
                 <form onSubmit={handleSubmit(registerUser)} className={styles['register-form']}>
 
                     <InputField
