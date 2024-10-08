@@ -6,21 +6,21 @@ import {Link} from "react-router-dom";
 
 
 // eslint-disable-next-line react/prop-types
-function ForumPostShort({image, name, age, title, text, link, likes, comments, views, lastReaction}) {
+function ForumPostShort({image, name, age, title, date, text, link, likesCount, commentsCount, viewsCount, lastReaction}) {
     return (
         <article className={styles['section-forum__card']}>
             <span>
-                <img src={image} alt={name}/>
+                <img className={styles['image']} src={image} alt={name}/>
             </span>
             <div className={styles['section-forum__card-information']}>
                 <h4 className={styles['card-information__text']}>{name} ({age})</h4>
-                <p className={styles['card-information__title']}>{title}</p>
+                <p className={styles['card-information__title']}>{title} <span className={styles['card-information__text']}>(datum: {date})</span></p>
                 <p className={styles['card-information__text']}>{text} <Link className={styles['card-information__link']} to={link}> ... lees meer </Link> </p>
                 {/*lees meer wordt een link naar de specifieke post*/}
                 <div className={styles['card-information__logo-section']}>
-                    <p className={styles['card-information__logo']}><img src={likes1} alt="Likes Logo"/>{likes}</p>
-                    <p className={styles['card-information__logo']}><img src={comments1} alt="Comments Logo"/>{comments}</p>
-                    <p className={styles['card-information__logo']}><img src={views1} alt="Views Logo"/>{views}</p>
+                    <p className={styles['card-information__logo']}><img src={likes1} alt="Likes Logo"/>{likesCount}</p>
+                    <p className={styles['card-information__logo']}><img src={comments1} alt="Comments Logo"/>{commentsCount}</p>
+                    <p className={styles['card-information__logo']}><img src={views1} alt="Views Logo"/>{viewsCount}</p>
                 </div>
                 <p className={styles['card-information__reaction']}>Laatste reactie: {lastReaction}</p>
             </div>

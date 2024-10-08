@@ -3,7 +3,6 @@ import Button from "../../components/button/Button.jsx";
 import search from "../../assets/logo/search.png";
 import {useNavigate} from "react-router-dom";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
-import anna from '../../assets/profilePhoto/anna.jpg';
 import axios from 'axios';
 import {useEffect, useState} from "react";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
@@ -60,15 +59,16 @@ function ForumHome() {
                 {forums.map((forum) => {
                     return <ForumPostShort
                         key={forum.id}
-                        image={anna}
+                        image={forum.userDto?.profilePictureUrl}
                         name={forum.name}
                         age={calculateAge(forum.age) + ' jaar'}
                         title={forum.title}
-                        text={forum.text.split(' ').slice(0, 40).join(' ')}
+                        date={forum.date}
+                        text={forum.text.split(' ').slice(0, 50).join(' ')}
                         link={`/forum/${forum.id}`}
-                        likes={forum.likes}
-                        comments={forum.comments}
-                        views={forum.views}
+                        likesCount={forum.likesCount}
+                        commentsCount={forum.commentsCount}
+                        viewsCount={forum.viewsCount}
                         lastReaction={forum.lastReaction}
                     />
                 })}

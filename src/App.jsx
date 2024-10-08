@@ -5,8 +5,6 @@ import Home from './pages/homePage/Home.jsx';
 import AccountLogin from './pages/accountLogin/AccountLogin.jsx';
 import AccountProfile from "./pages/accountProfile/AccountProfile.jsx";
 import AccountRegister from "./pages/accountRegister/AccountRegister.jsx";
-import ArticlesHome from "./pages/articlesHome/ArticlesHome.jsx";
-import BlogHome from "./pages/blogHome/BlogHome.jsx";
 import ForumCreate from "./pages/forumCreate/ForumCreate.jsx";
 import ForumHome from "./pages/forumHome/ForumHome.jsx";
 import ForumPost from "./pages/forumPost/ForumPost.jsx";
@@ -31,8 +29,6 @@ function App() {
                     <Route path={"/register"} element={<AccountRegister/>}/>
                     <Route path={"/profile"} element={<AccountProfile />}/>
                     {/*<Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/login"/>}/>*/}
-                    <Route path={"/articles"} element={<ArticlesHome/>}/>
-                    <Route path={"/blog"} element={<BlogHome/>}/>
                     <Route path={"/forum"} element={<ForumHome/>}/>
                     <Route path={"/forum/create"} element={<ForumCreate/>}/>
                     <Route path={"/forum/:id"} element={<ForumPost/>}/>
