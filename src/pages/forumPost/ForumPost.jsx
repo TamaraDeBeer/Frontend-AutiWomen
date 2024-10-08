@@ -9,6 +9,7 @@ import createDateToString from "../../helpers/createDateToString.jsx";
 // import likes2 from "../../assets/logo/likes2.png";
 import CommentForum from "../../components/commentForum/CommentForum.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
+import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 
 function ForumPost() {
     const {id, username, forumId} = useParams();
@@ -167,7 +168,7 @@ function ForumPost() {
 
 
             <section className={styles['section-forum__sidebar']}>
-                <h2>Component Populaire onderwerpen</h2>
+                <PopulairTopics/>
             </section>
 
         </section>

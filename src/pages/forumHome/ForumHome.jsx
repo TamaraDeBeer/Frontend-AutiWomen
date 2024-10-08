@@ -7,6 +7,8 @@ import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import axios from 'axios';
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
+import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
+import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 
 function ForumHome() {
     const navigate = useNavigate();
@@ -88,17 +90,7 @@ function ForumHome() {
                 </section>
 
                 <section className={styles['section-forum__sidebar']}>
-                    <h2>Populaire Onderwerpen</h2>
-                    <ul className={styles['section-forum__sidebar-list']}>
-                        <li>Fysieke Gezondheid</li>
-                        <li>Mentale Gezondheid</li>
-                        <li>Huishouden</li>
-                        <li>Werk</li>
-                        <li>School</li>
-                        <li>Relaties</li>
-                        <li>Vriendschappen</li>
-                        <li>Rouw</li>
-                    </ul>
+                    <PopulairTopics/>
                 </section>
             </section>
         </>

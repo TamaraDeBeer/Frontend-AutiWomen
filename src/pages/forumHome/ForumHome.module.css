@@ -35,22 +35,6 @@
     gap: 1.25rem;
 }
 
-.section-forum__sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 1.25rem;
-}
-
-.section-forum__sidebar-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    font-size: 1.5625rem;
-    font-weight: 400;
-}
-
 .button {
     padding: 10px 20px;
     border: none;
