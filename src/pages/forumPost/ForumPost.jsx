@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import styles from './ForumPost.module.css';
 import Button from "../../components/button/Button.jsx";
@@ -8,6 +8,8 @@ import createDateToString from "../../helpers/createDateToString.jsx";
 import CommentForum from "../../components/commentForum/CommentForum.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
+import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
+
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -22,26 +24,32 @@ function ForumPost() {
     const [postComment, setPostComment] = useState([]);
     // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
+    const [lastReaction, setLastReaction] = useState('');
 
     useEffect(() => {
         const username = localStorage.getItem('username');
         if (username) {
             setName(username);
         }
-
-        console.log('useParams:', { forumId }); // Debugging line
         if (forumId) {
             fetchForumById();
             fetchCommentsByForumId();
         }
     }, [forumId]);
+
+    useEffect(() => {
+        if (forumById.lastReaction) {
+            setLastReaction(createDateToString(forumById.lastReaction));
+        }
+    }, [forumById]);
+
+
     async function fetchForumById() {
         toggleErrorById(false);
         try {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
             setForumById(response.data);
-            console.log('Forum data:', response.data); // Debugging line
         } catch (e) {
             console.error(e);
             toggleErrorById(true);
@@ -53,16 +61,29 @@ function ForumPost() {
         toggleErrorById(false);
         try {
             toggleLoading(true);
-            console.log('Fetching comments for forumId:', forumId); // Debugging line
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
-            console.log('API response:', response.data);
             setCommentsByForumId(response.data);
-            console.log('Updated comments state:', response.data); // Debugging line
+            console.log(response.data);
         } catch (e) {
             console.error(e);
+            toggleErrorById(true);
         }
         toggleLoading(false);
     }
+
+    // async function fetchCommentsByForumId() {
+    //     toggleErrorById(false);
+    //     try {
+    //         toggleLoading(true);
+    //         const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
+    //         console.log('Comments data:', response.data); // Debugging line
+    //         setCommentsByForumId(Array.isArray(response.data) ? response.data : []);
+    //     } catch (e) {
+    //         console.error(e);
+    //         toggleErrorById(true);
+    //     }
+    //     toggleLoading(false);
+    // }
 
     async function addComment(e) {
         e.preventDefault();
@@ -77,7 +98,9 @@ function ForumPost() {
             });
             setPostComment(response.data);
             console.log(response.data);
-            fetchCommentsByForumId(); // Refresh comments after adding a new one
+            fetchCommentsByForumId();
+            setCommentText('');
+            setLastReaction(createDateToString(new Date().toISOString()));
         } catch (e) {
             console.error(e);
         }
@@ -109,15 +132,30 @@ function ForumPost() {
                             name={forumById.name}
                             age={calculateAge(forumById.age)}
                             date={createDateToString(forumById.date)}
-                            lastReaction={forumById.lastReaction}
+                            lastReaction={lastReaction}
                             text={forumById.text}
-                            likes={forumById.likes}
-                            comments={forumById.comments}
-                            views={forumById.views}
+                            likesCount={forumById.likesCount}
+                            commentsCount={forumById.commentsCount}
+                            viewsCount={forumById.viewsCount}
                         />
                     }
 
                     <div className={styles['section-forum__line']}></div>
+
+                    {/*{Array.isArray(commentsByForumId) && commentsByForumId.length > 0 ? (*/}
+                    {/*    commentsByForumId.map((comment) => (*/}
+                    {/*        <CommentForum*/}
+                    {/*            key={comment.id}*/}
+                    {/*            image={comment.user?.profilePictureUrl}*/}
+                    {/*            name={comment.name}*/}
+                    {/*            age={calculateAge(comment.user.dob)}*/}
+                    {/*            date={createDateToString(comment.date)}*/}
+                    {/*            text={comment.text}*/}
+                    {/*        />*/}
+                    {/*    ))*/}
+                    {/*) : (*/}
+                    {/*    <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>*/}
+                    {/*)}*/}
 
                     {commentsByForumId.length > 0 ? (
                         commentsByForumId.map((comment) => (
@@ -133,6 +171,8 @@ function ForumPost() {
                     ) : (
                         <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>
                     )}
+                    {errorById && <ErrorMessage
+                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
 
                     <div className={styles['section-forum__line']}></div>
 
