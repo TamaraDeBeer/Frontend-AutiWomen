@@ -7,7 +7,6 @@ import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import axios from 'axios';
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
-import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 
 function ForumHome() {
