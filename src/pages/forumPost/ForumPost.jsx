@@ -10,7 +10,7 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 
 function ForumPost() {
-    const {forumId, username } = useParams();
+    const {forumId} = useParams();
     const navigate = useNavigate();
     const [errorById, toggleErrorById] = useState(false);
     const [loading, toggleLoading] = useState(false);
@@ -20,17 +20,21 @@ function ForumPost() {
     const [commentText, setCommentText] = useState('');
     // eslint-disable-next-line no-unused-vars
     const [postComment, setPostComment] = useState([]);
+    // eslint-disable-next-line no-unused-vars
+    const [name, setName] = useState('');
 
     useEffect(() => {
-        console.log('useParams:', {forumId }); // Debugging line
+        const username = localStorage.getItem('username');
+        if (username) {
+            setName(username);
+        }
+
+        console.log('useParams:', { forumId }); // Debugging line
         if (forumId) {
             fetchForumById();
-        }
-        if (forumId) {
             fetchCommentsByForumId();
         }
     }, [forumId]);
-
     async function fetchForumById() {
         toggleErrorById(false);
         try {
@@ -51,8 +55,9 @@ function ForumPost() {
             toggleLoading(true);
             console.log('Fetching comments for forumId:', forumId); // Debugging line
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
+            console.log('API response:', response.data);
             setCommentsByForumId(response.data);
-            console.log('Comments data:', response.data); // Debugging line
+            console.log('Updated comments state:', response.data); // Debugging line
         } catch (e) {
             console.error(e);
         }
@@ -61,11 +66,12 @@ function ForumPost() {
 
     async function addComment(e) {
         e.preventDefault();
+        const username = localStorage.getItem('username');
         console.log(commentName, commentText);
 
         try {
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/comments/${username}`, {
-                name: commentName,
+                name: username,
                 text: commentText,
                 date: new Date().toISOString(),
             });
@@ -73,7 +79,7 @@ function ForumPost() {
             console.log(response.data);
             fetchCommentsByForumId(); // Refresh comments after adding a new one
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     }
 
@@ -117,10 +123,10 @@ function ForumPost() {
                         commentsByForumId.map((comment) => (
                             <CommentForum
                                 key={comment.id}
-                                // image={comment.image || elsa}
+                                image={comment.user?.profilePictureUrl}
                                 name={comment.name}
-                                // age={calculateAge(comment.age)}
-                                // date={createDateToString(comment.date)}
+                                age={calculateAge(comment.user.dob)}
+                                date={createDateToString(comment.date)}
                                 text={comment.text}
                             />
                         ))
@@ -138,7 +144,7 @@ function ForumPost() {
                                 <input type="text"
                                        name="name"
                                        id="name"
-                                       value={commentName}
+                                       value={name}
                                        onChange={(e) => setCommentName(e.target.value)}
                                 />
                             </label>
