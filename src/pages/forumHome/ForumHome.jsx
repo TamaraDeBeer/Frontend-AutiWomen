@@ -77,7 +77,7 @@ function ForumHome() {
                             title={forum.title}
                             date={forum.date}
                             text={forum.text.split(' ').slice(0, 50).join(' ')}
-                            link={`/forum/${forum.id}`}
+                            link={`/forums/${forum.id}`}
                             likesCount={forum.likesCount}
                             commentsCount={forum.commentsCount}
                             viewsCount={forum.viewsCount}

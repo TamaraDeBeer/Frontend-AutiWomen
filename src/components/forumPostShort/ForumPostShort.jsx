@@ -13,8 +13,8 @@ function ForumPostShort({image, name, age, title, date, text, link, likesCount, 
                 <img className={styles['image']} src={image} alt={name}/>
             </span>
             <div className={styles['section-forum__card-information']}>
-                <h4 className={styles['card-information__text']}>{name} ({age})</h4>
-                <p className={styles['card-information__title']}>{title} <span className={styles['card-information__text']}>(datum: {date})</span></p>
+                <h4 className={styles['card-information__text']}>{name} ({age}) datum: {date}</h4>
+                <p className={styles['card-information__title']}>{title}</p>
                 <p className={styles['card-information__text']}>{text} <Link className={styles['card-information__link']} to={link}> ... lees meer </Link> </p>
                 {/*lees meer wordt een link naar de specifieke post*/}
                 <div className={styles['card-information__logo-section']}>

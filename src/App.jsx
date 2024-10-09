@@ -31,7 +31,7 @@ function App() {
                     {/*<Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/login"/>}/>*/}
                     <Route path={"/forum"} element={<ForumHome/>}/>
                     <Route path={"/forum/create"} element={<ForumCreate/>}/>
-                    <Route path={"/forum/:id"} element={<ForumPost/>}/>
+                    <Route path="/forums/:forumId" element={<ForumPost />} />
                     <Route path={"*"} element={<NotFound/>}/>
                     <Route path={"/error"} element={<ErrorPage/>}/>
                 </Routes>
