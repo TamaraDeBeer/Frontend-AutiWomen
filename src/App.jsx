@@ -14,6 +14,7 @@ import Footer from './components/footer/Footer.jsx';
 import ErrorPage from "./pages/errorPage/ErrorPage.jsx";
 import AuthContextProvider from "./context/AuthContextProvider.jsx";
 import {Route, Routes} from "react-router-dom";
+import TopicPage from "./pages/topicPage/TopicPage.jsx";
 // import {useContext} from "react";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                     <Route path={"/profile"} element={<AccountProfile />}/>
                     {/*<Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/login"/>}/>*/}
                     <Route path={"/forum"} element={<ForumHome/>}/>
+                    <Route path="/forums/topic/:topic" element={<TopicPage/>} />
                     <Route path={"/forum/create"} element={<ForumCreate/>}/>
                     <Route path="/forums/:forumId" element={<ForumPost />} />
                     <Route path={"*"} element={<NotFound/>}/>

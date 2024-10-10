@@ -10,14 +10,19 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 
-
 function ForumPost() {
     const {forumId} = useParams();
     const navigate = useNavigate();
     const [errorById, toggleErrorById] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const [forumById, setForumById] = useState([]);
+
+    // const CommentsList = ({ forumId }) => {
+    //     const [commentsByForumId, setCommentsByForumId] = useState([]);
+
     const [commentsByForumId, setCommentsByForumId] = useState([]);
+
+
     const [commentName, setCommentName] = useState('');
     const [commentText, setCommentText] = useState('');
     // eslint-disable-next-line no-unused-vars
@@ -25,6 +30,10 @@ function ForumPost() {
     // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
+    // const [hasLiked, setHasLiked] = useState(false);
+    // const [likesCount, setLikesCount] = useState('');
+    // const [error, toggleError] = useState(false);
+
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -63,27 +72,13 @@ function ForumPost() {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
             setCommentsByForumId(response.data);
-            console.log(response.data);
+            console.log("comments:" + JSON.stringify(response.data));
         } catch (e) {
             console.error(e);
             toggleErrorById(true);
         }
         toggleLoading(false);
     }
-
-    // async function fetchCommentsByForumId() {
-    //     toggleErrorById(false);
-    //     try {
-    //         toggleLoading(true);
-    //         const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
-    //         console.log('Comments data:', response.data); // Debugging line
-    //         setCommentsByForumId(Array.isArray(response.data) ? response.data : []);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleErrorById(true);
-    //     }
-    //     toggleLoading(false);
-    // }
 
     async function addComment(e) {
         e.preventDefault();
@@ -142,21 +137,7 @@ function ForumPost() {
 
                     <div className={styles['section-forum__line']}></div>
 
-                    {/*{Array.isArray(commentsByForumId) && commentsByForumId.length > 0 ? (*/}
-                    {/*    commentsByForumId.map((comment) => (*/}
-                    {/*        <CommentForum*/}
-                    {/*            key={comment.id}*/}
-                    {/*            image={comment.user?.profilePictureUrl}*/}
-                    {/*            name={comment.name}*/}
-                    {/*            age={calculateAge(comment.user.dob)}*/}
-                    {/*            date={createDateToString(comment.date)}*/}
-                    {/*            text={comment.text}*/}
-                    {/*        />*/}
-                    {/*    ))*/}
-                    {/*) : (*/}
-                    {/*    <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>*/}
-                    {/*)}*/}
-
+                    <section>
                     {commentsByForumId.length > 0 ? (
                         commentsByForumId.map((comment) => (
                             <CommentForum
@@ -171,8 +152,35 @@ function ForumPost() {
                     ) : (
                         <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>
                     )}
-                    {errorById && <ErrorMessage
-                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
+                        {errorById && <ErrorMessage
+                            message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
+                    </section>
+
+                    {/*<section>*/}
+                    {/*    {commentsByForumId.length > 0 ? (*/}
+                    {/*        (() => {*/}
+                    {/*            const commentComponents = [];*/}
+                    {/*            for (let i = 0; i < commentsByForumId.length; i++) {*/}
+                    {/*                const comment = commentsByForumId[i];*/}
+                    {/*                commentComponents.push(*/}
+                    {/*                    <CommentForum*/}
+                    {/*                        key={comment.id}*/}
+                    {/*                        image={comment.user?.profilePictureUrl}*/}
+                    {/*                        name={comment.name}*/}
+                    {/*                        age={calculateAge(comment.user.dob)}*/}
+                    {/*                        date={createDateToString(comment.date)}*/}
+                    {/*                        text={comment.text}*/}
+                    {/*                    />*/}
+                    {/*                );*/}
+                    {/*            }*/}
+                    {/*            return commentComponents;*/}
+                    {/*        })()*/}
+                    {/*    ) : (*/}
+                    {/*        <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>*/}
+                    {/*    )}*/}
+                    {/*    {errorById && <ErrorMessage*/}
+                    {/*        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}*/}
+                    {/*</section>*/}
 
                     <div className={styles['section-forum__line']}></div>
 

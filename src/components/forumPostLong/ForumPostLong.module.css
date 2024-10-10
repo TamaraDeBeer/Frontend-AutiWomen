@@ -57,3 +57,8 @@
     display: flex;
     gap: 1.25rem;
 }
+
+.logo-likes {
+    width: 1.25rem;
+    height: 1.25rem;
+}

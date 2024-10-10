@@ -2,7 +2,7 @@ import styles from './CommentForum.module.css';
 
 function CommentForum({image, name, age, date, text}) {
 
-    return (<>
+    return (
 
         <article className={styles['section-comment__card']}>
             <span>
@@ -21,7 +21,7 @@ function CommentForum({image, name, age, date, text}) {
 
         </article>
 
-    </>);
+    );
 }
 
 export default CommentForum;

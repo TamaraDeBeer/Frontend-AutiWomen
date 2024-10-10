@@ -1,5 +1,6 @@
 import styles from './ForumPostShort.module.css';
-import likes1 from "../../assets/logo/likes.png";
+import likes1 from "../../assets/logo/likes1.png";
+
 import comments1 from "../../assets/logo/comments.png";
 import views1 from "../../assets/logo/views.png";
 import {Link} from "react-router-dom";
