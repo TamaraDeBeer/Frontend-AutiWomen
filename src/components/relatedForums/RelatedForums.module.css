@@ -1,11 +1,11 @@
-.populair-topics {
+.related-forums {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 1.25rem;
 }
 
-.topics-list {
+.forums-list {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -21,16 +21,16 @@
     color: var(--primary-text-color);
 }
 
-.topics-list a {
+.forums-list a {
     text-decoration: none;
     color: inherit;
 }
 
-.topics-list a:visited {
+.forums-list a:visited {
     color: inherit;
 }
 
-.topics-list a:hover {
+.forums-list a:hover {
     color: var(--secondary-color);
     font-weight: 500;
 }

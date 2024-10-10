@@ -9,6 +9,7 @@ import CommentForum from "../../components/commentForum/CommentForum.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
+import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -218,6 +219,7 @@ function ForumPost() {
 
                 <section className={styles['section-forum__sidebar']}>
                     <PopulairTopics/>
+                    <RelatedForums topic={forumById.topic} currentForumId={forumById.id}/>
                 </section>
             </section>
         </>

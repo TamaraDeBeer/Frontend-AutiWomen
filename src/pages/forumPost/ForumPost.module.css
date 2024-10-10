@@ -4,6 +4,7 @@
     justify-content: center;
     padding: 20px 0;
     background-color: var(--primary-bg-color);
+    gap: 2rem;
 }
 
 .inner-container {
@@ -83,4 +84,10 @@
 .logo-likes {
     width: 1.25rem;
     height: 1.25rem;
+}
+
+.section-forum__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
 }

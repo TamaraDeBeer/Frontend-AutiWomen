@@ -7,10 +7,10 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 
-function ForumPostLong({title, image, name, age, date, lastReaction, text, initialLikesCount, commentsCount, viewsCount}) {
+function ForumPostLong({title, image, name, age, date, lastReaction, text, commentsCount, viewsCount}) {
     const { forumId } = useParams();
     const [hasLiked, setHasLiked] = useState(false);
-    const [likesCount, setLikesCount] = useState(initialLikesCount);
+    const [likesCount, setLikesCount] = useState();
     const [username, setUsername] = useState('');
     // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
@@ -45,7 +45,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, initi
         try {
             toggleLoading(true);
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${username}/likes/add`);
-            setLikesCount(response.data.likesCount);
+            // setLikesCount(response.data.likesCount);
             setHasLiked(true);
             console.log(response.data);
         } catch (e) {
@@ -60,7 +60,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, initi
         try {
             toggleLoading(true);
             const response = await axios.delete(`http://localhost:1991/forums/${forumId}/users/${username}/likes/remove`);
-            setLikesCount(response.data.likesCount);
+            // setLikesCount(response.data.likesCount);
             setHasLiked(false);
             console.log(response.data);
         } catch (e) {
