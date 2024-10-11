@@ -36,7 +36,6 @@
 .section-forum__card-information {
     display: flex;
     flex-direction: column;
-
     gap: 1.25rem;
 }
 
