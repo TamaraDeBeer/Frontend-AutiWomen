@@ -125,7 +125,7 @@ function ForumPost() {
                             name={forumById.name}
                             age={calculateAge(forumById.age)}
                             date={createDateToString(forumById.date)}
-                            lastReaction={lastReaction}
+                            lastReaction={lastReaction ? lastReaction : 'Plaast de eerste reactie hieronder'}
                             text={forumById.text}
                             likesCount={forumById.likesCount}
                             commentsCount={forumById.commentsCount}

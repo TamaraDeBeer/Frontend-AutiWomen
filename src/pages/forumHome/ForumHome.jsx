@@ -8,6 +8,8 @@ import axios from 'axios';
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
+import createDateToString from "../../helpers/createDateToString.jsx";
+
 
 function ForumHome() {
     const navigate = useNavigate();
@@ -22,7 +24,6 @@ function ForumHome() {
     async function fetchAllForums() {
         toggleError(false);
         const endpoint = sliderOption === 'newest' ? 'http://localhost:1991/forums/sorted-by-date' : 'http://localhost:1991/forums/sorted-by-likes';
-
         try {
             const response = await axios.get(endpoint);
             setForums(response.data);
@@ -75,13 +76,13 @@ function ForumHome() {
                             name={forum.name}
                             age={calculateAge(forum.age) + ' jaar'}
                             title={forum.title}
-                            date={forum.date}
+                            date={createDateToString(forum.date)}
                             text={forum.text.split(' ').slice(0, 50).join(' ')}
                             link={`/forums/${forum.id}`}
                             likesCount={forum.likesCount}
                             commentsCount={forum.commentsCount}
                             viewsCount={forum.viewsCount}
-                            lastReaction={forum.lastReaction}
+                            lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
                         />
                     })}
                     {error && <ErrorMessage
