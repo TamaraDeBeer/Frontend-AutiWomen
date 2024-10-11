@@ -35,17 +35,24 @@ function ForumPost() {
     // const [likesCount, setLikesCount] = useState('');
     // const [error, toggleError] = useState(false);
 
-
     useEffect(() => {
         const username = localStorage.getItem('username');
         if (username) {
             setName(username);
         }
+    }, []);
+
+    useEffect(() => {
         if (forumId) {
             fetchForumById();
-            fetchCommentsByForumId();
         }
     }, [forumId]);
+
+    useEffect(() => {
+        if (forumById.id) {
+            fetchCommentsByForumId();
+        }
+    }, [forumById.id]);
 
     useEffect(() => {
         if (forumById.lastReaction) {
@@ -67,19 +74,72 @@ function ForumPost() {
         toggleLoading(false);
     }
 
+    // async function fetchCommentsByForumId() {
+    //     toggleErrorById(false);
+    //     try {
+    //         const response = await axios.get('http://localhost:1991/forums/comments');
+    //         console.log("Fetched comments data:", response.data);
+    //
+    //         if (Array.isArray(response.data)) {
+    //             const filteredComments = response.data.filter(comment => {
+    //                 console.log("Comment object:", comment);
+    //                 const commentForumId = comment.forum?.id;
+    //                 console.log("Comparing:", String(commentForumId), typeof commentForumId, "with", String(forumById.id), typeof forumById.id);
+    //                 return String(commentForumId) === String(forumById.id);
+    //             });
+    //             console.log("Filtered comments:", filteredComments);
+    //             setCommentsByForumId(filteredComments);
+    //         } else {
+    //             console.error("Expected an array but got:", response.data);
+    //             toggleErrorById(true);
+    //         }
+    //     } catch (e) {
+    //         console.error(e);
+    //         toggleErrorById(true);
+    //     }
+    // }
+
+    // async function fetchCommentsByForumId() {
+    //     toggleErrorById(false);
+    //     try {
+    //         const response = await axios.get('http://localhost:1991/forums/comments');
+    //         console.log("Fetched comments:", response.data);
+    //         console.log("Current forumId:", forumById.id);
+    //         const filteredComments = response.data.filter(comment => comment.forumId === forumById.id);
+    //         console.log("Filtered comments:", filteredComments);
+    //         setCommentsByForumId(filteredComments);
+    //     } catch (e) {
+    //         console.error(e);
+    //         toggleErrorById(true);
+    //     }
+    // }
+
     async function fetchCommentsByForumId() {
         toggleErrorById(false);
         try {
-            toggleLoading(true);
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
-            setCommentsByForumId(response.data);
+            const response = await axios.get('http://localhost:1991/forums/comments');
+            const filteredComments = response.data.filter(comment => comment.forumId === comment && forumById.id);
+            setCommentsByForumId(filteredComments);
             console.log("comments:" + JSON.stringify(response.data));
         } catch (e) {
             console.error(e);
             toggleErrorById(true);
         }
-        toggleLoading(false);
     }
+
+    // async function fetchCommentsByForumId() {
+    //     toggleErrorById(false);
+    //     try {
+    //         toggleLoading(true);
+    //         const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
+    //         setCommentsByForumId(response.data);
+    //         console.log("comments:" + JSON.stringify(response.data));
+    //     } catch (e) {
+    //         console.error(e);
+    //         toggleErrorById(true);
+    //     }
+    //     toggleLoading(false);
+    // }
 
     async function addComment(e) {
         e.preventDefault();
@@ -94,7 +154,7 @@ function ForumPost() {
             });
             setPostComment(response.data);
             console.log(response.data);
-            fetchCommentsByForumId();
+            // fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
         } catch (e) {
@@ -138,24 +198,25 @@ function ForumPost() {
 
                     <div className={styles['section-forum__line']}></div>
 
-                    <section>
-                    {commentsByForumId.length > 0 ? (
-                        commentsByForumId.map((comment) => (
-                            <CommentForum
-                                key={comment.id}
-                                image={comment.user?.profilePictureUrl}
-                                name={comment.name}
-                                age={calculateAge(comment.user.dob)}
-                                date={createDateToString(comment.date)}
-                                text={comment.text}
-                            />
-                        ))
-                    ) : (
-                        <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>
-                    )}
-                        {errorById && <ErrorMessage
-                            message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
-                    </section>
+                    <section className={styles['section-forum']}>
+                        <section className={styles['section-forum__content']}>
+                            {commentsByForumId.length > 0 ? (
+                                commentsByForumId.map(comment => (
+                                    <CommentForum
+                                        key={comment.id}
+                                        image={comment.user?.profilePictureUrl}
+                                        name={comment.name}
+                                        age={calculateAge(comment.user.dob)}
+                                        date={createDateToString(comment.date)}
+                                        text={comment.text}
+                                    />
+                                ))
+                            ) : (
+                                <p>Nog geen opmerkingen, plaats een eerste opmerking hieronder</p>
+                            )}
+                            {errorById && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw." />}
+                        </section>
+                        </section>
 
                     {/*<section>*/}
                     {/*    {commentsByForumId.length > 0 ? (*/}
