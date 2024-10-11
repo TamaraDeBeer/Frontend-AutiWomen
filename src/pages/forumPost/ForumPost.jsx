@@ -18,6 +18,7 @@ function ForumPost() {
     const [loading, toggleLoading] = useState(false);
     const [forumById, setForumById] = useState([]);
     const [commentsByForumId, setCommentsByForumId] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [commentName, setCommentName] = useState('');
     const [commentText, setCommentText] = useState('');
     // eslint-disable-next-line no-unused-vars
@@ -52,7 +53,6 @@ function ForumPost() {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
             setForumById(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -67,7 +67,6 @@ function ForumPost() {
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
-            console.log(sortedComments);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -78,7 +77,6 @@ function ForumPost() {
     async function addComment(e) {
         e.preventDefault();
         const username = localStorage.getItem('username');
-        console.log(commentName, commentText);
         toggleError(false);
         try {
             toggleLoading(true);
@@ -88,7 +86,6 @@ function ForumPost() {
                 date: new Date().toISOString(),
             });
             setPostComment(response.data);
-            console.log(response.data);
             fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
