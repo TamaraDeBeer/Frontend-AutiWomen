@@ -25,9 +25,6 @@ function ForumPost() {
     // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
-    // const [hasLiked, setHasLiked] = useState(false);
-    // const [likesCount, setLikesCount] = useState('');
-    // const [error, toggleError] = useState(false);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -55,6 +52,7 @@ function ForumPost() {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
             setForumById(response.data);
+            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -82,7 +80,6 @@ function ForumPost() {
         const username = localStorage.getItem('username');
         console.log(commentName, commentText);
         toggleError(false);
-
         try {
             toggleLoading(true);
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/comments/${username}`, {
