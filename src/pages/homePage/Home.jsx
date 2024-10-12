@@ -27,7 +27,6 @@ function Home() {
                 console.error('Error fetching forums:', error);
             }
         }
-
         fetchForums();
     }, []);
 
@@ -69,6 +68,7 @@ function Home() {
                 {forums.map((forum) => (
                     <PopulairForum
                         key={forum.id}
+                        id={forum.id}
                         name={forum.name}
                         age={calculateAge(forum.age) + ' jaar'}
                         image={forum.userDto?.profilePictureUrl}
