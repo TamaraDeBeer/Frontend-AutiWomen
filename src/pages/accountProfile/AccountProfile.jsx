@@ -9,13 +9,15 @@ import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
+import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
 
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
     const [forums, setForums] = useState([]);
-    const [activeForm, setActiveForm] = useState(null);
     // eslint-disable-next-line no-unused-vars
+    const [likedForums, setLikedForums] = useState([]);
+    const [activeForm, setActiveForm] = useState(null);
     const [error, toggleError] = useState(false);
     const {user} = useContext(AuthContext);
 
@@ -24,6 +26,7 @@ function AccountProfile() {
         const username = localStorage.getItem('username');
         void fetchProfile(jwt, username);
         void fetchForums(jwt, username);
+        void fetchLikedForums(jwt, username);
     }, [])
 
     async function fetchProfile(jwt, username) {
@@ -54,6 +57,24 @@ function AccountProfile() {
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setForums(sortedForums);
+            console.log(forumsResult.data);
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
+        }
+    }
+
+    async function fetchLikedForums(jwt, username) {
+        toggleError(false);
+        try {
+            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/liked-forums`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+            const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
+            setLikedForums(sortedForums);
             console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
@@ -123,9 +144,7 @@ function AccountProfile() {
 
 
             <section className={styles['account-forum']}>
-                {/*<div className={styles['innerContainer']}>*/}
                 <h2>Jouw Forums</h2>
-
                 {forums.length > 0 ? (
                     forums.map((forum) => (
                         <ForumPostShort
@@ -149,22 +168,32 @@ function AccountProfile() {
                 )}
                 {error &&
                     <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
-                {/*</div>*/}
             </section>
 
-<div className={styles['forums_view-like']}>
-            <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
-                <h2>Liked Forums</h2>
-            </section>
+            <div className={styles['forums_view-like']}>
+                <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
+                    <h2>Liked Forums</h2>
+                    {forums.map((forum) => (
+                        <PopulairForum
+                            key={forum.id}
+                            id={forum.id}
+                            name={forum.name}
+                            age={calculateAge(forum.age) + ' jaar'}
+                            image={forum.userDto?.profilePictureUrl}
+                            title={forum.title}
+                        />
+                    ))}
+                </section>
 
-            <section className={`${styles['account-forum']} ${styles['forum-view']}`}>
-                <h2>Viewed Forums</h2>
-            </section>
-</div>
+                <section className={`${styles['account-forum']} ${styles['forum-view']}`}>
+                    <h2>Viewed Forums</h2>
+                </section>
+
 
             <section className={`${styles['account-forum']} ${styles['forum-comment']}`}>
                 <h2>Gereageerde Forums</h2>
             </section>
+            </div>
 
 
         </>
