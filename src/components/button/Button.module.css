@@ -5,7 +5,7 @@
     align-items: center;
     gap: 0.625rem;
     border-radius: 3.125rem;
-    background-color: hsla(45, 87%, 64%, 1);
+    background-color: var(--primary-bg-button);
     color: var(--primary-text-color);
     border: none;
     font-size: 1.5625rem;
@@ -25,5 +25,9 @@ button:hover {
 }
 
 .button-tertiary {
-    background-color: hsla(0, 0%, 90%, 1);
+    padding: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    background-color: hsla(45, 87%, 74%, 1);
 }

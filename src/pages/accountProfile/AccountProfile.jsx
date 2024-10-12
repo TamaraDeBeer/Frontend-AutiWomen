@@ -69,39 +69,46 @@ function AccountProfile() {
             </section>
 
             <section className={styles['section-profile__inner-container']}>
-                <div className={styles['section-profile_image']}>
-                    <img src={profile.profilePictureUrl} className={styles['profile_picture']} alt="Profiel Foto"/>
-                </div>
+                <div className={styles['image-data']}>
+                    <div className={styles['section-profile_image']}>
+                        <img src={profile.profilePictureUrl} className={styles['profile_picture']} alt="Profiel Foto"/>
+                    </div>
 
 
-                <div className={styles['section-profile_data']}>
-                    <h2>Jouw Gegegens</h2>
-                    <ul className={styles['profile_data']}>
-                        <li>Username: {profile.username}</li>
-                        <li>Email: {profile.email}</li>
-                        <li>Naam: {profile.name}</li>
-                        <li>Leeftijd: {profile.dob}</li>
-                        <li>Autisme: {profile.autismDiagnoses}</li>
-                        {profile.autismDiagnoses === 'Ja' && (
-                            <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
-                        )}
-                    </ul>
-
-                    <div className={styles['buttons']}>
-                        <Button onClick={() => setActiveForm('profilePicture')} variant="tertiary">Update Profielfoto</Button>
-                        <Button onClick={() => setActiveForm('password')} variant="tertiary">Update Wachtwoord</Button>
-                        <Button onClick={() => setActiveForm('userInfo')} variant="tertiary">Update Gegevens</Button>
+                    <div className={styles['section-profile_data']}>
+                        <h2>Jouw Gegegens</h2>
+                        <ul className={styles['profile_data']}>
+                            <li>Username: {profile.username}</li>
+                            <li>Email: {profile.email}</li>
+                            <li>Naam: {profile.name}</li>
+                            <li>Leeftijd: {profile.dob}</li>
+                            <li>Autisme: {profile.autismDiagnoses}</li>
+                            {profile.autismDiagnoses === 'Ja' && (
+                                <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
+                            )}
+                        </ul>
                     </div>
                 </div>
 
-                    <div className={styles['forms-edit']}>
-                        {activeForm === 'profilePicture' && <EditProfilePicture user={user}
-                                                                                onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
-                        {activeForm === 'password' && <EditProfilePassword user={user}
-                                                                           onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
-                        {activeForm === 'userInfo' && <EditProfileData user={user} profile={profile}
+                <div className={styles['buttons']}>
+                    <button onClick={() => setActiveForm('profilePicture')}
+                            className={`${styles['button']} ${styles['button-left']}`}>Update
+                        Profielfoto</button>
+                    <button onClick={() => setActiveForm('password')}
+                            className={`${styles['button']} ${styles['button-middle']}`}>Update Wachtwoord</button>
+                    <button onClick={() => setActiveForm('userInfo')}
+                            className={`${styles['button']} ${styles['button-right']}`}>Update Gegevens</button>
+                </div>
+
+
+                <div className={styles['forms-edit']}>
+                    {activeForm === 'profilePicture' && <EditProfilePicture user={user}
+                                                                            onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
+                    {activeForm === 'password' && <EditProfilePassword user={user}
                                                                        onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
-                    </div>
+                    {activeForm === 'userInfo' && <EditProfileData user={user} profile={profile}
+                                                                   onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
+                </div>
 
 
             </section>
