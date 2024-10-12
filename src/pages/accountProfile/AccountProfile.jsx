@@ -5,7 +5,6 @@ import axios from "axios";
 import EditProfilePicture from "../../components/profileEdit/editProfilePicture/EditProfilePicture.jsx";
 import EditProfilePassword from "../../components/profileEdit/editProfilePassword/EditProfilePassword.jsx";
 import EditProfileData from "../../components/profileEdit/editProfileData/EditProfileData.jsx";
-import Button from "../../components/button/Button.jsx";
 
 // import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 // import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
@@ -69,35 +68,42 @@ function AccountProfile() {
             </section>
 
             <section className={styles['section-profile__inner-container']}>
-                <div className={styles['image-data']}>
-                    <div className={styles['section-profile_image']}>
-                        <img src={profile.profilePictureUrl} className={styles['profile_picture']} alt="Profiel Foto"/>
+                <div className={styles['profile-complete']}>
+
+                    <div className={styles['image-data']}>
+                        <div className={styles['section-profile_image']}>
+                            <img src={profile.profilePictureUrl} className={styles['profile_picture']}
+                                 alt="Profiel Foto"/>
+                        </div>
+
+
+                        <div className={styles['section-profile_data']}>
+                            <h2>Jouw Gegegens</h2>
+                            <ul className={styles['profile_data']}>
+                                <li>Username: {profile.username}</li>
+                                <li>Email: {profile.email}</li>
+                                <li>Naam: {profile.name}</li>
+                                <li>Leeftijd: {profile.dob}</li>
+                                <li>Autisme: {profile.autismDiagnoses}</li>
+                                {profile.autismDiagnoses === 'Ja' && (
+                                    <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
+                                )}
+                            </ul>
+                        </div>
                     </div>
 
-
-                    <div className={styles['section-profile_data']}>
-                        <h2>Jouw Gegegens</h2>
-                        <ul className={styles['profile_data']}>
-                            <li>Username: {profile.username}</li>
-                            <li>Email: {profile.email}</li>
-                            <li>Naam: {profile.name}</li>
-                            <li>Leeftijd: {profile.dob}</li>
-                            <li>Autisme: {profile.autismDiagnoses}</li>
-                            {profile.autismDiagnoses === 'Ja' && (
-                                <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
-                            )}
-                        </ul>
+                    <div className={styles['buttons']}>
+                        <button onClick={() => setActiveForm('profilePicture')}
+                                className={`${styles['button']} ${styles['button-left']}`}>Update
+                            Profielfoto
+                        </button>
+                        <button onClick={() => setActiveForm('password')}
+                                className={`${styles['button']} ${styles['button-middle']}`}>Update Wachtwoord
+                        </button>
+                        <button onClick={() => setActiveForm('userInfo')}
+                                className={`${styles['button']} ${styles['button-right']}`}>Update Gegevens
+                        </button>
                     </div>
-                </div>
-
-                <div className={styles['buttons']}>
-                    <button onClick={() => setActiveForm('profilePicture')}
-                            className={`${styles['button']} ${styles['button-left']}`}>Update
-                        Profielfoto</button>
-                    <button onClick={() => setActiveForm('password')}
-                            className={`${styles['button']} ${styles['button-middle']}`}>Update Wachtwoord</button>
-                    <button onClick={() => setActiveForm('userInfo')}
-                            className={`${styles['button']} ${styles['button-right']}`}>Update Gegevens</button>
                 </div>
 
 
@@ -109,7 +115,6 @@ function AccountProfile() {
                     {activeForm === 'userInfo' && <EditProfileData user={user} profile={profile}
                                                                    onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
                 </div>
-
 
             </section>
 

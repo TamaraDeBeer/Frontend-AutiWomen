@@ -1,10 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import styles from '../ProfileEdit.module.css';
+import Button from "../../button/Button.jsx";
+import ErrorMessage from "../../errorMessage/ErrorMessage.jsx";
 
 function EditProfilePassword({ user, onUpdate }) {
     const [oldPassword, setOldPassword] = useState("");
     const [password, setPassword] = useState("");
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, toggleError] = useState(false);
 
     const handleOldPasswordChange = (e) => {
         setOldPassword(e.target.value);
@@ -28,13 +32,21 @@ function EditProfilePassword({ user, onUpdate }) {
                 },
             });
             onUpdate();
+            setIsSubmitted(true);
         } catch (error) {
             console.error("Error updating password:", error);
+            toggleError('Niet gelukt, waarschijnlijk klopt je oude wachtwoord niet');
         }
     };
 
     return (
-        <form onSubmit={handlePasswordSubmit} className={styles['password-form']}>
+        <div>
+            {isSubmitted ? (
+                <div className={styles['edit-profile_form']}>
+                    <p>Update succesvol!</p>
+                </div>
+            ) : (
+        <form onSubmit={handlePasswordSubmit} className={styles['edit-profile_form']}>
             <label>
                 Oud Wachtwoord:
                 <input type="password" value={oldPassword} onChange={handleOldPasswordChange} />
@@ -43,8 +55,11 @@ function EditProfilePassword({ user, onUpdate }) {
                 Nieuw Wachtwoord:
                 <input type="password" value={password} onChange={handlePasswordChange} />
             </label>
-            <button type="submit">Update Wachtwoord</button>
+            <Button type="submit" variant="secondary">Update Wachtwoord</Button>
+            {error && <ErrorMessage message={error} />}
         </form>
+                )}
+        </div>
     );
 }
 

@@ -31,3 +31,16 @@
     outline: none;
     border: 2px solid var(--primary-color);
 }
+
+.register-image {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: var(--secondary-bg-button);
+    border-radius: 3.125rem;
+    text-align: center;
+}
+
+.file-input {
+    display: none;
+}

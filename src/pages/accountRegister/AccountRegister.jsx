@@ -218,14 +218,25 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-                    <InputField
-                        inputId="photo-field"
-                        inputLabel="Profielfoto:"
-                        inputType="file"
-                        inputName="photo"
-                        register={register}
-                        errors={errors}
-                    />
+                    {/*<InputField*/}
+                    {/*    inputId="photo-field"*/}
+                    {/*    inputLabel="Profielfoto:"*/}
+                    {/*    inputType="file"*/}
+                    {/*    inputName="photo"*/}
+                    {/*    register={register}*/}
+                    {/*    errors={errors}*/}
+                    {/*/>*/}
+
+                    <label htmlFor="photo-field" className={styles['register-image']}>
+                        Profielfoto: foto kiezen
+                        <input
+                            id="photo-field"
+                            type="file"
+                            name="photo"
+                            {...register('photo')}
+                            className={styles['file-input']}
+                        />
+                    </label>
 
                     {error && <p>Dit account bestaat al. Probeer een ander emailadres.</p>}
                     <Button type="submit" disabled={loading}>Registreren</Button>
