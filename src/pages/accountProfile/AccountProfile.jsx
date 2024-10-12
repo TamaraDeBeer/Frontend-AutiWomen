@@ -122,40 +122,51 @@ function AccountProfile() {
             </section>
 
 
-            <section className={styles['outer-container']}>
-                <div className={styles['innerContainer']}>
-                    <h2>Jouw Forums</h2>
+            <section className={styles['account-forum']}>
+                {/*<div className={styles['innerContainer']}>*/}
+                <h2>Jouw Forums</h2>
 
-                    {forums.length > 0 ? (
-                        forums.map((forum) => (
-                            <ForumPostShort
-                                key={forum.id}
-                                forumId={forum.id}
-                                image={forum.userDto?.profilePictureUrl}
-                                name={forum.name}
-                                age={calculateAge(forum.age) + ' jaar'}
-                                title={forum.title}
-                                date={createDateToString(forum.date)}
-                                text={forum.text.split(' ').slice(0, 50).join(' ')}
-                                link={`/forums/${forum.id}`}
-                                likesCount={forum.likesCount}
-                                commentsCount={forum.commentsCount}
-                                viewsCount={forum.viewsCount}
-                                lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
-                            />
-                        ))
-                    ) : (
-                        <p>Geen forums gevonden.</p>
-                    )}
-                    {error && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw." />}
-                </div>
+                {forums.length > 0 ? (
+                    forums.map((forum) => (
+                        <ForumPostShort
+                            key={forum.id}
+                            forumId={forum.id}
+                            image={forum.userDto?.profilePictureUrl}
+                            name={forum.name}
+                            age={calculateAge(forum.age) + ' jaar'}
+                            title={forum.title}
+                            date={createDateToString(forum.date)}
+                            text={forum.text.split(' ').slice(0, 50).join(' ')}
+                            link={`/forums/${forum.id}`}
+                            likesCount={forum.likesCount}
+                            commentsCount={forum.commentsCount}
+                            viewsCount={forum.viewsCount}
+                            lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
+                        />
+                    ))
+                ) : (
+                    <p>Geen forums gevonden.</p>
+                )}
+                {error &&
+                    <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
+                {/*</div>*/}
             </section>
 
-            <section className={styles['outer-container']}>
-                <div className={styles['innerContainer']}>
-                    <h2>Jouw Comment</h2>
-                </div>
+<div className={styles['forums_view-like']}>
+            <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
+                <h2>Liked Forums</h2>
             </section>
+
+            <section className={`${styles['account-forum']} ${styles['forum-view']}`}>
+                <h2>Viewed Forums</h2>
+            </section>
+</div>
+
+            <section className={`${styles['account-forum']} ${styles['forum-comment']}`}>
+                <h2>Gereageerde Forums</h2>
+            </section>
+
+
         </>
     );
 }
