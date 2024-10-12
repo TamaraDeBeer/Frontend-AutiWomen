@@ -8,6 +8,7 @@ import EditProfileData from "../../components/profileEdit/editProfileData/EditPr
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
+import createDateToString from "../../helpers/createDateToString.jsx";
 
 
 function AccountProfile() {
@@ -26,6 +27,7 @@ function AccountProfile() {
     }, [])
 
     async function fetchProfile(jwt, username) {
+        toggleError(false);
         try {
             const profileResult = await axios.get(`http://localhost:1991/users/${username}`, {
                 headers: {
@@ -42,6 +44,7 @@ function AccountProfile() {
     }
 
     async function fetchForums(jwt, username) {
+        toggleError(false);
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/forums`, {
                 headers: {
@@ -49,7 +52,8 @@ function AccountProfile() {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            setForums(forumsResult.data);
+            const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
+            setForums(sortedForums);
             console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
@@ -126,15 +130,18 @@ function AccountProfile() {
                         forums.map((forum) => (
                             <ForumPostShort
                                 key={forum.id}
+                                forumId={forum.id}
+                                image={forum.userDto?.profilePictureUrl}
                                 name={forum.name}
                                 age={calculateAge(forum.age) + ' jaar'}
                                 title={forum.title}
-                                text={forum.text.split(' ').slice(0, 40).join(' ')}
-                                link={`/forum/${forum.id}`}
-                                likes={forum.likes}
-                                comments={forum.comments}
-                                views={forum.views}
-                                lastReaction={forum.lastReaction}
+                                date={createDateToString(forum.date)}
+                                text={forum.text.split(' ').slice(0, 50).join(' ')}
+                                link={`/forums/${forum.id}`}
+                                likesCount={forum.likesCount}
+                                commentsCount={forum.commentsCount}
+                                viewsCount={forum.viewsCount}
+                                lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
                             />
                         ))
                     ) : (
