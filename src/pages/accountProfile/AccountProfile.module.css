@@ -2,6 +2,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1.0625rem;
+    padding-bottom: 2rem;
 }
 
 .image-data {

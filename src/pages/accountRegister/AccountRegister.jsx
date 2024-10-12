@@ -23,6 +23,7 @@ function AccountRegister() {
 
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
+    const [fileName, setFileName] = useState('');
     const navigate = useNavigate();
     const source = axios.CancelToken.source();
     const watchSelectedAutism = watch('autism-question');
@@ -32,6 +33,14 @@ function AccountRegister() {
             source.cancel();
         }
     }, []);
+
+    const handlePhotoChange = (e) => {
+        if (e.target.files[0]) {
+            setFileName(e.target.files[0].name);
+        } else {
+            setFileName('');
+        }
+    };
 
     async function registerUser(data) {
         console.log(data);
@@ -218,15 +227,6 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-                    {/*<InputField*/}
-                    {/*    inputId="photo-field"*/}
-                    {/*    inputLabel="Profielfoto:"*/}
-                    {/*    inputType="file"*/}
-                    {/*    inputName="photo"*/}
-                    {/*    register={register}*/}
-                    {/*    errors={errors}*/}
-                    {/*/>*/}
-
                     <label htmlFor="photo-field" className={styles['register-image']}>
                         Profielfoto: foto kiezen
                         <input
@@ -234,9 +234,11 @@ function AccountRegister() {
                             type="file"
                             name="photo"
                             {...register('photo')}
+                            onChange={handlePhotoChange}
                             className={styles['file-input']}
                         />
                     </label>
+                    {fileName && <p className={styles['file-name']}>{fileName}</p>}
 
                     {error && <p>Dit account bestaat al. Probeer een ander emailadres.</p>}
                     <Button type="submit" disabled={loading}>Registreren</Button>

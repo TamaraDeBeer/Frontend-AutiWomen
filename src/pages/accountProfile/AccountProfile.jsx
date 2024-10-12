@@ -5,11 +5,10 @@ import axios from "axios";
 import EditProfilePicture from "../../components/profileEdit/editProfilePicture/EditProfilePicture.jsx";
 import EditProfilePassword from "../../components/profileEdit/editProfilePassword/EditProfilePassword.jsx";
 import EditProfileData from "../../components/profileEdit/editProfileData/EditProfileData.jsx";
+import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
+import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
+import calculateAge from "../../helpers/calculateAge.jsx";
 
-// import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
-// import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
-// import calculateAge from "../../helpers/calculateAge.jsx";
-// import ProfileEdit from "../../components/profileEdit/ProfileEdit.jsx";
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
@@ -119,31 +118,31 @@ function AccountProfile() {
             </section>
 
 
-            {/*<section className={styles['outer-container']}>*/}
-            {/*    <div className={styles['innerContainer']}>*/}
-            {/*        <h2>Jouw Forums</h2>*/}
+            <section className={styles['outer-container']}>
+                <div className={styles['innerContainer']}>
+                    <h2>Jouw Forums</h2>
 
-            {/*        {forums.length > 0 ? (*/}
-            {/*            forums.map((forum) => (*/}
-            {/*                <ForumPostShort*/}
-            {/*                    key={forum.id}*/}
-            {/*                    name={forum.name}*/}
-            {/*                    age={calculateAge(forum.age) + ' jaar'}*/}
-            {/*                    title={forum.title}*/}
-            {/*                    text={forum.text.split(' ').slice(0, 40).join(' ')}*/}
-            {/*                    link={`/forum/${forum.id}`}*/}
-            {/*                    likes={forum.likes}*/}
-            {/*                    comments={forum.comments}*/}
-            {/*                    views={forum.views}*/}
-            {/*                    lastReaction={forum.lastReaction}*/}
-            {/*                />*/}
-            {/*            ))*/}
-            {/*        ) : (*/}
-            {/*            <p>Geen forums gevonden.</p>*/}
-            {/*        )}*/}
-            {/*        {error && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw." />}*/}
-            {/*    </div>*/}
-            {/*</section>*/}
+                    {forums.length > 0 ? (
+                        forums.map((forum) => (
+                            <ForumPostShort
+                                key={forum.id}
+                                name={forum.name}
+                                age={calculateAge(forum.age) + ' jaar'}
+                                title={forum.title}
+                                text={forum.text.split(' ').slice(0, 40).join(' ')}
+                                link={`/forum/${forum.id}`}
+                                likes={forum.likes}
+                                comments={forum.comments}
+                                views={forum.views}
+                                lastReaction={forum.lastReaction}
+                            />
+                        ))
+                    ) : (
+                        <p>Geen forums gevonden.</p>
+                    )}
+                    {error && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw." />}
+                </div>
+            </section>
 
             <section className={styles['outer-container']}>
                 <div className={styles['innerContainer']}>
