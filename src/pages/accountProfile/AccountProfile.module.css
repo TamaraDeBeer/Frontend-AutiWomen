@@ -106,16 +106,18 @@
     align-items: center;
     gap: 1rem;
     padding: 2rem;
+    flex: 1;
 }
 
 .forum-like {
     background-color: var(--primary-bg-color);
 }
 
-.forums_view-like {
+.forums_other {
     display: flex;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
 }
 
 .forum-comment {

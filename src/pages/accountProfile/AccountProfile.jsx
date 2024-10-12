@@ -15,9 +15,8 @@ import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
 function AccountProfile() {
     const [profile, setProfile] = useState({});
     const [forums, setForums] = useState([]);
-    // eslint-disable-next-line no-unused-vars
     const [likedForums, setLikedForums] = useState([]);
-    // eslint-disable-next-line no-unused-vars
+    const [commentedForums, setCommentedForums] = useState([]);
     const [viewedForums, setViewedForums] = useState([]);
     const [activeForm, setActiveForm] = useState(null);
     const [error, toggleError] = useState(false);
@@ -30,6 +29,7 @@ function AccountProfile() {
         void fetchForums(jwt, username);
         void fetchLikedForums(jwt, username);
         void fetchViewedForums(jwt, username);
+        void fetchCommentedForums(jwt, username);
     }, [])
 
     async function fetchProfile(jwt, username) {
@@ -96,6 +96,24 @@ function AccountProfile() {
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setViewedForums(sortedForums);
+            console.log(forumsResult.data);
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
+        }
+    }
+
+    async function fetchCommentedForums(jwt, username) {
+        toggleError(false);
+        try {
+            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/commented-forums`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+            const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
+            setCommentedForums(sortedForums);
             console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
@@ -191,7 +209,7 @@ function AccountProfile() {
                     <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
             </section>
 
-            <div className={styles['forums_view-like']}>
+            <div className={styles['forums_other']}>
                 <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
                     <h2>Liked Forums</h2>
                     {likedForums.map((forum) => (
@@ -223,6 +241,16 @@ function AccountProfile() {
 
             <section className={`${styles['account-forum']} ${styles['forum-comment']}`}>
                 <h2>Gereageerde Forums</h2>
+                {commentedForums.map((forum) => (
+                    <PopulairForum
+                        key={forum.id}
+                        id={forum.id}
+                        name={forum.name}
+                        age={calculateAge(forum.age) + ' jaar'}
+                        image={forum.userDto?.profilePictureUrl}
+                        title={forum.title}
+                    />
+                ))}
             </section>
             </div>
 
