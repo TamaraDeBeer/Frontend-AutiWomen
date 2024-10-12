@@ -1,0 +1,17 @@
+.profile-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.profile-edit form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-edit label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
