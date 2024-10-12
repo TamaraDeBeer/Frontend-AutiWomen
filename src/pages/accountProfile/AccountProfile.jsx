@@ -2,15 +2,20 @@ import styles from './AccountProfile.module.css';
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
 import axios from "axios";
+import EditProfilePicture from "../../components/profileEdit/editProfilePicture/EditProfilePicture.jsx";
+import EditProfilePassword from "../../components/profileEdit/editProfilePassword/EditProfilePassword.jsx";
+import EditProfileData from "../../components/profileEdit/editProfileData/EditProfileData.jsx";
+import Button from "../../components/button/Button.jsx";
 
-import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
-import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
-import calculateAge from "../../helpers/calculateAge.jsx";
-import ProfileEdit from "../../components/profileEdit/ProfileEdit.jsx";
+// import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
+// import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
+// import calculateAge from "../../helpers/calculateAge.jsx";
+// import ProfileEdit from "../../components/profileEdit/ProfileEdit.jsx";
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
     const [forums, setForums] = useState([]);
+    const [activeForm, setActiveForm] = useState(null);
     // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
     const {user} = useContext(AuthContext);
@@ -67,6 +72,8 @@ function AccountProfile() {
                 <div className={styles['section-profile_image']}>
                     <img src={profile.profilePictureUrl} className={styles['profile_picture']} alt="Profiel Foto"/>
                 </div>
+
+
                 <div className={styles['section-profile_data']}>
                     <h2>Jouw Gegegens</h2>
                     <ul className={styles['profile_data']}>
@@ -79,8 +86,24 @@ function AccountProfile() {
                             <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
                         )}
                     </ul>
+
+                    <div className={styles['buttons']}>
+                        <Button onClick={() => setActiveForm('profilePicture')} variant="tertiary">Update Profielfoto</Button>
+                        <Button onClick={() => setActiveForm('password')} variant="tertiary">Update Wachtwoord</Button>
+                        <Button onClick={() => setActiveForm('userInfo')} variant="tertiary">Update Gegevens</Button>
+                    </div>
                 </div>
-                <ProfileEdit profile={profile} onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+
+                    <div className={styles['forms-edit']}>
+                        {activeForm === 'profilePicture' && <EditProfilePicture user={user}
+                                                                                onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
+                        {activeForm === 'password' && <EditProfilePassword user={user}
+                                                                           onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
+                        {activeForm === 'userInfo' && <EditProfileData user={user} profile={profile}
+                                                                       onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
+                    </div>
+
+
             </section>
 
 

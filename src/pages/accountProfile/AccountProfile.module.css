@@ -32,3 +32,8 @@
 .profile_data {
     list-style: none;
 }
+
+.forms-edit {
+    display: flex;
+    padding: 2rem;
+}

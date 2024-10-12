@@ -19,3 +19,11 @@
 button:hover {
     cursor: pointer;
 }
+
+.button-secondary {
+    background-color: hsla(210, 87%, 64%, 1);
+}
+
+.button-tertiary {
+    background-color: hsla(0, 0%, 90%, 1);
+}
