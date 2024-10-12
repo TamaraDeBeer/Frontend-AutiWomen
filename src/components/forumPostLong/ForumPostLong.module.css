@@ -36,24 +36,37 @@
 .section-forum__card-information {
     display: flex;
     flex-direction: column;
-
     gap: 1.25rem;
 }
 
 .card-information__logo-section {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1.0625rem;
 }
 
 .card-information__logo {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    /*width: 19px;*/
+    gap: 0.3rem;
 }
 
 .section-forum__main {
     display: flex;
     gap: 1.25rem;
+}
+
+.image {
+    width: 5.25rem;
+    height: 5.25rem;
+}
+
+.logo-like {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.logo-view {
+    width: 1.6rem;
+    height: 1.6rem;
 }

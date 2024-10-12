@@ -1,36 +1,39 @@
-import {useEffect, useState} from 'react';
-import styles from './ForumHome.module.css';
-import Button from "../../components/button/Button.jsx";
-import search from "../../assets/logo/search.png";
-import {useNavigate} from "react-router-dom";
-import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import styles from './TopicPage.module.css';
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
+import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
-import createDateToString from "../../helpers/createDateToString.jsx";
+import Button from "../../components/button/Button.jsx";
+import search from "../../assets/logo/search.png";
 
-function ForumHome() {
+function TopicPage() {
+    const { topic } = useParams();
     const navigate = useNavigate();
     const [forums, setForums] = useState([]);
     const [error, toggleError] = useState(false);
-    const [sliderOption, setSliderOption] = useState('newest');
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(true);
 
     useEffect(() => {
         fetchAllForums();
-    }, [sliderOption]);
+    }, [topic]);
 
     async function fetchAllForums() {
         toggleError(false);
-        const endpoint = sliderOption === 'newest' ? 'http://localhost:1991/forums/sorted-by-date' : 'http://localhost:1991/forums/sorted-by-likes';
         try {
-            const response = await axios.get(endpoint);
-            setForums(response.data);
-            console.log(response.data);
+            toggleLoading(true);
+            const response = await axios.get('http://localhost:1991/forums');
+            const filteredForums = response.data.filter(forum => forum.topic === topic);
+            setForums(filteredForums);
+            console.log(filteredForums);
         } catch (e) {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (
@@ -51,38 +54,23 @@ function ForumHome() {
                 </div>
             </section>
 
-            <section className={styles['section-forum__main']}>
-                <section className={styles['section-forum__posts-short']}>
-                    <div className={styles['slider']}>
-                        <button
-                            onClick={() => setSliderOption('newest')}
-                            className={`${styles['button']} ${styles['newest']} ${sliderOption === 'newest' ? styles['active'] : ''}`}
-                        >
-                            Nieuwste
-                        </button>
-                        <button
-                            onClick={() => setSliderOption('trending')}
-                            className={`${styles['button']} ${styles['trending']} ${sliderOption === 'trending' ? styles['active'] : ''}`}
-                        >
-                            Trending
-                        </button>
-                    </div>
-
+            <section className={styles['section-topic__main']}>
+                <section className={styles['section-topic__posts-short']}>
+                    <h3>Forums voor topic: {topic}</h3>
                     {forums.map((forum) => {
                         return <ForumPostShort
                             key={forum.id}
-                            forumId={forum.id}
                             image={forum.userDto?.profilePictureUrl}
                             name={forum.name}
                             age={calculateAge(forum.age) + ' jaar'}
                             title={forum.title}
-                            date={createDateToString(forum.date)}
+                            date={forum.date}
                             text={forum.text.split(' ').slice(0, 50).join(' ')}
                             link={`/forums/${forum.id}`}
                             likesCount={forum.likesCount}
                             commentsCount={forum.commentsCount}
                             viewsCount={forum.viewsCount}
-                            lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
+                            lastReaction={forum.lastReaction}
                         />
                     })}
                     {error && <ErrorMessage
@@ -97,4 +85,4 @@ function ForumHome() {
     );
 }
 
-export default ForumHome;
+export default TopicPage;

@@ -14,6 +14,10 @@ function AccountRegister() {
             password: "",
             gender: "",
             dob: "",
+            username: "",
+            'autism-question': "",
+            'autism-question-Ja': "",
+            photo: null,
         }
     });
 
@@ -29,28 +33,49 @@ function AccountRegister() {
         }
     }, []);
 
-
-    async function handleFormSubmit(data) {
-        console.log(data)
+    async function registerUser(data) {
+        console.log(data);
         toggleError(false);
         toggleLoading(true);
 
+        const formData = new FormData();
+        formData.append('user', new Blob([JSON.stringify({
+            email: data.email,
+            username: data.username,
+            password: data.password,
+            name: data.name,
+            gender: data.gender,
+            dob: data.dob,
+            autismDiagnoses: data['autism-question'],
+            autismDiagnosesYear: data['autism-question-Ja'],
+        })], { type: 'application/json' }));
+
+        if (data.photo && data.photo[0]) {
+            formData.append('file', data.photo[0]);
+            console.log('File appended:', data.photo[0]);
+        } else {
+            console.log('No file to append');
+        }
+
         try {
-            await axios.post('http://localhost:1991/register', {
-                email: data.email,
-                username: data.username,
-                password: data.password,
-                name: data.name,
-                gender: data.gender,
-                dob: data.dob,
-                autismDiagnoses: data['autism-question'],
-                autismDiagnosesYear: data['autism-question-Ja'],
-            },{
+            await axios.post('http://localhost:1991/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
                 cancelToken: source.token,
             });
             navigate('/login');
-        } catch(e) {
-            console.error(e);
+        } catch (e) {
+            console.error('Error during registration:', e);
+            if (e.response) {
+                console.error('Response data:', e.response.data);
+                console.error('Status code:', e.response.status);
+                console.error('Headers:', e.response.headers);
+            } else if (e.request) {
+                console.error('Request made but no response received:', e.request);
+            } else {
+                console.error('Error setting up request:', e.message);
+            }
             toggleError(true);
         }
 
@@ -59,9 +84,9 @@ function AccountRegister() {
 
     return (<>
 
-        <section className={styles['outer-container']}>
-            <div className={`${styles['inner-container']} ${styles['section-register__inner-container']}`}>
-                <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['register-form']}>
+        <section className="outer-container">
+            <div className="inner-container">
+                <form onSubmit={handleSubmit(registerUser)} className={styles['register-form']}>
 
                     <InputField
                         inputId="name-field"
