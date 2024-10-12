@@ -10,7 +10,6 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
 
-
 function ForumHome() {
     const navigate = useNavigate();
     const [forums, setForums] = useState([]);
@@ -72,6 +71,7 @@ function ForumHome() {
                     {forums.map((forum) => {
                         return <ForumPostShort
                             key={forum.id}
+                            forumId={forum.id}
                             image={forum.userDto?.profilePictureUrl}
                             name={forum.name}
                             age={calculateAge(forum.age) + ' jaar'}

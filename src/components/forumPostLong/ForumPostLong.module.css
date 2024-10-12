@@ -56,6 +56,11 @@
     gap: 1.25rem;
 }
 
+.image {
+    width: 5.25rem;
+    height: 5.25rem;
+}
+
 .logo-like {
     width: 1.25rem;
     height: 1.25rem;

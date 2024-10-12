@@ -11,7 +11,6 @@ import axios from "axios";
 function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount}) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
     const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
@@ -144,7 +143,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
             <div className={styles['section-forum__main']}>
             <span>
-                <img src={image} alt={name}/>
+                <img src={image} className={styles['image']} alt={name}/>
             </span>
 
                 <div className={styles['section-forum__card-information']}>
