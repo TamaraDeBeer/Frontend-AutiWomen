@@ -209,6 +209,7 @@ function AccountProfile() {
                     <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
             </section>
 
+            <div className={styles['section-forum__line']}></div>
             <div className={styles['forums_other']}>
                 <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
                     <h2>Liked Forums</h2>
@@ -239,20 +240,21 @@ function AccountProfile() {
                 </section>
 
 
-            <section className={`${styles['account-forum']} ${styles['forum-comment']}`}>
-                <h2>Gereageerde Forums</h2>
-                {commentedForums.map((forum) => (
-                    <PopulairForum
-                        key={forum.id}
-                        id={forum.id}
-                        name={forum.name}
-                        age={calculateAge(forum.age) + ' jaar'}
-                        image={forum.userDto?.profilePictureUrl}
-                        title={forum.title}
-                    />
-                ))}
-            </section>
+                <section className={`${styles['account-forum']} ${styles['forum-comment']}`}>
+                    <h2>Gereageerde Forums</h2>
+                    {commentedForums.map((forum) => (
+                        <PopulairForum
+                            key={forum.id}
+                            id={forum.id}
+                            name={forum.name}
+                            age={calculateAge(forum.age) + ' jaar'}
+                            image={forum.userDto?.profilePictureUrl}
+                            title={forum.title}
+                        />
+                    ))}
+                </section>
             </div>
+            <div className={styles['section-forum__line']}></div>
 
 
         </>

@@ -124,3 +124,10 @@
     background-color: var(--primary-bg-color);
 }
 
+.section-forum__line {
+    height: 0.2rem;
+    width: 100%;
+    align-self: center;
+    background-color: var(--secondary-color);
+}
+
