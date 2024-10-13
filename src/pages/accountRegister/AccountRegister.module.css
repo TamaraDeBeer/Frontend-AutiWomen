@@ -27,7 +27,7 @@
     color: var(--primary-text-color);
 }
 
-.register-form select, input:focus {
+.register-form select:focus, .register-form input:focus {
     outline: none;
     border: 2px solid var(--primary-color);
 }

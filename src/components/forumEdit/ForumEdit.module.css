@@ -19,3 +19,8 @@
     font-family: 'Poppins', sans-serif;
     color: var(--primary-text-color);
 }
+
+.edit-forum select:focus, .edit-forum input:focus {
+    outline: none;
+    border: 2px solid var(--primary-color);
+}

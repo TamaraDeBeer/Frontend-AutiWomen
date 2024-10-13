@@ -10,7 +10,7 @@
     border: 4px solid transparent;
 }
 
-.edit-profile_form select, input{
+.edit-form select, input{
     width: 100%;
     padding: 10px 8px;
     margin: 0 0 6px 0;
@@ -19,7 +19,7 @@
     color: var(--primary-text-color);
 }
 
-.edit-profile_form select, input:focus {
+.edit-form select:focus, .edit-form input:focus {
     outline: none;
     border: 2px solid var(--primary-color);
 }
