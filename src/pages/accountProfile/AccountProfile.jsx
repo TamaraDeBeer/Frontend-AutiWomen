@@ -14,6 +14,7 @@ import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
+    const [bio, setBio] = useState({});
     const [forums, setForums] = useState([]);
     const [likedForums, setLikedForums] = useState([]);
     const [commentedForums, setCommentedForums] = useState([]);
@@ -26,6 +27,7 @@ function AccountProfile() {
         const jwt = localStorage.getItem('jwt');
         const username = localStorage.getItem('username');
         void fetchProfile(jwt, username);
+        void fetchBio(jwt, username);
         void fetchForums(jwt, username);
         void fetchLikedForums(jwt, username);
         void fetchViewedForums(jwt, username);
@@ -42,6 +44,23 @@ function AccountProfile() {
                 },
             });
             setProfile(profileResult.data);
+            console.log(profileResult.data);
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
+        }
+    }
+
+    async function fetchBio(jwt, username) {
+        toggleError(false);
+        try {
+            const profileResult = await axios.get(`http://localhost:1991/users/profiles/${username}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+            setBio(profileResult.data);
             console.log(profileResult.data);
         } catch (e) {
             console.error(e);
@@ -178,6 +197,10 @@ function AccountProfile() {
                     {activeForm === 'userInfo' && <EditProfileData user={user} profile={profile}
                                                                    onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
                 </div>
+            </section>
+
+            <section className={styles['section-bio']}>
+
 
             </section>
 

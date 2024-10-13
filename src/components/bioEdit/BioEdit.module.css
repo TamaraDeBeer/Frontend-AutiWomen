@@ -1,0 +1,7 @@
+.edit-bio {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    padding: 2rem;
+    flex: 1;
+}

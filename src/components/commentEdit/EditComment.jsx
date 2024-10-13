@@ -37,11 +37,11 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
     return (
         <div>
             {isSubmitted ? (
-                <div className={styles['edit-comment']}>
+                <div className={styles['edit-bio']}>
                     <p>Update succesvol!</p>
                 </div>
             ) : (
-                <div className={styles['edit-comment']}>
+                <div className={styles['edit-bio']}>
                     <h3>Update:</h3>
                     <form onSubmit={handleSubmit(editComment)}>
                         <label htmlFor="text-field"> Tekst:
