@@ -1,11 +1,13 @@
 import {useForm} from "react-hook-form";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import styles from "../forumEdit/ForumEdit.module.css";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 
 function EditComment ({forumId, commentId, commentData, onUpdate}) {
+    console.log('forumId:', forumId);
+
     const { handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             text: commentData.text,
@@ -16,12 +18,7 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
     // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
 
-    useEffect(() => {
-        console.log('isSubmitted state changed:', isSubmitted);
-    }, [isSubmitted]);
-
     async function editComment(data) {
-        console.log('editComment function called');
         try {
             const response = await axios.put(`http://localhost:1991/forums/${forumId}/comments/${commentId}`, data, {
                 headers: {
@@ -29,10 +26,8 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 },
             });
-            console.log('Response received:', response.data);
             onUpdate(response.data);
             setIsSubmitted(true);
-            console.log('isSubmitted set to true');
         } catch (e) {
             console.error(e);
             toggleError('Update niet gelukt, probeer het later opnieuw');

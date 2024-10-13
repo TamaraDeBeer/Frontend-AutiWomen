@@ -1,6 +1,10 @@
 import styles from './CommentForum.module.css';
+import EditComment from "../commentEdit/EditComment.jsx";
+import DeleteComment from "../commentEdit/DeleteComment.jsx";
+import {useState} from "react";
 
-function CommentForum({image, name, age, date, text}) {
+function CommentForum({image, name, age, date, text, commentId, currentUser, forumId, fetchCommentsByForumId}) {
+    const [activeForm, setActiveForm] = useState(null);
 
     return (
 
@@ -20,6 +24,22 @@ function CommentForum({image, name, age, date, text}) {
 
                 </section>
             </div>
+
+            {currentUser === name && (
+                <div className={styles['forum-actions']}>
+                    <button type="button" onClick={() => setActiveForm('edit')} className={`${styles['button']} ${styles['button-left']}`}>Bewerken</button>
+                    <button type="button" onClick={() => setActiveForm('delete')} className={`${styles['button']} ${styles['button-right']}`}>Verwijderen</button>
+                </div>
+            )}
+
+            {activeForm === 'edit' && (
+                <EditComment forumId={forumId}  commentId={commentId} commentData={{ text }} onUpdate={() => { fetchCommentsByForumId(); setTimeout(() => setActiveForm(null), 2000); }} />
+            )}
+
+            {activeForm === 'delete' && (
+                <DeleteComment forumId={forumId} commentId={commentId} onDelete={() => { setActiveForm(null); setTimeout(() => setActiveForm(null), 2000); }} fetchCommentsByForumId={fetchCommentsByForumId} />
+            )}
+
 
             <div className={styles['comment-divider']}></div>
         </article>

@@ -10,7 +10,6 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 // import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
-// import EditForum from "../../components/forumEdit/EditForum.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -45,7 +44,6 @@ function ForumPost() {
             setLastReaction(createDateToString(forumById.lastReaction));
         }
     }, [forumById]);
-
 
     async function fetchForumById() {
         toggleError(false);
@@ -146,6 +144,10 @@ function ForumPost() {
                                     age={calculateAge(comment.age)}
                                     date={createDateToString(comment.date)}
                                     text={comment.text}
+                                    commentId={comment.id}
+                                    forumId={forumId}
+                                    currentUser={name}
+                                    fetchCommentsByForumId={fetchCommentsByForumId}
                                 />
                             ))}
                     </section>

@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
 import axios from "axios";
 import Button from "../button/Button.jsx";
 import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import InputField from "../inputField/InputField.jsx";
 import { useForm } from "react-hook-form";
+import {useState} from "react";
 
 function EditForum({ forumId, forumData, onUpdate }) {
     const { handleSubmit, formState: { errors }, register} = useForm({
@@ -18,10 +18,6 @@ function EditForum({ forumId, forumData, onUpdate }) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     const [topic, setTopic] = useState(forumData.topic);
-
-    useEffect(() => {
-        console.log('isSubmitted state changed:', isSubmitted);
-    }, [isSubmitted]);
 
     async function editForum(data) {
         try {
