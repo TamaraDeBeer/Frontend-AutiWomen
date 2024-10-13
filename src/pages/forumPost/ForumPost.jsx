@@ -28,7 +28,6 @@ function ForumPost() {
     // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
-    // const [activeForm, setActiveForm] = useState(null);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -99,6 +98,10 @@ function ForumPost() {
         toggleLoading(false);
     }
 
+    function handleUpdate(updatedForum) {
+        setForumById(updatedForum);
+    }
+
     return (
         <>
             <section className={styles['outer-container']}>
@@ -131,6 +134,7 @@ function ForumPost() {
                             commentsCount={forumById.commentsCount}
                             viewsCount={forumById.viewsCount}
                             currentUser={name}
+                            onUpdate={handleUpdate}
                         />
                     }
 

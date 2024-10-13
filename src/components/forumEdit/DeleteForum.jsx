@@ -15,7 +15,7 @@ function DeleteForum({forumId, onDelete}) {
             await axios.delete(`http://localhost:1991/forums/${forumId}`);
             setIsSubmitted(true);
             onDelete();
-            setTimeout(() => navigate('/forums'), 2000);
+            setTimeout(() => navigate('/profile'), 2000);
         } catch (e) {
             console.error(e);
             toggleError('Verwijderen niet gelukt, probeer het later opnieuw');
@@ -30,7 +30,7 @@ function DeleteForum({forumId, onDelete}) {
                 </div>
             ) : (
                 <div>
-                    <Button type="button" onClick={handleDelete}>Delete</Button>
+                    <Button type="button" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
                     {error && <ErrorMessage message={error}/>}
                 </div>
             )}

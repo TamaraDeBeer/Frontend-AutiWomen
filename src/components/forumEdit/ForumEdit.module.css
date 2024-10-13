@@ -1,0 +1,21 @@
+.edit-forum {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    padding: 2rem;
+    flex: 1;
+}
+
+.edit-forum input {
+    background-color: var(--primary-bg-color);
+}
+
+.topic-select {
+    background-color: var(--primary-bg-color);
+    width: 100%;
+    padding: 10px 8px;
+    margin: 0 0 6px 0;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-text-color);
+}
