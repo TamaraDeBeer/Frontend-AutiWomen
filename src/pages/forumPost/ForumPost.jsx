@@ -10,7 +10,6 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 // import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
-// import DeleteForum from "../../components/forumEdit/DeleteForum.jsx";
 // import EditForum from "../../components/forumEdit/EditForum.jsx";
 
 function ForumPost() {
@@ -25,7 +24,6 @@ function ForumPost() {
     const [commentText, setCommentText] = useState('');
     // eslint-disable-next-line no-unused-vars
     const [postComment, setPostComment] = useState([]);
-    // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
 
@@ -98,10 +96,6 @@ function ForumPost() {
         toggleLoading(false);
     }
 
-    function handleUpdate(updatedForum) {
-        setForumById(updatedForum);
-    }
-
     return (
         <>
             <section className={styles['outer-container']}>
@@ -121,7 +115,7 @@ function ForumPost() {
                     {error && <p className="error-message">Deze forum post bestaat niet (meer).</p>}
                     {loading && <p>Loading...</p>}
 
-                    {Object.keys(forumById).length > 0 &&
+                    {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
                             title={forumById.title}
                             image={forumById.userDto?.profilePictureUrl}
@@ -134,9 +128,9 @@ function ForumPost() {
                             commentsCount={forumById.commentsCount}
                             viewsCount={forumById.viewsCount}
                             currentUser={name}
-                            onUpdate={handleUpdate}
+                            fetchForumById={fetchForumById}
                         />
-                    }
+                        )}
 
                     <div className={styles['section-forum__line']}></div>
 

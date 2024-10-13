@@ -15,7 +15,7 @@ function DeleteForum({forumId, onDelete}) {
             await axios.delete(`http://localhost:1991/forums/${forumId}`);
             setIsSubmitted(true);
             onDelete();
-            setTimeout(() => navigate('/profile'), 2000);
+            setTimeout(() => navigate('/profile'), 500);
         } catch (e) {
             console.error(e);
             toggleError('Verwijderen niet gelukt, probeer het later opnieuw');

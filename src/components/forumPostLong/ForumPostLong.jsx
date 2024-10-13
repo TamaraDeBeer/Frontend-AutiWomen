@@ -10,7 +10,7 @@ import axios from "axios";
 import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
 
-function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser}) {
+function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById}) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
     const [hasViewed, setHasViewed] = useState(false);
@@ -185,7 +185,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
             )}
 
             {activeForm === 'edit' && (
-                <EditForum forumId={forumId} forumData={{ title, text }} onUpdate={() => setActiveForm(null)} />
+                <EditForum forumId={forumId} forumData={{ title, text }} onUpdate={() => { fetchForumById(); setTimeout(() => setActiveForm(null), 2000); }} />
             )}
 
             {activeForm === 'delete' && (

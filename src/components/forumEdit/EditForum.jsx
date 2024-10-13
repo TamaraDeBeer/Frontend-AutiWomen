@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from "../button/Button.jsx";
@@ -21,7 +21,12 @@ function EditForum({ forumId, forumData, onUpdate }) {
     const [error, toggleError] = useState(false);
     const [topic, setTopic] = useState(forumData.topic);
 
+    useEffect(() => {
+        console.log('isSubmitted state changed:', isSubmitted);
+    }, [isSubmitted]);
+
     async function editForum(data) {
+        console.log('editForum function called');
         try {
             const response = await axios.put(`http://localhost:1991/forums/${forumId}`, data, {
                 headers: {
@@ -29,9 +34,13 @@ function EditForum({ forumId, forumData, onUpdate }) {
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 },
             });
+            console.log('Response received:', response.data);
             onUpdate(response.data);
             setIsSubmitted(true);
-            navigate(`/forums/${forumId}`);
+            console.log('isSubmitted set to true');
+            // setTimeout(() => {
+            //     navigate(`/forums/${forumId}`);
+            // }, 1000);
         } catch (e) {
             console.error(e);
             toggleError('Update niet gelukt, probeer het later opnieuw');
