@@ -21,6 +21,7 @@ function AccountProfile() {
     const [likedForums, setLikedForums] = useState([]);
     const [commentedForums, setCommentedForums] = useState([]);
     const [viewedForums, setViewedForums] = useState([]);
+    const [review, setReview] = useState([]);
     const [activeForm, setActiveForm] = useState(null);
     const [error, toggleError] = useState(false);
     const {user} = useContext(AuthContext);
@@ -34,6 +35,7 @@ function AccountProfile() {
         void fetchLikedForums(jwt, username);
         void fetchViewedForums(jwt, username);
         void fetchCommentedForums(jwt, username);
+        void fetchReview(jwt, username);
     }, [])
 
     async function fetchProfile(jwt, username) {
@@ -142,6 +144,23 @@ function AccountProfile() {
         }
     }
 
+    async function fetchReview(jwt, username) {
+        toggleError(false);
+        try {
+            const profileResult = await axios.get(`http://localhost:1991/reviews/${username}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+            });
+            setReview(profileResult.data);
+            console.log(profileResult.data);
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
+        }
+    }
+
     return (<>
 
             <section className="outer-container">
@@ -206,7 +225,7 @@ function AccountProfile() {
                         <div className={styles['section-bio']}>
                             <h2>Jouw Verhaal</h2>
                             <p>{bio.bio}</p>
-                            <button onClick={() => setActiveForm('bioEdit')} className={styles['button']}>Update jouw verhaal
+                            <button onClick={() => setActiveForm('bioEdit')} className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal
                             </button>
                         </div>
                     ) : (
@@ -221,7 +240,6 @@ function AccountProfile() {
                     )}
 
             </section>
-
 
             <section className={styles['account-forum']}>
                 <h2>Jouw Forums</h2>
@@ -296,6 +314,12 @@ function AccountProfile() {
                 </section>
             </div>
             <div className={styles['section-forum__line']}></div>
+
+            <section className={styles['section-review_container']}>
+                <section className={styles['section-review']}>
+
+                </section>
+            </section>
 
 
         </>
