@@ -2,7 +2,7 @@ import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import Button from "../button/Button.jsx";
-import styles from './ProfileEdit.module.css';
+import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 
 function DeleteForum({forumId, onDelete}) {

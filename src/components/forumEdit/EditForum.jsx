@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../button/Button.jsx";
-import styles from './ProfileEdit.module.css';
+import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import InputField from "../inputField/InputField.jsx";
 import {useForm} from "react-hook-form";
@@ -16,7 +16,7 @@ function EditForum({ forumId, forumData, onUpdate }) {
         }
     });
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     const [text, setText] = useState(forumData.text);
@@ -33,7 +33,7 @@ function EditForum({ forumId, forumData, onUpdate }) {
             });
             onUpdate();
             setIsSubmitted(true);
-            // navigate(`/forums/${forumId}`);
+            navigate(`/forums/${forumId}`);
         } catch (e) {
             console.error(e);
             toggleError('Update niet gelukt, probeer het later opnieuw');

@@ -7,8 +7,10 @@ import view2 from "../../assets/logo/view2.png";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import EditForum from "../forumEdit/EditForum.jsx";
+import DeleteForum from "../forumEdit/DeleteForum.jsx";
 
-function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount}) {
+function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser}) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
     const [hasViewed, setHasViewed] = useState(false);
@@ -19,6 +21,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
     // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [username, setUsername] = useState('');
+    const [activeForm, setActiveForm] = useState(null);
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
@@ -173,6 +176,21 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
                                                                      className={styles['logo-view']}/>{currentViewsCount}
                 </p>
             </div>
+
+            {currentUser === name && (
+                <div className={styles['forum-actions']}>
+                    <button type="button" onClick={() => setActiveForm('edit')} className={`${styles['button']} ${styles['button-left']}`}>Bewerken</button>
+                    <button type="button" onClick={() => setActiveForm('delete')} className={`${styles['button']} ${styles['button-right']}`}>Verwijderen</button>
+                </div>
+            )}
+
+            {activeForm === 'edit' && (
+                <EditForum forumId={forumId} forumData={{ title, text }} onUpdate={() => setActiveForm(null)} />
+            )}
+
+            {activeForm === 'delete' && (
+                <DeleteForum forumId={forumId} onDelete={() => setActiveForm(null)} />
+            )}
 
         </article>
     </>);
