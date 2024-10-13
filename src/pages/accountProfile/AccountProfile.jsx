@@ -45,8 +45,7 @@ function AccountProfile() {
         try {
             const profileResult = await axios.get(`http://localhost:1991/users/${username}`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             setProfile(profileResult.data);
@@ -61,8 +60,7 @@ function AccountProfile() {
         try {
             const profileResult = await axios.get(`http://localhost:1991/users/profiles/${username}`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             setBio(profileResult.data);
@@ -77,8 +75,7 @@ function AccountProfile() {
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/forums`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
@@ -94,8 +91,7 @@ function AccountProfile() {
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/liked-forums`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
@@ -111,8 +107,7 @@ function AccountProfile() {
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/viewed-forums`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
@@ -128,8 +123,7 @@ function AccountProfile() {
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/commented-forums`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
@@ -145,12 +139,10 @@ function AccountProfile() {
         try {
             const response = await axios.get(`http://localhost:1991/reviews/${username}`, {
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwt}`,
+                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
                 },
             });
             setReview(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -185,8 +177,7 @@ function AccountProfile() {
                                 <li>Leeftijd: {profile.dob}</li>
                                 <li>Autisme: {profile.autismDiagnoses}</li>
                                 {profile.autismDiagnoses === 'Ja' && (
-                                    <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
-                                )}
+                                    <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>)}
                             </ul>
                         </div>
                     </div>
@@ -216,32 +207,24 @@ function AccountProfile() {
             </section>
 
             <section className={styles['section-bio_container']}>
-                {bio.bio ? (
-                    <div className={styles['section-bio']}>
+                {bio.bio ? (<div className={styles['section-bio']}>
                         <h2>Jouw Verhaal</h2>
                         <p>{bio.bio}</p>
                         <button onClick={() => setActiveForm('bioEdit')}
                                 className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal
                         </button>
-                    </div>
-                ) : (
-                    <BioPost bio={bio.bio} user={user}
-                             onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
-                )}
-                {activeForm === 'bioEdit' && (
-                    <BioEdit bio={bio} user={user} onUpdate={() => {
+                    </div>) : (<BioPost bio={bio.bio} user={user}
+                                        onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>)}
+                {activeForm === 'bioEdit' && (<BioEdit bio={bio} user={user} onUpdate={() => {
                         fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
                         setActiveForm(null);
-                    }}/>
-                )}
+                    }}/>)}
 
             </section>
 
             <section className={styles['account-forum']}>
                 <h2>Jouw Forums</h2>
-                {forums.length > 0 ? (
-                    forums.map((forum) => (
-                        <ForumPostShort
+                {forums.length > 0 ? (forums.map((forum) => (<ForumPostShort
                             key={forum.id}
                             forumId={forum.id}
                             image={forum.userDto?.profilePictureUrl}
@@ -255,11 +238,7 @@ function AccountProfile() {
                             commentsCount={forum.commentsCount}
                             viewsCount={forum.viewsCount}
                             lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
-                        />
-                    ))
-                ) : (
-                    <p>Geen forums gevonden.</p>
-                )}
+                        />))) : (<p>Geen forums gevonden.</p>)}
                 {error &&
                     <ErrorMessage message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
             </section>
@@ -268,74 +247,67 @@ function AccountProfile() {
             <div className={styles['forums_other']}>
                 <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
                     <h2>Liked Forums</h2>
-                    {likedForums.map((forum) => (
-                        <PopulairForum
-                            key={forum.id}
-                            id={forum.id}
-                            name={forum.name}
-                            age={calculateAge(forum.age) + ' jaar'}
-                            image={forum.userDto?.profilePictureUrl}
-                            title={forum.title}
-                        />
-                    ))}
+                    {likedForums.length > 0 ? (likedForums.map((forum) => (<PopulairForum
+                                key={forum.id}
+                                id={forum.id}
+                                name={forum.name}
+                                age={calculateAge(forum.age) + ' jaar'}
+                                image={forum.userDto?.profilePictureUrl}
+                                title={forum.title}
+                            />))) : (<p>Geen forums gevonden.</p>)}
+                    {error && <ErrorMessage
+                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
                 </section>
 
                 <section className={`${styles['account-forum']} ${styles['forum-view']}`}>
                     <h2>Viewed Forums</h2>
-                    {viewedForums.map((forum) => (
-                        <PopulairForum
-                            key={forum.id}
-                            id={forum.id}
-                            name={forum.name}
-                            age={calculateAge(forum.age) + ' jaar'}
-                            image={forum.userDto?.profilePictureUrl}
-                            title={forum.title}
-                        />
-                    ))}
+                    {viewedForums.length > 0 ? (viewedForums.map((forum) => (<PopulairForum
+                                key={forum.id}
+                                id={forum.id}
+                                name={forum.name}
+                                age={calculateAge(forum.age) + ' jaar'}
+                                image={forum.userDto?.profilePictureUrl}
+                                title={forum.title}
+                            />))) : (<p>Geen forums gevonden.</p>)}
+                    {error && <ErrorMessage
+                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
                 </section>
 
 
                 <section className={`${styles['account-forum']} ${styles['forum-comment']}`}>
                     <h2>Gereageerde Forums</h2>
-                    {commentedForums.map((forum) => (
-                        <PopulairForum
-                            key={forum.id}
-                            id={forum.id}
-                            name={forum.name}
-                            age={calculateAge(forum.age) + ' jaar'}
-                            image={forum.userDto?.profilePictureUrl}
-                            title={forum.title}
-                        />
-                    ))}
+                    {commentedForums.length > 0 ? (commentedForums.map((forum) => (<PopulairForum
+                                key={forum.id}
+                                id={forum.id}
+                                name={forum.name}
+                                age={calculateAge(forum.age) + ' jaar'}
+                                image={forum.userDto?.profilePictureUrl}
+                                title={forum.title}
+                            />))) : (<p>Geen forums gevonden.</p>)}
+                    {error && <ErrorMessage
+                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
                 </section>
             </div>
             <div className={styles['section-forum__line']}></div>
 
             <section className={styles['section-bio_container']}>
-                {review.review ? (
-                    <div className={styles['section-bio']}>
+                {review.review ? (<div className={styles['section-bio']}>
                         <h2>Jouw Review</h2>
                         <p>{review.review}</p>
                         <button onClick={() => setActiveForm('reviewEdit')}
                                 className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review
                         </button>
-                    </div>
-                ) : (
-                    <ReviewPost review={review.review} user={user}
-                             onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
-                )}
-                {activeForm === 'reviewEdit' && (
-                    <ReviewEdit review={review} user={user} onUpdate={() => {
+                    </div>) : (<ReviewPost review={review.review} user={user}
+                                           onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>)}
+                {activeForm === 'reviewEdit' && (<ReviewEdit review={review} user={user} onUpdate={() => {
                         fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'));
                         setActiveForm(null);
-                    }}/>
-                )}
+                    }}/>)}
 
             </section>
 
 
-        </>
-    );
+        </>);
 }
 
 export default AccountProfile;

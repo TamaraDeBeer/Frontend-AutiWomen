@@ -82,9 +82,19 @@ function Home() {
             <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
             <div className={styles['section-reviews__inner-container']}>
                 <Reviews
+                    className={styles['review']}
                     text="Ik kwam op aanraden van een vriendin op deze website. Ik ben al meerdere forums gestart en krijg veel goede tips van mede auties."
                     image={belle} name="Belle" age="36 jaar" diagnoseYear="2000"/>
                 <Reviews
+                    className={styles['review']}
+                    text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
+                    image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
+                <Reviews
+                    className={styles['review']}
+                    text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
+                    image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
+                <Reviews
+                    className={styles['review']}
                     text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
                     image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
             </div>
