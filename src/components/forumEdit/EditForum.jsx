@@ -24,7 +24,6 @@ function EditForum({ forumId, forumData, onUpdate }) {
     }, [isSubmitted]);
 
     async function editForum(data) {
-        console.log('editForum function called');
         try {
             const response = await axios.put(`http://localhost:1991/forums/${forumId}`, data, {
                 headers: {
@@ -32,10 +31,8 @@ function EditForum({ forumId, forumData, onUpdate }) {
                     Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                 },
             });
-            console.log('Response received:', response.data);
             onUpdate(response.data);
             setIsSubmitted(true);
-            console.log('isSubmitted set to true');
         } catch (e) {
             console.error(e);
             toggleError('Update niet gelukt, probeer het later opnieuw');
@@ -95,7 +92,7 @@ function EditForum({ forumId, forumData, onUpdate }) {
                             </select>
                         </label>
 
-                        <Button type="submit" variant="secondary">Update Gegevens</Button>
+                        <Button type="submit" variant="secondary">Update Forum</Button>
                         {error && <ErrorMessage message={error}/>}
                     </form>
                 </div>

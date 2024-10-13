@@ -1,18 +1,17 @@
 import {useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 import Button from "../button/Button.jsx";
-import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 
-function DeleteForum({forumId, onDelete}) {
+function DeleteComment({forumId, commentId, onDelete}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     const navigate = useNavigate();
 
     async function handleDelete() {
         try {
-            await axios.delete(`http://localhost:1991/forums/${forumId}`);
+            await axios.delete(`http://localhost:1991/forums/${forumId}/comments/${commentId}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => navigate('/profile'), 500);
@@ -25,8 +24,8 @@ function DeleteForum({forumId, onDelete}) {
     return (
         <div>
             {isSubmitted ? (
-                <div className={styles['edit-form']}>
-                    <p>Forum Verwijdert!</p>
+                <div>
+                    <p>Comment Verwijdert!</p>
                 </div>
             ) : (
                 <div>
@@ -35,7 +34,8 @@ function DeleteForum({forumId, onDelete}) {
                 </div>
             )}
         </div>
-    );
+    )
+
 }
 
-export default DeleteForum;
+export default DeleteComment;
