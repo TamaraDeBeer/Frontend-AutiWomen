@@ -12,6 +12,8 @@ import createDateToString from "../../helpers/createDateToString.jsx";
 import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
 import BioEdit from "../../components/bioEdit/BioEdit.jsx";
 import BioPost from "../../components/bioPost/BioPost.jsx";
+import ReviewPost from "../../components/reviewPost/ReviewPost.jsx";
+import ReviewEdit from "../../components/reviewEdit/ReviewEdit.jsx";
 
 
 function AccountProfile() {
@@ -48,7 +50,6 @@ function AccountProfile() {
                 },
             });
             setProfile(profileResult.data);
-            console.log(profileResult.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -65,7 +66,6 @@ function AccountProfile() {
                 },
             });
             setBio(profileResult.data);
-            console.log(profileResult.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -83,7 +83,6 @@ function AccountProfile() {
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setForums(sortedForums);
-            console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -101,7 +100,6 @@ function AccountProfile() {
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setLikedForums(sortedForums);
-            console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -119,7 +117,6 @@ function AccountProfile() {
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setViewedForums(sortedForums);
-            console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -137,7 +134,6 @@ function AccountProfile() {
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setCommentedForums(sortedForums);
-            console.log(forumsResult.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -147,14 +143,14 @@ function AccountProfile() {
     async function fetchReview(jwt, username) {
         toggleError(false);
         try {
-            const profileResult = await axios.get(`http://localhost:1991/reviews/${username}`, {
+            const response = await axios.get(`http://localhost:1991/reviews/${username}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            setReview(profileResult.data);
-            console.log(profileResult.data);
+            setReview(response.data);
+            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -209,7 +205,6 @@ function AccountProfile() {
                     </div>
                 </div>
 
-
                 <div className={styles['forms-edit']}>
                     {activeForm === 'profilePicture' && <EditProfilePicture user={user}
                                                                             onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
@@ -221,23 +216,24 @@ function AccountProfile() {
             </section>
 
             <section className={styles['section-bio_container']}>
-                    {bio.bio ? (
-                        <div className={styles['section-bio']}>
-                            <h2>Jouw Verhaal</h2>
-                            <p>{bio.bio}</p>
-                            <button onClick={() => setActiveForm('bioEdit')} className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal
-                            </button>
-                        </div>
-                    ) : (
-                        <BioPost bio={bio.bio} user={user}
-                                 onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
-                    )}
-                    {activeForm === 'bioEdit' && (
-                        <BioEdit bio={bio} user={user} onUpdate={() => {
-                            fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
-                            setActiveForm(null);
-                        }}/>
-                    )}
+                {bio.bio ? (
+                    <div className={styles['section-bio']}>
+                        <h2>Jouw Verhaal</h2>
+                        <p>{bio.bio}</p>
+                        <button onClick={() => setActiveForm('bioEdit')}
+                                className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal
+                        </button>
+                    </div>
+                ) : (
+                    <BioPost bio={bio.bio} user={user}
+                             onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                )}
+                {activeForm === 'bioEdit' && (
+                    <BioEdit bio={bio} user={user} onUpdate={() => {
+                        fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
+                        setActiveForm(null);
+                    }}/>
+                )}
 
             </section>
 
@@ -315,10 +311,26 @@ function AccountProfile() {
             </div>
             <div className={styles['section-forum__line']}></div>
 
-            <section className={styles['section-review_container']}>
-                <section className={styles['section-review']}>
+            <section className={styles['section-bio_container']}>
+                {review.review ? (
+                    <div className={styles['section-bio']}>
+                        <h2>Jouw Review</h2>
+                        <p>{review.review}</p>
+                        <button onClick={() => setActiveForm('reviewEdit')}
+                                className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review
+                        </button>
+                    </div>
+                ) : (
+                    <ReviewPost review={review.review} user={user}
+                             onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                )}
+                {activeForm === 'reviewEdit' && (
+                    <ReviewEdit review={review} user={user} onUpdate={() => {
+                        fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'));
+                        setActiveForm(null);
+                    }}/>
+                )}
 
-                </section>
             </section>
 
 

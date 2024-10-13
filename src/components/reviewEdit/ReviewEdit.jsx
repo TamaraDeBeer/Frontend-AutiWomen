@@ -39,7 +39,7 @@ function ReviewEdit({user, review, onUpdate}) {
                     <p>Update succesvol!</p>
                 </div>
             ) : (
-                <form onSubmit={handleSubmit(editReview)} className={styles['edit-Review']}>
+                <form onSubmit={handleSubmit(editReview)} className={styles['edit-review']}>
                     <label htmlFor="review-field"> Update jouw review:
                         <textarea
                             name="review"
