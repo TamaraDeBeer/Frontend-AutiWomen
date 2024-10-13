@@ -38,11 +38,11 @@ function EditProfilePicture({ user, onUpdate }) {
     return (
         <div>
             {isSubmitted ? (
-                <div className={styles['edit-profile_form']}>
+                <div className={styles['edit-form']}>
                 <p>Update succesvol!</p>
                 </div>
             ) : (
-                <form onSubmit={handleProfilePictureSubmit} className={styles['edit-profile_form']}>
+                <form onSubmit={handleProfilePictureSubmit} className={styles['edit-form']}>
                     <label htmlFor="photo-field" className={styles['change-image']}>
                         Profielfoto: foto kiezen
                         <input

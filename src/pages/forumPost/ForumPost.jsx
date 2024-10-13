@@ -10,6 +10,8 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 // import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
+import DeleteForum from "../../components/profileEdit/DeleteForum.jsx";
+import EditForum from "../../components/profileEdit/EditForum.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -26,6 +28,7 @@ function ForumPost() {
     // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
+    const [activeForm, setActiveForm] = useState(null);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -129,6 +132,22 @@ function ForumPost() {
                             viewsCount={forumById.viewsCount}
                         />
                     }
+
+
+                    {name === forumById.name && (
+                        <div className={styles['forum-actions']}>
+                            <Button type="button" onClick={() => setActiveForm('edit')}>Bewerken</Button>
+                            <Button type="button" onClick={() => setActiveForm('delete')}>Verwijderen</Button>
+                        </div>
+                    )}
+
+                    {activeForm === 'edit' && (
+                        <EditForum forumId={forumId} forumData={forumById} onUpdate={fetchForumById} />
+                    )}
+
+                    {activeForm === 'delete' && (
+                        <DeleteForum forumId={forumId} onDelete={() => setActiveForm(null)} />
+                    )}
 
                     <div className={styles['section-forum__line']}></div>
 

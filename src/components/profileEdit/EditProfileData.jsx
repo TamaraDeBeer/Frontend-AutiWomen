@@ -40,11 +40,11 @@ function EditProfileData({ user, profile, onUpdate }) {
     return (
         <div>
         {isSubmitted ? (
-                <div className={styles['edit-profile_form']}>
+                <div className={styles['edit-form']}>
                     <p>Update succesvol!</p>
                 </div>
             ) : (
-        <form onSubmit={handleSubmit(handleProfileDataSubmit)} className={styles['edit-profile_form']}>
+        <form onSubmit={handleSubmit(handleProfileDataSubmit)} className={styles['edit-form']}>
             <InputField
                 inputId="name-field"
                 inputLabel="Naam:"

@@ -42,11 +42,11 @@ function EditProfilePassword({ user, onUpdate }) {
     return (
         <div>
             {isSubmitted ? (
-                <div className={styles['edit-profile_form']}>
+                <div className={styles['edit-form']}>
                     <p>Update succesvol!</p>
                 </div>
             ) : (
-        <form onSubmit={handlePasswordSubmit} className={styles['edit-profile_form']}>
+        <form onSubmit={handlePasswordSubmit} className={styles['edit-form']}>
             <label>
                 Oud Wachtwoord:
                 <input type="password" value={oldPassword} onChange={handleOldPasswordChange} />
