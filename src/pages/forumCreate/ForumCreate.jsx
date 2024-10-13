@@ -10,7 +10,7 @@ function ForumCreate() {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [topic, setTopic] = useState('');
-    const [date] = useState('');
+    // const [date] = useState('');
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [postForum, setPostForum] = useState([]);
@@ -25,8 +25,6 @@ function ForumCreate() {
     async function addForum(e) {
         e.preventDefault();
         const username = localStorage.getItem('username');
-        console.log(name, title, text, topic, date);
-
         try {
             const response = await axios.post(`http://localhost:1991/forums/${username}`, {
                 name: username,
@@ -36,7 +34,6 @@ function ForumCreate() {
                 date: new Date().toISOString(),
             });
             setPostForum(response.data);
-            console.log(response.data);
             navigate(`/forum/${response.data.id}`);
         } catch (e) {
             console.error(e);

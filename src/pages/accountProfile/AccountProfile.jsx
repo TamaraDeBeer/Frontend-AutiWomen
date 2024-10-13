@@ -10,6 +10,8 @@ import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
 import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
+import BioEdit from "../../components/bioEdit/BioEdit.jsx";
+import BioPost from "../../components/bioPost/BioPost.jsx";
 
 
 function AccountProfile() {
@@ -199,8 +201,24 @@ function AccountProfile() {
                 </div>
             </section>
 
-            <section className={styles['section-bio']}>
-
+            <section className={styles['section-bio_container']}>
+                    {bio.bio ? (
+                        <div className={styles['section-bio']}>
+                            <h2>Jouw Verhaal</h2>
+                            <p>{bio.bio}</p>
+                            <button onClick={() => setActiveForm('bioEdit')} className={styles['button']}>Update jouw verhaal
+                            </button>
+                        </div>
+                    ) : (
+                        <BioPost bio={bio.bio} user={user}
+                                 onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                    )}
+                    {activeForm === 'bioEdit' && (
+                        <BioEdit bio={bio} user={user} onUpdate={() => {
+                            fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
+                            setActiveForm(null);
+                        }}/>
+                    )}
 
             </section>
 

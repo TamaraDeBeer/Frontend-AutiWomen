@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from './BioEdit.module.css';
 
 function BioEdit({user, bio, onUpdate}) {
-    const {handleSubmit, formstate: {errors}, register} = useForm({
+    const {handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             bio: bio.bio,
         }
@@ -35,12 +35,12 @@ function BioEdit({user, bio, onUpdate}) {
     return (
         <div>
             {isSubmitted ? (
-                <div className={styles['edit-form']}>
+                <div className={styles['edit-bio']}>
                     <p>Update succesvol!</p>
                 </div>
             ) : (
-                <form onSubmit={handleSubmit(editBio)} className={styles['edit-form']}>
-                    <label htmlFor="bio-field"> Schrijf iets over jezelf:
+                <form onSubmit={handleSubmit(editBio)} className={styles['edit-bio']}>
+                    <label htmlFor="bio-field"> Update jouw verhaal:
                         <textarea
                             name="bio"
                             id="bio-field"
@@ -49,10 +49,10 @@ function BioEdit({user, bio, onUpdate}) {
                             {...register('bio')}
                         ></textarea>
                     </label>
-            <Button type="submit" variant="secondary">Update Gegevens</Button>
-                    {errors.text && <ErrorMessage message="Update niet gelukt, probeer het later opnieuw" />}
+                    <Button type="submit" variant="secondary">Update jouw verhaal</Button>
+                    {errors.text && <ErrorMessage message="Update niet gelukt, probeer het later opnieuw"/>}
                 </form>
-                )}
+            )}
         </div>
     );
 }
