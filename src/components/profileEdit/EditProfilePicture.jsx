@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import styles from '../ProfileEdit.module.css';
-import Button from "../../button/Button.jsx";
-import ErrorMessage from "../../errorMessage/ErrorMessage.jsx";
+import styles from './ProfileEdit.module.css';
+import Button from "../button/Button.jsx";
+import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 
 function EditProfilePicture({ user, onUpdate }) {
     const [profilePicture, setProfilePicture] = useState(null);

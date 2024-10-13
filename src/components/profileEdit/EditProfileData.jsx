@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import styles from '../ProfileEdit.module.css';
-import InputField from '../../inputField/InputField.jsx';
-import Button from "../../button/Button.jsx";
+import styles from './ProfileEdit.module.css';
+import InputField from '../inputField/InputField.jsx';
+import Button from "../button/Button.jsx";
 import {useState} from "react";
-import ErrorMessage from "../../errorMessage/ErrorMessage.jsx";
+import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 
 function EditProfileData({ user, profile, onUpdate }) {
     const { handleSubmit, formState: { errors }, register, watch } = useForm({
