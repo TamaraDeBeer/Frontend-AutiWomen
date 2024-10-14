@@ -8,18 +8,25 @@ function AdminPage() {
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
     const [review, setReview] = useState([]);
+    const [authorities, setAuthorities] = useState([]);
+    const [isFormVisible, setFormVisible] = useState(false);
+    const [newAuthority, setNewAuthority] = useState({ username: '', authority: '' });
+    const [isUpdateFormVisible, setUpdateFormVisible] = useState(false);
+    const [updateAuthority, setUpdateAuthority] = useState({ username: '', oldAuthority: '', newAuthority: '' });
 
     useEffect(() => {
         getAllForums()
         getAllComments()
         getAllUsers()
         getAllReviews()
+        getAllAuthorities();
     }, []);
 
     async function getAllForums() {
         try {
             const response = await axios.get('http://localhost:1991/forums');
             setForums(response.data);
+            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -39,7 +46,6 @@ function AdminPage() {
         try {
             const response = await axios.get('http://localhost:1991/forums/comments');
             setComments(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -58,7 +64,6 @@ function AdminPage() {
         try {
             const response = await axios.get('http://localhost:1991/users');
             setUsers(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -77,7 +82,6 @@ function AdminPage() {
         try {
             const response = await axios.get('http://localhost:1991/reviews');
             setReview(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -87,6 +91,52 @@ function AdminPage() {
         try {
             await axios.delete(`http://localhost:1991/reviews/${id}`);
             setReview(review.filter(review => review.id !== id));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function getAllAuthorities() {
+        try {
+            const response = await axios.get('http://localhost:1991/authorities');
+            setAuthorities(response.data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function deleteUserAuthority(username, authority) {
+        try {
+            await axios.delete(`http://localhost:1991/${username}/authorities/${authority}`);
+            setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
+            getAllUsers();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function addUserAuthority(event) {
+        event.preventDefault();
+        try {
+            await axios.post(`http://localhost:1991/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
+            setFormVisible(false);
+            getAllAuthorities();
+            getAllUsers();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function updateUserAuthority(event) {
+        event.preventDefault();
+        try {
+            await axios.put(`http://localhost:1991/${updateAuthority.username}/authorities`, {
+                oldAuthority: updateAuthority.oldAuthority,
+                newAuthority: updateAuthority.newAuthority
+            });
+            setUpdateFormVisible(false);
+            getAllAuthorities();
+            getAllUsers();
         } catch (e) {
             console.error(e);
         }
@@ -111,7 +161,7 @@ function AdminPage() {
                     {forums.map(forum => (
                         <tr key={forum.id}>
                             <td>{forum.id}</td>
-                            <td>{forum.user}</td>
+                            <td>{forum.name}</td>
                             <td><Link to={`/forum/${forum.id}`}>{forum.title}</Link></td>
                             <td>
                                 <button onClick={() => deleteForum(forum.id)}>Delete</button>
@@ -157,6 +207,26 @@ function AdminPage() {
 
             <section>
                 <h2>Users</h2>
+                <button onClick={() => setFormVisible(true)}>Add Authority</button>
+                {isFormVisible && (
+                    <form onSubmit={addUserAuthority}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={newAuthority.username}
+                            onChange={(e) => setNewAuthority({...newAuthority, username: e.target.value})}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Authority"
+                            value={newAuthority.authority}
+                            onChange={(e) => setNewAuthority({...newAuthority, authority: e.target.value})}
+                            required
+                        />
+                        <button type="submit">Submit</button>
+                    </form>
+                )}
                 <table>
                     <thead>
                     <tr>
@@ -213,6 +283,57 @@ function AdminPage() {
                 </table>
             </section>
 
+            <section>
+                <h2>Authorities</h2>
+                <button onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
+                {isUpdateFormVisible && (
+                    <form onSubmit={updateUserAuthority}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={updateAuthority.username}
+                            onChange={(e) => setUpdateAuthority({...updateAuthority, username: e.target.value})}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Old Authority"
+                            value={updateAuthority.oldAuthority}
+                            onChange={(e) => setUpdateAuthority({...updateAuthority, oldAuthority: e.target.value})}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="New Authority"
+                            value={updateAuthority.newAuthority}
+                            onChange={(e) => setUpdateAuthority({...updateAuthority, newAuthority: e.target.value})}
+                            required
+                        />
+                        <button type="submit">Submit</button>
+                    </form>
+                )}
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {authorities.map(auth => (
+                        <tr key={`${auth.username}-${auth.authority}`}>
+                            <td>{auth.username}</td>
+                            <td>{auth.authority}</td>
+                            <td>
+                                <button onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </section>
 
         </div>
     );
