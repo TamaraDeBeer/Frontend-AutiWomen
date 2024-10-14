@@ -10,6 +10,7 @@ import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 // import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
+import UserForums from "../../components/userForums/UserForums.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -192,6 +193,7 @@ function ForumPost() {
                 <section className={styles['section-forum__sidebar']}>
                     <PopulairTopics/>
                     <RelatedForums topic={forumById.topic} currentForumId={forumById.id}/>
+                    <UserForums username={forumById.name} />
                 </section>
             </section>
         </>
