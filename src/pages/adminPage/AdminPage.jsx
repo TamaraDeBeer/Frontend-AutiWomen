@@ -6,12 +6,13 @@ import {Link} from "react-router-dom";
 function AdminPage() {
     const [forums, setForums] = useState([]);
     const [comments, setComments] = useState([]);
-    // const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
     // const [review, setReview] = useState([]);
 
     useEffect(() => {
         getAllForums()
         getAllComments()
+        getAllUsers()
     }, []);
 
     async function getAllForums() {
@@ -52,6 +53,24 @@ function AdminPage() {
         }
     }
 
+    async function getAllUsers() {
+        try {
+            const response = await axios.get('http://localhost:1991/users');
+            setUsers(response.data);
+            console.log(response.data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function deleteUser(username) {
+        try {
+            await axios.delete(`http://localhost:1991/users/${username}`);
+            setUsers(users.filter(user => user.username !== username));
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
             return (
         <div className={styles['admin-page']}>
@@ -115,29 +134,37 @@ function AdminPage() {
                 </table>
             </section>
 
-            {/*<section>*/}
-            {/*    <h2>Users</h2>*/}
-            {/*    <table>*/}
-            {/*        <thead>*/}
-            {/*        <tr>*/}
-            {/*            <th>ID</th>*/}
-            {/*            <th>Username</th>*/}
-            {/*            <th>Actions</th>*/}
-            {/*        </tr>*/}
-            {/*        </thead>*/}
-            {/*        <tbody>*/}
-            {/*        {users.map(user => (*/}
-            {/*            <tr key={user.id}>*/}
-            {/*                <td>{user.id}</td>*/}
-            {/*                <td>{user.username}</td>*/}
-            {/*                <td>*/}
-            {/*                    <button onClick={() => deleteUser(user.id)}>Delete</button>*/}
-            {/*                </td>*/}
-            {/*            </tr>*/}
-            {/*        ))}*/}
-            {/*        </tbody>*/}
-            {/*    </table>*/}
-            {/*</section>*/}
+            <section>
+                <h2>Users</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Autisme?</th>
+                        <th>Diagnose Jaar</th>
+                        <th>Leeftijd</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {users.map(user => (
+                        <tr key={user.username}>
+                            <td>{user.username}</td>
+                            <th>{user.autismDiagnoses}</th>
+                            <th>{user.autismDiagnosesYear}</th>
+                            <th>{user.dob}</th>
+                            <th>{user.email}</th>
+                            <th>{user.authorities[0]?.authority}</th>
+                            <td>
+                            <button onClick={() => deleteUser(user.username)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </section>
 
 
         </div>
