@@ -26,6 +26,8 @@ function AccountProfile() {
     const [review, setReview] = useState([]);
     const [activeForm, setActiveForm] = useState(null);
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
     const {user} = useContext(AuthContext);
 
     useEffect(() => {
@@ -42,6 +44,7 @@ function AccountProfile() {
 
     async function fetchProfile(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const profileResult = await axios.get(`http://localhost:1991/users/${username}`, {
                 headers: {
@@ -53,10 +56,12 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchBio(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const profileResult = await axios.get(`http://localhost:1991/users/profiles/${username}`, {
                 headers: {
@@ -68,10 +73,12 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchForums(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/forums`, {
                 headers: {
@@ -84,10 +91,12 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchLikedForums(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/liked-forums`, {
                 headers: {
@@ -100,10 +109,12 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchViewedForums(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/viewed-forums`, {
                 headers: {
@@ -116,10 +127,12 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchCommentedForums(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const forumsResult = await axios.get(`http://localhost:1991/users/${username}/commented-forums`, {
                 headers: {
@@ -132,10 +145,12 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchReview(jwt, username) {
         toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axios.get(`http://localhost:1991/reviews/${username}`, {
                 headers: {
@@ -147,6 +162,7 @@ function AccountProfile() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (<>

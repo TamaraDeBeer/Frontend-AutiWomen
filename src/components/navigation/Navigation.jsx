@@ -5,8 +5,6 @@ import {AuthContext} from "../../context/AuthContextProvider.jsx";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 
-// import React from 'react';
-
 function Navigation() {
     const navigate = useNavigate();
     const {isAuth, logout, user} = useContext(AuthContext);

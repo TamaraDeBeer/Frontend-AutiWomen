@@ -43,7 +43,6 @@ function AccountRegister() {
     };
 
     async function registerUser(data) {
-        console.log(data);
         toggleError(false);
         toggleLoading(true);
 
@@ -61,9 +60,6 @@ function AccountRegister() {
 
         if (data.photo && data.photo[0]) {
             formData.append('file', data.photo[0]);
-            console.log('File appended:', data.photo[0]);
-        } else {
-            console.log('No file to append');
         }
 
         try {
@@ -76,18 +72,8 @@ function AccountRegister() {
             navigate('/login');
         } catch (e) {
             console.error('Error during registration:', e);
-            if (e.response) {
-                console.error('Response data:', e.response.data);
-                console.error('Status code:', e.response.status);
-                console.error('Headers:', e.response.headers);
-            } else if (e.request) {
-                console.error('Request made but no response received:', e.request);
-            } else {
-                console.error('Error setting up request:', e.message);
-            }
             toggleError(true);
         }
-
         toggleLoading(false);
     }
 

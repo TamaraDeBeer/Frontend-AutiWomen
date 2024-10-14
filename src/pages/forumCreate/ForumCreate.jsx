@@ -25,6 +25,8 @@ function ForumCreate() {
     async function addForum(e) {
         e.preventDefault();
         const username = localStorage.getItem('username');
+        console.log(name, title, text, topic);
+
         try {
             const response = await axios.post(`http://localhost:1991/forums/${username}`, {
                 name: username,
@@ -34,6 +36,7 @@ function ForumCreate() {
                 date: new Date().toISOString(),
             });
             setPostForum(response.data);
+            console.log(response.data);
             navigate(`/forum/${response.data.id}`);
         } catch (e) {
             console.error(e);

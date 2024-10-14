@@ -17,8 +17,12 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
 
     async function editComment(data) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axios.put(`http://localhost:1991/forums/${forumId}/comments/${commentId}`, data, {
                 headers: {
@@ -30,8 +34,9 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
             setIsSubmitted(true);
         } catch (e) {
             console.error(e);
-            toggleError('Update niet gelukt, probeer het later opnieuw');
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (

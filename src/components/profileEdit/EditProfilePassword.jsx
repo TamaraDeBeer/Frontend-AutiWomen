@@ -35,7 +35,7 @@ function EditProfilePassword({ user, onUpdate }) {
             setIsSubmitted(true);
         } catch (error) {
             console.error("Error updating password:", error);
-            toggleError('Niet gelukt, waarschijnlijk klopt je oude wachtwoord niet');
+            toggleError(true);
         }
     };
 

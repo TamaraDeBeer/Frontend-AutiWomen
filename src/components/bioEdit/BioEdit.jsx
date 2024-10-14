@@ -13,8 +13,7 @@ function BioEdit({user, bio, onUpdate}) {
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
-    // eslint-disable-next-line no-unused-vars
-    const [error, toggleError] = useState(false);
+
 
     async function editBio(data) {
         try {
@@ -28,7 +27,6 @@ function BioEdit({user, bio, onUpdate}) {
             setIsSubmitted(true);
         } catch (e) {
             console.error('Error updating bio:', e);
-            toggleError('Update niet gelukt, probeer het later opnieuw');
         }
     }
 

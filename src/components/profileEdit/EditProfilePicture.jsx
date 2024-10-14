@@ -31,7 +31,7 @@ function EditProfilePicture({ user, onUpdate }) {
             setIsSubmitted(true);
         } catch (error) {
             console.error("Error updating profile picture:", error);
-            toggleError('Niet gelukt, waarschijnlijk is het bestand te groot');
+            toggleError(true);
         }
     };
 

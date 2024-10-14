@@ -13,8 +13,6 @@ function ReviewEdit({user, review, onUpdate}) {
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
-    // eslint-disable-next-line no-unused-vars
-    const [error, toggleError] = useState(false);
 
     async function editReview(data) {
         try {
@@ -28,7 +26,6 @@ function ReviewEdit({user, review, onUpdate}) {
             setIsSubmitted(true);
         } catch (e) {
             console.error('Error updating review:', e);
-            toggleError('Update niet gelukt, probeer het later opnieuw');
         }
     }
 

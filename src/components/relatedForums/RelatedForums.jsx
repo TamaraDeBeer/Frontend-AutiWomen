@@ -15,6 +15,7 @@ function RelatedForums({ topic, currentForumId }) {
 
     async function fetchRelatedForums() {
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.get('http://localhost:1991/forums');

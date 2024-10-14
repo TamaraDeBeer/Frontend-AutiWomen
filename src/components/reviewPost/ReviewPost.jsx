@@ -26,7 +26,6 @@ function ReviewPost({review, user, onUpdate}) {
                 },
             });
             setBioPost(response.data);
-            console.log(response.data);
             onUpdate();
         } catch (e) {
             console.error(e);

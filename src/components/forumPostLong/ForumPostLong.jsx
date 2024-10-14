@@ -16,10 +16,6 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
     const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
     const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
-    // eslint-disable-next-line no-unused-vars
-    const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
-    const [loading, toggleLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [activeForm, setActiveForm] = useState(null);
 
@@ -41,103 +37,71 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
     }, [likesCount, viewsCount]);
 
     async function checkUserLike(storedUsername) {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/likes/check`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     async function fetchLikeCount() {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/likes/count`);
             setCurrentLikesCount(response.data);
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     async function addLike() {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${username}/likes/add`);
             setCurrentLikesCount(response.data);
             setHasLiked(true);
             fetchLikeCount();
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     async function removeLike() {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.delete(`http://localhost:1991/forums/${forumId}/users/${username}/likes/remove`);
             setCurrentLikesCount(response.data);
             setHasLiked(false);
             fetchLikeCount();
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     async function checkUserView(storedUsername) {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/check`);
             setHasViewed(response.data);
-            console.log(response.data);
-            console.log(response);
         } catch (e) {
             console.error(e);
-            console.error("Error checking user view:", e);
-            toggleError(true);
         }
-        toggleLoading
     }
 
     async function fetchViewCount() {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/views/count`);
             setCurrentViewsCount(response.data);
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     async function addView(storedUsername) {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/add`);
             setCurrentViewsCount(response.data);
             setHasViewed(true);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     return (<>

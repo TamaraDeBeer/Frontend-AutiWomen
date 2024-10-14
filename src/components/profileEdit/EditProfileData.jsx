@@ -19,9 +19,13 @@ function EditProfileData({ user, profile, onUpdate }) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
     const watchAutismDiagnoses = watch('autismDiagnoses');
 
     const handleProfileDataSubmit = async (data) => {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axios.put(`http://localhost:1991/users/${user.username}/profile-data`, data, {
                 headers: {
@@ -33,8 +37,9 @@ function EditProfileData({ user, profile, onUpdate }) {
             setIsSubmitted(true);
         } catch (error) {
             console.error('Error updating profile data:', error);
-            toggleError('Update niet gelukt, probeer het later opnieuw');
+            toggleError(true);
         }
+        toggleLoading(false);
     };
 
     return (

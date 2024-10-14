@@ -47,6 +47,7 @@ function ForumPost() {
 
     async function fetchForumById() {
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
@@ -60,6 +61,7 @@ function ForumPost() {
 
     async function fetchCommentsByForumId() {
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
@@ -76,6 +78,7 @@ function ForumPost() {
         e.preventDefault();
         const username = localStorage.getItem('username');
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/comments/${username}`, {

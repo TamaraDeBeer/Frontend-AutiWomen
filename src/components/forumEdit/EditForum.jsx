@@ -17,9 +17,13 @@ function EditForum({ forumId, forumData, onUpdate }) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
     const [topic, setTopic] = useState(forumData.topic);
 
     async function editForum(data) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axios.put(`http://localhost:1991/forums/${forumId}`, data, {
                 headers: {
@@ -31,8 +35,9 @@ function EditForum({ forumId, forumData, onUpdate }) {
             setIsSubmitted(true);
         } catch (e) {
             console.error(e);
-            toggleError('Update niet gelukt, probeer het later opnieuw');
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (

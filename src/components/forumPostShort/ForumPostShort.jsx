@@ -4,7 +4,7 @@ import likes2 from "../../assets/logo/likes2.png";
 import comments1 from "../../assets/logo/comments.png";
 import view1 from "../../assets/logo/view1.png";
 import view2 from "../../assets/logo/view2.png";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -13,10 +13,6 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
     const [username, setUsername] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
     const [hasViewed, setHasViewed] = useState(false);
-    // eslint-disable-next-line no-unused-vars
-    const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
-    const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
@@ -28,32 +24,21 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
     }, [forumId]);
 
     async function checkUserLike(storedUsername) {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/likes/check`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     async function checkUserView(storedUsername) {
-        toggleError(false);
         try {
-            toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/check`);
             setHasViewed(response.data);
-            console.log(response.data);
-            console.log(response);
         } catch (e) {
             console.error(e);
-            console.error("Error checking user view:", e);
-            toggleError(true);
         }
-        toggleLoading
     }
 
     return (

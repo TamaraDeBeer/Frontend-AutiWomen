@@ -1,9 +1,6 @@
 import styles from './PopulairForum.module.css';
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
 import {Link} from "react-router-dom";
 
-// eslint-disable-next-line react/prop-types
 function PopulairForum({id, name, age, image, title}) {
     return (
         <Link to={`/forums/${id}`} className={styles['forum-link']}>

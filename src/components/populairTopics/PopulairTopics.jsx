@@ -5,21 +5,25 @@ import styles from './PopulairTopics.module.css';
 
 function PopulairTopics() {
     const [topics, setTopics] = useState([]);
-    const [error, setError] = useState(false);
+    const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
         fetchTopics();
     }, []);
 
     async function fetchTopics() {
-        setError(false);
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axios.get('http://localhost:1991/forums/sorted-unique-topics');
             setTopics(response.data);
         } catch (e) {
             console.error(e);
-            setError(true);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (

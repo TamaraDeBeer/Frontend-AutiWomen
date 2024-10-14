@@ -8,9 +8,13 @@ import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 function DeleteForum({forumId, onDelete}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
 
     async function handleDelete() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axios.delete(`http://localhost:1991/forums/${forumId}`);
             setIsSubmitted(true);
@@ -18,8 +22,9 @@ function DeleteForum({forumId, onDelete}) {
             setTimeout(() => navigate('/profile'), 500);
         } catch (e) {
             console.error(e);
-            toggleError('Verwijderen niet gelukt, probeer het later opnieuw');
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (
