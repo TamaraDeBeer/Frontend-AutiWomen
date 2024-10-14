@@ -13,6 +13,7 @@ function ErrorPage() {
                 <h3>De plek waar autistische vrouwen elkaar helpen</h3>
                 <img src={error} alt="Grappige Error Afbeelding" className={styles['section-error__image']}/>
                 <p>Sorry je moet ingelogd zijn om een forum te kunnen schrijven</p>
+                {/*errormessage*/}
                 <div className={styles['button-register']}>
                     <Button type="button"
                             onClick={() => navigate('/register')}

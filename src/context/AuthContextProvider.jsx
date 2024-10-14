@@ -59,6 +59,7 @@ function AuthContextProvider ({children}) {
                 isAuth: true,
                 user: {
                     username: result.data.username,
+                    role: result.data.authorities[0].authority,
                     // email: result.data.email,
                 },
                 status: 'done',

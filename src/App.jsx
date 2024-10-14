@@ -16,6 +16,7 @@ import AuthContextProvider from "./context/AuthContextProvider.jsx";
 import {Route, Routes} from "react-router-dom";
 import TopicPage from "./pages/topicPage/TopicPage.jsx";
 import AdminPage from "./pages/adminPage/AdminPage.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 // import {useContext} from "react";
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
                     <Route path="/forums/:forumId" element={<ForumPost />} />
                     <Route path={"*"} element={<NotFound/>}/>
                     <Route path={"/error"} element={<ErrorPage/>}/>
-                    <Route path={"/admin"} element={<AdminPage/>}/>
+                    <Route path={"/admin"} element={<PrivateRoute element={AdminPage} roles={['ROLE_ADMIN']} />} />
                 </Routes>
             </main>
             <Footer/>
