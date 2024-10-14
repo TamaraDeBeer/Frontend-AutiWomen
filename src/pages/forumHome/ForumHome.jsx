@@ -14,6 +14,8 @@ function ForumHome() {
     const navigate = useNavigate();
     const [forums, setForums] = useState([]);
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
+    const [loading, toggleLoading] = useState(false);
     const [sliderOption, setSliderOption] = useState('newest');
 
     useEffect(() => {
@@ -22,6 +24,7 @@ function ForumHome() {
 
     async function fetchAllForums() {
         toggleError(false);
+        toggleLoading(true);
         const endpoint = sliderOption === 'newest' ? 'http://localhost:1991/forums/sorted-by-date' : 'http://localhost:1991/forums/sorted-by-likes';
         try {
             const response = await axios.get(endpoint);
@@ -31,6 +34,7 @@ function ForumHome() {
             console.error(e);
             toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (

@@ -22,7 +22,6 @@ function AccountLogin() {
     const { login } = useContext(AuthContext);
 
     async function handleFormSubmit(data) {
-        console.log(data);
         toggleError(false);
         toggleLoading(true);
 

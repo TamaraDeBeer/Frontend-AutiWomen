@@ -13,7 +13,8 @@
 
 .section-forum__card {
     display: flex;
-    width: 31.5625rem;
+    width: 29rem;
+    height: 15rem;
     padding: 0.25rem 0.625rem 0.25rem 1.25rem;
     flex-direction: column;
     justify-content: center;

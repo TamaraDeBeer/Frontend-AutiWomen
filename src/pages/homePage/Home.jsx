@@ -1,12 +1,13 @@
 import styles from './Home.module.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+// import Slider from "react-slick";
 import hero from '../../assets/home-hero.jpg';
 import benefit from '../../assets/benefit.svg';
-import belle from '../../assets/profilePhoto/belle.jpg';
-import moana from '../../assets/profilePhoto/moana.jpg';
 
 import BenefitCard from "../../components/benefitCard/BenefitCard.jsx";
 import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
-import Reviews from "../../components/reviews/Reviews.jsx";
+// import Reviews from "../../components/reviews/Reviews.jsx";
 import Button from "../../components/button/Button.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -17,18 +18,42 @@ function Home() {
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [forums, setForums] = useState([]);
+    // const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        async function fetchForums() {
-            try {
-                const response = await axios.get('http://localhost:1991/forums/sorted-by-likes');
-                setForums(response.data.slice(0, 8));
-            } catch (error) {
-                console.error('Error fetching forums:', error);
-            }
-        }
         fetchForums();
+        // fetchReviews();
     }, []);
+
+    async function fetchForums() {
+        try {
+            const response = await axios.get('http://localhost:1991/forums/sorted-by-likes');
+            setForums(response.data.slice(0, 8));
+        } catch (error) {
+            console.error('Error fetching forums:', error);
+        }
+    }
+
+    // async function fetchReviews() {
+    //     try {
+    //         const response = await axios.get('http://localhost:1991/reviews');
+    //         setReviews(response.data);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching reviews:', error);
+    //     }
+    // }
+
+    // const settings = {
+    //     dots: true,
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 1,
+    //     centerMode: true,
+    //     centerPadding: '0',
+    //     arrows: false,
+    // };
 
     return (<>
 
@@ -78,17 +103,22 @@ function Home() {
             </div>
         </section>
 
-        <section className={styles['section-reviews__outer-container']}>
-            <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
-            <div className={styles['section-reviews__inner-container']}>
-                <Reviews
-                    text="Ik kwam op aanraden van een vriendin op deze website. Ik ben al meerdere forums gestart en krijg veel goede tips van mede auties."
-                    image={belle} name="Belle" age="36 jaar" diagnoseYear="2000"/>
-                <Reviews
-                    text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
-                    image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
-            </div>
-        </section>
+        {/*<section className={styles['section-reviews__outer-container']}>*/}
+        {/*    <h2 className={styles['section-title']}>Wat leden zeggen:</h2>*/}
+        {/*    <Slider {...settings} className={styles['section-reviews__inner-container']}>*/}
+        {/*        {reviews.map((review) => (*/}
+        {/*            <div key={review.id} className={styles['review']}>*/}
+        {/*                <Reviews*/}
+        {/*                    image={review.profilePictureUrl}*/}
+        {/*                    name={review.name}*/}
+        {/*                    text={review.review}*/}
+        {/*                    age={calculateAge(review.dob) + ' jaar'}*/}
+        {/*                    diagnoseYear={review.diagnoseYear}*/}
+        {/*                />*/}
+        {/*            </div>*/}
+        {/*        ))}*/}
+        {/*    </Slider>*/}
+        {/*</section>*/}
 
     </>);
 }

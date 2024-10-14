@@ -75,6 +75,11 @@ textarea:focus {
     color: var(--primary-text-color);
 }
 
+.forum-form select:focus, .forum-form input:focus {
+    outline: none;
+    border: 2px solid var(--primary-color);
+}
+
 .forum-form input {
     background-color: var(--primary-bg-color);
 }

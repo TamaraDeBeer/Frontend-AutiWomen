@@ -23,7 +23,6 @@ function ForumPost() {
     const [commentText, setCommentText] = useState('');
     // eslint-disable-next-line no-unused-vars
     const [postComment, setPostComment] = useState([]);
-    // eslint-disable-next-line no-unused-vars
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
 
@@ -46,9 +45,9 @@ function ForumPost() {
         }
     }, [forumById]);
 
-
     async function fetchForumById() {
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
@@ -62,6 +61,7 @@ function ForumPost() {
 
     async function fetchCommentsByForumId() {
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
@@ -78,6 +78,7 @@ function ForumPost() {
         e.preventDefault();
         const username = localStorage.getItem('username');
         toggleError(false);
+        toggleLoading(true);
         try {
             toggleLoading(true);
             const response = await axios.post(`http://localhost:1991/forums/${forumId}/comments/${username}`, {
@@ -115,7 +116,7 @@ function ForumPost() {
                     {error && <p className="error-message">Deze forum post bestaat niet (meer).</p>}
                     {loading && <p>Loading...</p>}
 
-                    {Object.keys(forumById).length > 0 &&
+                    {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
                             title={forumById.title}
                             image={forumById.userDto?.profilePictureUrl}
@@ -127,8 +128,10 @@ function ForumPost() {
                             likesCount={forumById.likesCount}
                             commentsCount={forumById.commentsCount}
                             viewsCount={forumById.viewsCount}
+                            currentUser={name}
+                            fetchForumById={fetchForumById}
                         />
-                    }
+                        )}
 
                     <div className={styles['section-forum__line']}></div>
 
@@ -144,6 +147,10 @@ function ForumPost() {
                                     age={calculateAge(comment.age)}
                                     date={createDateToString(comment.date)}
                                     text={comment.text}
+                                    commentId={comment.id}
+                                    forumId={forumId}
+                                    currentUser={name}
+                                    fetchCommentsByForumId={fetchCommentsByForumId}
                                 />
                             ))}
                     </section>
