@@ -37,7 +37,7 @@ function ForumCreate() {
             });
             setPostForum(response.data);
             console.log(response.data);
-            navigate(`/forum/${response.data.id}`);
+            navigate(`/forums/${response.data.id}`);
         } catch (e) {
             console.error(e);
         }

@@ -1,13 +1,13 @@
 import styles from './Home.module.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import hero from '../../assets/home-hero.jpg';
 import benefit from '../../assets/benefit.svg';
 
 import BenefitCard from "../../components/benefitCard/BenefitCard.jsx";
 import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
-import Reviews from "../../components/reviews/Reviews.jsx";
+// import Reviews from "../../components/reviews/Reviews.jsx";
 import Button from "../../components/button/Button.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -18,11 +18,11 @@ function Home() {
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [forums, setForums] = useState([]);
-    const [reviews, setReviews] = useState([]);
+    // const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         fetchForums();
-        fetchReviews();
+        // fetchReviews();
     }, []);
 
     async function fetchForums() {
@@ -34,25 +34,26 @@ function Home() {
         }
     }
 
-    async function fetchReviews() {
-        try {
-            const response = await axios.get('http://localhost:1991/reviews');
-            setReviews(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error fetching reviews:', error);
-        }
-    }
+    // async function fetchReviews() {
+    //     try {
+    //         const response = await axios.get('http://localhost:1991/reviews');
+    //         setReviews(response.data);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching reviews:', error);
+    //     }
+    // }
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        centerMode: true,
-        centerPadding: '0',
-    };
+    // const settings = {
+    //     dots: true,
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 1,
+    //     centerMode: true,
+    //     centerPadding: '0',
+    //     arrows: false,
+    // };
 
     return (<>
 
@@ -102,22 +103,22 @@ function Home() {
             </div>
         </section>
 
-        <section className={styles['section-reviews__outer-container']}>
-            <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
-            <Slider {...settings} className={styles['section-reviews__inner-container']}>
-                {reviews.map((review) => (
-                    <div key={review.id} className={styles['review']}>
-                        <Reviews
-                            image={review.profilePictureUrl}
-                            name={review.name}
-                            text={review.review}
-                            age={calculateAge(review.dob) + ' jaar'}
-                            diagnoseYear={review.diagnoseYear}
-                        />
-                    </div>
-                ))}
-            </Slider>
-        </section>
+        {/*<section className={styles['section-reviews__outer-container']}>*/}
+        {/*    <h2 className={styles['section-title']}>Wat leden zeggen:</h2>*/}
+        {/*    <Slider {...settings} className={styles['section-reviews__inner-container']}>*/}
+        {/*        {reviews.map((review) => (*/}
+        {/*            <div key={review.id} className={styles['review']}>*/}
+        {/*                <Reviews*/}
+        {/*                    image={review.profilePictureUrl}*/}
+        {/*                    name={review.name}*/}
+        {/*                    text={review.review}*/}
+        {/*                    age={calculateAge(review.dob) + ' jaar'}*/}
+        {/*                    diagnoseYear={review.diagnoseYear}*/}
+        {/*                />*/}
+        {/*            </div>*/}
+        {/*        ))}*/}
+        {/*    </Slider>*/}
+        {/*</section>*/}
 
     </>);
 }
