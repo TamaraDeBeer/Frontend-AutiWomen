@@ -1,4 +1,7 @@
 import styles from './Home.module.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import hero from '../../assets/home-hero.jpg';
 import benefit from '../../assets/benefit.svg';
 
@@ -40,6 +43,16 @@ function Home() {
             console.error('Error fetching reviews:', error);
         }
     }
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: '0',
+    };
 
     return (<>
 
@@ -91,18 +104,19 @@ function Home() {
 
         <section className={styles['section-reviews__outer-container']}>
             <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
-            <div className={styles['section-reviews__inner-container']}>
+            <Slider {...settings} className={styles['section-reviews__inner-container']}>
                 {reviews.map((review) => (
-                    <Reviews
-                        key={review.id}
-                        image={review.profilePictureUrl}
-                        name={review.name}
-                        text={review.review}
-                        age={review.age}
-                        diagnoseYear={review.diagnoseYear}
-                    />
+                    <div key={review.id} className={styles['review']}>
+                        <Reviews
+                            image={review.profilePictureUrl}
+                            name={review.name}
+                            text={review.review}
+                            age={calculateAge(review.dob) + ' jaar'}
+                            diagnoseYear={review.diagnoseYear}
+                        />
+                    </div>
                 ))}
-            </div>
+            </Slider>
         </section>
 
     </>);

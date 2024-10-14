@@ -54,12 +54,9 @@
 .section-reviews__outer-container {
     background-color: var(--primary-bg-color);
     padding: 3rem 8rem;
-
 }
 
-.section-reviews__inner-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 6.75rem;
+.review--center {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
 }
