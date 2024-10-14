@@ -14,7 +14,6 @@ function BioEdit({user, bio, onUpdate}) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-
     async function editBio(data) {
         try {
             await axios.put(`http://localhost:1991/users/profiles/${user.username}`, data, {

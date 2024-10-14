@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from "../forumEdit/ForumEdit.module.css";
+// import {AuthContext} from "../../context/AuthContextProvider.jsx";
 
 function DeleteComment({forumId, commentId, onDelete, fetchCommentsByForumId}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
