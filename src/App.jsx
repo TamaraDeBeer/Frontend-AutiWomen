@@ -15,6 +15,7 @@ import ErrorPage from "./pages/errorPage/ErrorPage.jsx";
 import AuthContextProvider from "./context/AuthContextProvider.jsx";
 import {Route, Routes} from "react-router-dom";
 import TopicPage from "./pages/topicPage/TopicPage.jsx";
+import AdminPage from "./pages/adminPage/AdminPage.jsx";
 // import {useContext} from "react";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
                     <Route path="/forums/:forumId" element={<ForumPost />} />
                     <Route path={"*"} element={<NotFound/>}/>
                     <Route path={"/error"} element={<ErrorPage/>}/>
+                    <Route path={"/admin"} element={<AdminPage/>}/>
                 </Routes>
             </main>
             <Footer/>

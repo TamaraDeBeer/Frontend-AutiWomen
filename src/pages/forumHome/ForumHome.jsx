@@ -29,7 +29,6 @@ function ForumHome() {
         try {
             const response = await axios.get(endpoint);
             setForums(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);

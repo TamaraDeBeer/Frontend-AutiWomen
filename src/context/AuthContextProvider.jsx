@@ -27,10 +27,6 @@ function AuthContextProvider ({children}) {
     }, []);
 
     const navigate = useNavigate();
-    // eslint-disable-next-line no-unused-vars
-    // const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
-    // const [loading, toggleLoading] = useState(false);
 
     function login(jwt) {
         localStorage.setItem('jwt', jwt);
@@ -102,5 +98,3 @@ function AuthContextProvider ({children}) {
 }
 
 export default AuthContextProvider;
-
-
