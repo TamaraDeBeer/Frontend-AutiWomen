@@ -6,11 +6,13 @@ import {jwtDecode} from "jwt-decode";
 export const AuthContext = createContext({});
 
 function AuthContextProvider ({children}) {
-    const [isAuth, toggleIsAuth] = useState({
+    const [isAuth, setIsAuth] = useState({
         isAuth: false,
         user: null,
         status: 'pending',
     });
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
@@ -18,7 +20,7 @@ function AuthContextProvider ({children}) {
             const decoded = jwtDecode(jwt);
             void fetchUserData(decoded.sub, jwt);
         } else {
-            toggleIsAuth({
+            setIsAuth({
                 isAuth: false,
                 user: null,
                 status: 'done',
@@ -26,18 +28,16 @@ function AuthContextProvider ({children}) {
         }
     }, []);
 
-    const navigate = useNavigate();
-
     function login(jwt) {
         localStorage.setItem('jwt', jwt);
         const decoded = jwtDecode(jwt);
         localStorage.setItem('username', decoded.sub);
-        void fetchUserData(decoded.sub, jwt);
+        fetchUserData(decoded.sub, jwt);
     }
 
     function logout() {
         localStorage.clear();
-        toggleIsAuth({
+        setIsAuth({
             isAuth: false,
             user: null,
             status: 'done',
@@ -48,36 +48,24 @@ function AuthContextProvider ({children}) {
 
     async function fetchUserData(username, jwt) {
         try {
-            const result = await axios.get( `http://localhost:1991/users/${username}`, {
+            const result = await axios.get(`http://localhost:1991/users/${username}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
                 },
             });
             console.log('Result:', result.data);
-            toggleIsAuth( {
+            setIsAuth({
                 isAuth: true,
                 user: {
                     username: result.data.username,
                     role: result.data.authorities[0].authority,
-                    // email: result.data.email,
                 },
                 status: 'done',
             });
         } catch (e) {
-            if (e.response) {
-                // Server responded with a status other than 200 range
-                console.error('Error fetching user data:', e.response.data);
-                console.error('Status code:', e.response.status);
-                console.error('Headers:', e.response.headers);
-            } else if (e.request) {
-                // Request was made but no response was received
-                console.error('Error fetching user data: No response received', e.request);
-            } else {
-                // Something else happened while setting up the request
-                console.error('Error fetching user data2:', e.message);
-            }
-            toggleIsAuth({
+            console.error('Error fetching user data:', e);
+            setIsAuth({
                 isAuth: false,
                 user: null,
                 status: 'done',

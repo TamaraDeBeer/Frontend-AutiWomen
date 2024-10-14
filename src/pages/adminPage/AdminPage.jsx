@@ -164,7 +164,7 @@ function AdminPage() {
                             <td>{forum.name}</td>
                             <td><Link to={`/forum/${forum.id}`}>{forum.title}</Link></td>
                             <td>
-                                <button onClick={() => deleteForum(forum.id)}>Delete</button>
+                                <button className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -179,7 +179,7 @@ function AdminPage() {
                     <tr>
                         <th>ID</th>
                         <th>ForumId</th>
-                        <td>User</td>
+                        <th>User</th>
                         <th>Content</th>
                         <th>Actions</th>
                     </tr>
@@ -196,7 +196,7 @@ function AdminPage() {
                                 </Link>
                             </td>
                             <td>
-                                <button onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
+                                <button className={styles['admin-button']} onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
                                 </button>
                             </td>
                         </tr>
@@ -207,9 +207,9 @@ function AdminPage() {
 
             <section>
                 <h2>Users</h2>
-                <button onClick={() => setFormVisible(true)}>Add Authority</button>
+                <button className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
                 {isFormVisible && (
-                    <form onSubmit={addUserAuthority}>
+                    <form onSubmit={addUserAuthority} className={styles['admin-form']}>
                         <input
                             type="text"
                             placeholder="Username"
@@ -224,7 +224,7 @@ function AdminPage() {
                             onChange={(e) => setNewAuthority({...newAuthority, authority: e.target.value})}
                             required
                         />
-                        <button type="submit">Submit</button>
+                        <button className={styles['admin-button']} type="submit">Submit</button>
                     </form>
                 )}
                 <table>
@@ -243,13 +243,13 @@ function AdminPage() {
                     {users.map(user => (
                         <tr key={user.username}>
                             <td>{user.username}</td>
-                            <th>{user.autismDiagnoses}</th>
-                            <th>{user.autismDiagnosesYear}</th>
-                            <th>{user.dob}</th>
-                            <th>{user.email}</th>
-                            <th>{user.authorities[0]?.authority}</th>
+                            <td>{user.autismDiagnoses}</td>
+                            <td>{user.autismDiagnosesYear}</td>
+                            <td>{user.dob}</td>
+                            <td>{user.email}</td>
+                            <td>{user.authorities[0]?.authority}</td>
                             <td>
-                                <button onClick={() => deleteUser(user.username)}>Delete</button>
+                                <button className={styles['admin-button']} onClick={() => deleteUser(user.username)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -272,10 +272,10 @@ function AdminPage() {
                     {review.map(review => (
                         <tr key={review.id}>
                             <td>{review.id}</td>
-                            <th>{review.name}</th>
-                            <th>{review.review}</th>
+                            <td>{review.name}</td>
+                            <td>{review.review}</td>
                             <td>
-                                <button onClick={() => deleteReview(review.id)}>Delete</button>
+                                <button className={styles['admin-button']} onClick={() => deleteReview(review.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -285,9 +285,9 @@ function AdminPage() {
 
             <section>
                 <h2>Authorities</h2>
-                <button onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
+                <button className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
                 {isUpdateFormVisible && (
-                    <form onSubmit={updateUserAuthority}>
+                    <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
                         <input
                             type="text"
                             placeholder="Username"
@@ -309,7 +309,7 @@ function AdminPage() {
                             onChange={(e) => setUpdateAuthority({...updateAuthority, newAuthority: e.target.value})}
                             required
                         />
-                        <button type="submit">Submit</button>
+                        <button className={styles['admin-button']} type="submit">Submit</button>
                     </form>
                 )}
                 <table>
@@ -326,7 +326,7 @@ function AdminPage() {
                             <td>{auth.username}</td>
                             <td>{auth.authority}</td>
                             <td>
-                                <button onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
+                                <button className={styles['admin-button']} onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
                                 </button>
                             </td>
                         </tr>
