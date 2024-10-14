@@ -1,8 +1,6 @@
 import styles from './Home.module.css';
 import hero from '../../assets/home-hero.jpg';
 import benefit from '../../assets/benefit.svg';
-import belle from '../../assets/profilePhoto/belle.jpg';
-import moana from '../../assets/profilePhoto/moana.jpg';
 
 import BenefitCard from "../../components/benefitCard/BenefitCard.jsx";
 import PopulairForum from "../../components/populairForum/PopulairForum.jsx";
@@ -17,18 +15,31 @@ function Home() {
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [forums, setForums] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        async function fetchForums() {
-            try {
-                const response = await axios.get('http://localhost:1991/forums/sorted-by-likes');
-                setForums(response.data.slice(0, 8));
-            } catch (error) {
-                console.error('Error fetching forums:', error);
-            }
-        }
         fetchForums();
+        fetchReviews();
     }, []);
+
+    async function fetchForums() {
+        try {
+            const response = await axios.get('http://localhost:1991/forums/sorted-by-likes');
+            setForums(response.data.slice(0, 8));
+        } catch (error) {
+            console.error('Error fetching forums:', error);
+        }
+    }
+
+    async function fetchReviews() {
+        try {
+            const response = await axios.get('http://localhost:1991/reviews');
+            setReviews(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    }
 
     return (<>
 
@@ -81,22 +92,16 @@ function Home() {
         <section className={styles['section-reviews__outer-container']}>
             <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
             <div className={styles['section-reviews__inner-container']}>
-                <Reviews
-                    className={styles['review']}
-                    text="Ik kwam op aanraden van een vriendin op deze website. Ik ben al meerdere forums gestart en krijg veel goede tips van mede auties."
-                    image={belle} name="Belle" age="36 jaar" diagnoseYear="2000"/>
-                <Reviews
-                    className={styles['review']}
-                    text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
-                    image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
-                <Reviews
-                    className={styles['review']}
-                    text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
-                    image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
-                <Reviews
-                    className={styles['review']}
-                    text="Dankzij de blogs ontdek ik dat er veel meer van wie ik ben gerelateerd is aan autisme. Dit was best shocking maar heel fijn om er in de forums over te praten.."
-                    image={moana} name="Moana" age="23 jaar" diagnoseYear="2020"/>
+                {reviews.map((review) => (
+                    <Reviews
+                        key={review.id}
+                        image={review.profilePictureUrl}
+                        name={review.name}
+                        text={review.review}
+                        age={review.age}
+                        diagnoseYear={review.diagnoseYear}
+                    />
+                ))}
             </div>
         </section>
 

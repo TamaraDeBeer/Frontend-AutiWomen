@@ -47,6 +47,10 @@
     justify-content: center;
 }
 
+.section-title {
+    margin-bottom: 2rem;
+}
+
 .section-reviews__outer-container {
     background-color: var(--primary-bg-color);
     padding: 3rem 8rem;
@@ -59,8 +63,3 @@
     justify-content: center;
     gap: 6.75rem;
 }
-
-.section-title {
-    margin-bottom: 2rem;
-}
-
