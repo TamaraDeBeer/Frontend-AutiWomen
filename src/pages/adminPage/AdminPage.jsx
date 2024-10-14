@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from './AdminPage.module.css';
 import {Link} from "react-router-dom";
@@ -7,12 +7,13 @@ function AdminPage() {
     const [forums, setForums] = useState([]);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
-    // const [review, setReview] = useState([]);
+    const [review, setReview] = useState([]);
 
     useEffect(() => {
         getAllForums()
         getAllComments()
         getAllUsers()
+        getAllReviews()
     }, []);
 
     async function getAllForums() {
@@ -72,7 +73,26 @@ function AdminPage() {
         }
     }
 
-            return (
+    async function getAllReviews() {
+        try {
+            const response = await axios.get('http://localhost:1991/reviews');
+            setReview(response.data);
+            console.log(response.data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function deleteReview(id) {
+        try {
+            await axios.delete(`http://localhost:1991/reviews/${id}`);
+            setReview(review.filter(review => review.id !== id));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    return (
         <div className={styles['admin-page']}>
             <h1>Admin Page</h1>
 
@@ -126,7 +146,8 @@ function AdminPage() {
                                 </Link>
                             </td>
                             <td>
-                                <button onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete</button>
+                                <button onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -158,7 +179,33 @@ function AdminPage() {
                             <th>{user.email}</th>
                             <th>{user.authorities[0]?.authority}</th>
                             <td>
-                            <button onClick={() => deleteUser(user.username)}>Delete</button>
+                                <button onClick={() => deleteUser(user.username)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Reviews</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Username</th>
+                        <th>Review</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {review.map(review => (
+                        <tr key={review.id}>
+                            <td>{review.id}</td>
+                            <th>{review.name}</th>
+                            <th>{review.review}</th>
+                            <td>
+                                <button onClick={() => deleteReview(review.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
