@@ -5,6 +5,7 @@ import InputField from "../../components/inputField/InputField.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import defaultProfileImage from '../../assets/profilePhoto/profile.png';
 
 function AccountRegister() {
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
@@ -21,7 +22,9 @@ function AccountRegister() {
         }
     });
 
+    // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [fileName, setFileName] = useState('');
     const navigate = useNavigate();
@@ -43,9 +46,6 @@ function AccountRegister() {
     };
 
     async function registerUser(data) {
-        toggleError(false);
-        toggleLoading(true);
-
         const formData = new FormData();
         formData.append('user', new Blob([JSON.stringify({
             email: data.email,
@@ -60,21 +60,21 @@ function AccountRegister() {
 
         if (data.photo && data.photo[0]) {
             formData.append('file', data.photo[0]);
+        } else {
+            formData.append('file', defaultProfileImage);
         }
-
         try {
-            await axios.post('http://localhost:1991/register', formData, {
+            const response = await axios.post('http://localhost:1991/register', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
                 cancelToken: source.token,
             });
+            console.log(response.data); // Check the response data
             navigate('/login');
         } catch (e) {
             console.error('Error during registration:', e);
-            toggleError(true);
         }
-        toggleLoading(false);
     }
 
     return (<>
@@ -98,21 +98,7 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-                    <InputField
-                        inputId="gender-field"
-                        inputLabel="Geslacht:"
-                        inputType="text"
-                        inputName="gender"
-                        validationRules={{
-                            required: {
-                                value: true,
-                                message: "Geslacht is verplicht",
-                            },
-                            validate: (value) => value.includes('vrouw') || "Sorry, alleen vrouwen zijn welkom op deze website",
-                        }}
-                        register={register}
-                        errors={errors}
-                    />
+
 
                     <InputField
                         inputId="dob-field"

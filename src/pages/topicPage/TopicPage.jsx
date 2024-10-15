@@ -48,10 +48,6 @@ function TopicPage() {
                                 onClick={() => navigate('/forum/create')}
                         >Schrijf een forum</Button>
                     </div>
-                    <div>
-                        <button className={styles['section-forum__button-search']}>Zoeken in alle forums.. <img
-                            src={search} alt="search logo"/></button>
-                    </div>
                 </div>
             </section>
 
