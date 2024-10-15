@@ -57,3 +57,12 @@
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .section-forum__main {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+    }
+}

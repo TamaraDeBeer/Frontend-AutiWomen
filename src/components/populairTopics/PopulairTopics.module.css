@@ -34,3 +34,14 @@
     color: var(--secondary-color);
     font-weight: 500;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .populair-topics {
+        align-items: center;
+    }
+
+    .topics-list {
+        text-align: center;
+    }
+}

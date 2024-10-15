@@ -104,3 +104,32 @@
 /*    flex-direction: column;*/
 /*    gap: 0.5625rem;*/
 /*}*/
+
+/*Media Queries*/
+/* Voor kleine computerschermen*/
+@media screen and (max-width: 1200px) {
+    .section-forum__card {
+        width: 50rem;
+    }
+}
+
+/* Voor tablets */
+@media screen and (max-width: 992px) {
+    .section-forum__card {
+        width: 40rem;
+    }
+}
+
+/* Voor mobiele telefoons in landscape */
+@media screen and (max-width: 768px) {
+    .section-forum__card {
+        width: 30rem;
+    }
+}
+
+/* Voor mobiele telefoons in portait */
+@media screen and (max-width: 576px) {
+    .section-forum__card {
+        width: 25rem;
+    }
+}
