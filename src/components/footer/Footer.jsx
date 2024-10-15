@@ -4,7 +4,6 @@ import instagram from '../../assets/logo/instagram.png';
 import linkedin from '../../assets/logo/linkedin.png';
 import facebook from '../../assets/logo/facebook.png';
 import copyright from '../../assets/logo/copyright.png';
-import search from '../../assets/logo/search.png';
 import Button from "../button/Button.jsx";
 import {useNavigate} from "react-router-dom";
 
@@ -49,11 +48,6 @@ function Footer() {
                             <Button type="button" className={styles['button-register']}
                                     onClick={() => navigate('/register')}
                             >Registreren</Button>
-                        </div>
-
-                        <div>
-                            <button className={styles['button-search']}>Zoeken.. <img src={search} alt="search logo"/>
-                            </button>
                         </div>
 
                         <div>
