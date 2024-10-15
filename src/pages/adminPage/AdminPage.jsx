@@ -210,6 +210,7 @@ function AdminPage() {
                 <button className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
                 {isFormVisible && (
                     <form onSubmit={addUserAuthority} className={styles['admin-form']}>
+                        <button type="button" className={styles['close-button']} onClick={() => setFormVisible(false)}>x</button>
                         <input
                             type="text"
                             placeholder="Username"
@@ -287,35 +288,38 @@ function AdminPage() {
                 <h2>Authorities</h2>
                 <button className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
                 {isUpdateFormVisible && (
-                    <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={updateAuthority.username}
-                            onChange={(e) => setUpdateAuthority({...updateAuthority, username: e.target.value})}
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="Old Authority"
-                            value={updateAuthority.oldAuthority}
-                            onChange={(e) => setUpdateAuthority({...updateAuthority, oldAuthority: e.target.value})}
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="New Authority"
-                            value={updateAuthority.newAuthority}
-                            onChange={(e) => setUpdateAuthority({...updateAuthority, newAuthority: e.target.value})}
-                            required
-                        />
-                        <button className={styles['admin-button']} type="submit">Submit</button>
-                    </form>
-                )}
+                        <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
+                            <button type="button" className={styles['close-button']}
+                                    onClick={() => setUpdateFormVisible(false)}>x
+                            </button>
+                            <input
+                                type="text"
+                                placeholder="Username"
+                                value={updateAuthority.username}
+                                onChange={(e) => setUpdateAuthority({...updateAuthority, username: e.target.value})}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Old Authority"
+                                value={updateAuthority.oldAuthority}
+                                onChange={(e) => setUpdateAuthority({...updateAuthority, oldAuthority: e.target.value})}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="New Authority"
+                                value={updateAuthority.newAuthority}
+                                onChange={(e) => setUpdateAuthority({...updateAuthority, newAuthority: e.target.value})}
+                                required
+                            />
+                            <button className={styles['admin-button']} type="submit">Submit</button>
+                        </form>
+                    )}
                 <table>
                     <thead>
                     <tr>
-                        <th>Username</th>
+                    <th>Username</th>
                         <th>Role</th>
                         <th>Actions</th>
                     </tr>
