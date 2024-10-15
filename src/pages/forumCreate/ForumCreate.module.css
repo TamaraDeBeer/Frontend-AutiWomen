@@ -83,3 +83,30 @@ textarea:focus {
 .forum-form input {
     background-color: var(--primary-bg-color);
 }
+
+/*Media Queries*/
+/* Voor kleine computerschermen*/
+@media screen and (max-width: 1200px) {
+    .forum-form__buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Voor tablets */
+@media screen and (max-width: 992px) {
+
+}
+
+/* Voor mobiele telefoons in landscape */
+@media screen and (max-width: 768px) {
+
+
+
+}
+
+/* Voor mobiele telefoons in portait */
+@media screen and (max-width: 576px) {
+
+
+}

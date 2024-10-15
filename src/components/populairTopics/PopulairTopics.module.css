@@ -19,6 +19,7 @@
     font-size: 1.575rem;
     font-weight: 500;
     color: var(--primary-text-color);
+    text-align: end;
 }
 
 .topics-list a {
