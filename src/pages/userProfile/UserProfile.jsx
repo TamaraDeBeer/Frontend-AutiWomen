@@ -66,15 +66,26 @@ function UserProfile() {
     return (
         <>
             <section className="outer-container">
-                <h2>Dit is de profiel pagina van {username}</h2>
+                <h2>Welkom op de profielpagina van {username}</h2>
+            </section>
+
+            <section>
+                <h2>{username} informatie</h2>
+             <ul>
+                 <li>Username: {userInfo.username}</li>
+                 <li>Leeftijd: {userInfo.dob}</li>
+                 <li>Autisme: {userInfo.autismDiagnoses}</li>
+                 <li>Autisme diagnose sinds: {userInfo.autismDiagnosesYear}</li>
+             </ul>
             </section>
 
             <section className={styles['profile-bio']}>
-
+                <h2>Bio van {username}</h2>
+                <p>{bio.bio}</p>
             </section>
 
             <section className={styles['profile-forums']}>
-                <h2>{username} Forums</h2>
+                <h2>Forums door {username}</h2>
                 {forums.length > 0 ? (
                     forums.map((forum) => (
                         <ForumPostShort
