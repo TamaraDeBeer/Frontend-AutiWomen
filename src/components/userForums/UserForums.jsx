@@ -28,7 +28,7 @@ function UserForums({ username, currentForumId }) {
 
     return (
         <section className={styles['user-forums']}>
-            <h2 className={styles['title']}>Forums van {username}</h2>
+            <h2 className={styles['title']}>Forums van <Link to={`/users/${username}`} className={styles['link-user']}>{username}</Link></h2>
             {error && <p>Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw.</p>}
             {loading && <p>Loading...</p>}
             {forums.length === 0 ? (
