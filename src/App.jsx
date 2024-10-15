@@ -18,6 +18,7 @@ import AdminPage from "./pages/adminPage/AdminPage.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import {useContext} from "react";
 import {AuthContext} from "./context/AuthContextProvider.jsx";
+import UserProfile from "./pages/userProfile/UserProfile.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/forums/topic/:topic" element={<TopicPage/>} />
                     <Route path={"/forum/create"} element={<ForumCreate/>}/>
                     <Route path="/forums/:forumId" element={<ForumPost />} />
+                    <Route path="/users/:username" element={<UserProfile />} />
                     {/*<Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/error"/>}/>*/}
                     {/*<Route path="/forums/topic/:topic" element={isAuth ? <TopicPage/> : <Navigate to="/error"/>}/>*/}
                     {/*<Route path={"/forum/create"} element={isAuth ? <ForumCreate/> : <Navigate to="/error"/>}/>*/}
