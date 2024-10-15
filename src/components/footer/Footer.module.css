@@ -90,3 +90,18 @@ footer {
     align-items: center;
     gap: 0.625rem;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 1200px) {
+    .inner-container {
+        gap: 5rem;
+    }
+}
+
+/* Voor tablets */
+@media screen and (max-width: 992px) {
+    .inner-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
