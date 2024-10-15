@@ -40,26 +40,11 @@ button:hover {
 /*    background-color: hsla(45, 87%, 74%, 1);*/
 /*}*/
 
-@media screen and (max-width: 1200px) {
 
-}
-
-/* Voor tablets */
+/* Media Queries */
 @media screen and (max-width: 992px) {
     .button {
         font-size: 1rem;
         height: 2rem;
     }
-}
-
-/* Voor mobiele telefoons in landscape */
-@media screen and (max-width: 768px) {
-
-
-}
-
-/* Voor mobiele telefoons in portait */
-@media screen and (max-width: 576px) {
-
-
 }

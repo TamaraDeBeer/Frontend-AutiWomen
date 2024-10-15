@@ -11,3 +11,24 @@
     width: 40%;
     margin: 2rem 0 3rem 0;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 1200px) {
+    .login-form {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .login-form {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .login-form {
+        padding: 25px;
+        width: 60%;
+        gap: 0.5rem;
+    }
+}
