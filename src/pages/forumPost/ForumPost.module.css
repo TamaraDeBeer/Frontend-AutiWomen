@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 30px 20px 50px 20px;
+    margin: 30px 20px 1px 20px;
 }
 
 .section-hero__inner-container {
