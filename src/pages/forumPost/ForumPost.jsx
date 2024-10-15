@@ -193,7 +193,7 @@ function ForumPost() {
                 <section className={styles['section-forum__sidebar']}>
                     <PopulairTopics/>
                     <RelatedForums topic={forumById.topic} currentForumId={forumById.id}/>
-                    <UserForums username={forumById.name} />
+                    <UserForums username={forumById.name} currentForumId={forumById.id} />
                 </section>
             </section>
         </>
