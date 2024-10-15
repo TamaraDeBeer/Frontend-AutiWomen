@@ -223,27 +223,31 @@ function AccountProfile() {
                         <div className={styles['forms-edit']}>
                             {activeForm === 'profilePicture' && (
                                 <div className={styles['form-container']}>
-                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x</button>
+                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                    </button>
                                     <EditProfilePicture user={user}
                                                         onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
                                 </div>
                             )}
                             {activeForm === 'password' && (
                                 <div className={styles['form-container']}>
-                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X</button>
+                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
+                                    </button>
                                     <EditProfilePassword user={user}
                                                          onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
                                 </div>
                             )}
                             {activeForm === 'userInfo' && (
                                 <div className={styles['form-container']}>
-                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X</button>
+                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
+                                    </button>
                                     <EditProfileData user={user} profile={profile}
                                                      onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
                                 </div>
                             )}
                         </div>
                     </section>
+
                     <section className={styles['section-bio_container']}>
                         {bio.bio ? (
                             <div className={styles['section-bio']}>
@@ -259,7 +263,8 @@ function AccountProfile() {
                         )}
                         {activeForm === 'bioEdit' && (
                             <div className={styles['form-container']}>
-                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x</button>
+                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                </button>
                                 <BioEdit bio={bio} user={user} onUpdate={() => {
                                     fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
                                     setActiveForm(null);
@@ -292,6 +297,7 @@ function AccountProfile() {
                         )}
                     </section>
                     <div className={styles['section-forum__line']}></div>
+
                     <div className={styles['forums_other']}>
                         <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
                             <h2>Liked Forums</h2>
@@ -351,14 +357,18 @@ function AccountProfile() {
                             <div className={styles['section-bio']}>
                                 <h2>Jouw Review</h2>
                                 <p>{review.review}</p>
-                                <button onClick={() => setActiveForm('reviewEdit')} className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review</button>
+                                <button onClick={() => setActiveForm('reviewEdit')}
+                                        className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review
+                                </button>
                             </div>
                         ) : (
-                            <ReviewPost review={review.review} user={user} onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                            <ReviewPost review={review.review} user={user}
+                                        onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
                         )}
                         {activeForm === 'reviewEdit' && (
                             <div className={styles['form-container']}>
-                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x</button>
+                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                </button>
                                 <ReviewEdit review={review} user={user} onUpdate={() => {
                                     fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'));
                                     setActiveForm(null);

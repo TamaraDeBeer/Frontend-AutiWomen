@@ -178,3 +178,29 @@
     font-size: 2rem;
     color: var(--secondary-color);
 }
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .section-profile__inner-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 50%;
+        align-self: center;
+    }
+
+    .button{
+        border-radius: 3.125rem;
+    }
+
+    .forums_other {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
