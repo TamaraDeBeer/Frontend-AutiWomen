@@ -94,6 +94,7 @@ function AccountProfile() {
                 },
             });
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
+            console.log(sortedForums);
             setForums(sortedForums);
         } catch (e) {
             console.error(e);
@@ -200,7 +201,7 @@ function AccountProfile() {
                                         <li>Username: {profile.username}</li>
                                         <li>Email: {profile.email}</li>
                                         <li>Naam: {profile.name}</li>
-                                        <li>Leeftijd: {profile.dob}</li>
+                                        {profile.dob && <li>Leeftijd: {calculateAge(profile.dob) + ' jaar'}</li>}
                                         <li>Autisme: {profile.autismDiagnoses}</li>
                                         {profile.autismDiagnoses === 'Ja' && (
                                             <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>

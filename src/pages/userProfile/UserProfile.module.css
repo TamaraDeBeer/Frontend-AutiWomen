@@ -53,3 +53,7 @@
     padding: 1rem 0 2rem 0;
     flex: 1;
 }
+
+.title-information {
+    text-align: left;
+}

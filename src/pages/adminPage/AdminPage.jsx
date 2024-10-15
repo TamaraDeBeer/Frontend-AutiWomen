@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from './AdminPage.module.css';
 import {Link} from "react-router-dom";
+import calculateAge from "../../helpers/calculateAge.jsx";
 
 function AdminPage() {
     const [forums, setForums] = useState([]);
@@ -246,7 +247,7 @@ function AdminPage() {
                             <td>{user.username}</td>
                             <td>{user.autismDiagnoses}</td>
                             <td>{user.autismDiagnosesYear}</td>
-                            <td>{user.dob}</td>
+                            {user.dob && <td>{calculateAge(user.dob) + ' jaar'}</td>}
                             <td>{user.email}</td>
                             <td>{user.authorities[0]?.authority}</td>
                             <td>

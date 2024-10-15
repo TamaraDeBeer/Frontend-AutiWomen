@@ -11,7 +11,9 @@ function UserProfile() {
     const [userInfo, setUserInfo] = useState({});
     const [bio, setBio] = useState({});
     const [forums, setForums] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
@@ -72,7 +74,7 @@ function UserProfile() {
                     <img src={userInfo.profilePictureUrl} className={styles['profile-image']} alt={username}/>
                 </div>
                 <div>
-                    <h2>Informatie {username}</h2>
+                    <h2 className={styles['title-information']}>Informatie {username}</h2>
                     <ul className={styles['user-data']}>
                         <li>Username: {userInfo.username}</li>
                         <li>Leeftijd: {userInfo.dob}</li>

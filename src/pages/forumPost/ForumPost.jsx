@@ -130,7 +130,7 @@ function ForumPost() {
                             title={forumById.title}
                             image={forumById.userDto?.profilePictureUrl}
                             name={forumById.name}
-                            age={calculateAge(forumById.age)}
+                            age={calculateAge(forumById.age) + ' jaar'}
                             date={createDateToString(forumById.date)}
                             lastReaction={lastReaction ? lastReaction : 'Plaast de eerste reactie hieronder'}
                             text={forumById.text}
@@ -154,7 +154,7 @@ function ForumPost() {
                                     key={comment.id}
                                     image={comment.userDto?.profilePictureUrl}
                                     name={comment.name}
-                                    age={calculateAge(comment.age)}
+                                    age={calculateAge(comment.age) + ' jaar'}
                                     date={createDateToString(comment.date)}
                                     text={comment.text}
                                     commentId={comment.id}
