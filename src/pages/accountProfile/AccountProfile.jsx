@@ -177,6 +177,7 @@ function AccountProfile() {
                             <h2>Welkom {user.username}!</h2>
                         </div>
                     </section>
+
                     <section className={styles['section-profile__inner-container']}>
                         <div className={styles['profile-complete']}>
                             <div className={styles['image-data']}>
