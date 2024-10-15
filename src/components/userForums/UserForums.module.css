@@ -50,3 +50,14 @@
 .link-user:hover {
     font-size: 2rem;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .user-forums {
+        align-items: center;
+    }
+
+    .forums-list {
+        text-align: center;
+    }
+}

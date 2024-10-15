@@ -30,7 +30,7 @@
     flex-direction: column;
     padding: 1.06rem 1.31rem 0.75rem 1.38rem;
     gap: 1.25rem;
-    width: 52.5rem;
+    /*width: 100%;*/
 }
 
 .section-forum__card-information {

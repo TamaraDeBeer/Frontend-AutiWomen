@@ -40,3 +40,14 @@
     color: var(--secondary-color);
     font-weight: 500;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .related-forums {
+        align-items: center;
+    }
+
+    .forums-list{
+        text-align: center;
+    }
+}
