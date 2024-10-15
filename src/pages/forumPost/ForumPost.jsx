@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import styles from './ForumPost.module.css';
 import Button from "../../components/button/Button.jsx";
@@ -26,6 +26,7 @@ function ForumPost() {
     const [postComment, setPostComment] = useState([]);
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
+    const commentFormRef = useRef(null);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -98,6 +99,13 @@ function ForumPost() {
         toggleLoading(false);
     }
 
+    const scrollToCommentForm = () => {
+        if (commentFormRef.current) {
+            commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+
     return (
         <>
             <section className={styles['outer-container']}>
@@ -131,6 +139,7 @@ function ForumPost() {
                             viewsCount={forumById.viewsCount}
                             currentUser={name}
                             fetchForumById={fetchForumById}
+                            scrollToCommentForm={scrollToCommentForm}
                         />
                         )}
 
@@ -158,7 +167,7 @@ function ForumPost() {
 
                     <div className={styles['section-forum__line']}></div>
 
-                    <div className={styles['section-forum__comment']}>
+                    <div className={styles['section-forum__comment']} ref={commentFormRef}>
                         <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
 
                         <form onSubmit={addComment} className={styles['section-forum__comment-card']}>

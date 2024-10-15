@@ -10,7 +10,7 @@ import axios from "axios";
 import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
 
-function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById}) {
+function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById, scrollToCommentForm}) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
     const [hasViewed, setHasViewed] = useState(false);
@@ -134,7 +134,8 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
                 </p>
                 <p className={styles['card-information__logo']}><img src={comments1}
                                                                      alt="Comments Logo"
-                                                                     className={styles['logo']}/>{commentsCount}</p>
+                                                                     className={styles['logo']}
+                                                                     onClick={scrollToCommentForm}/>{commentsCount}</p>
                 <p className={styles['card-information__logo']}><img src={hasViewed ? view2 : view1}
                                                                      alt="Views Logo"
                                                                      className={styles['logo-view']}/>{currentViewsCount}
