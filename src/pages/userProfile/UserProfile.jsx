@@ -2,8 +2,6 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import ForumPostShort from '../../components/forumPostShort/ForumPostShort';
-import BioPost from '../../components/bioPost/BioPost';
-import BioEdit from '../../components/bioEdit/BioEdit';
 import calculateAge from '../../helpers/calculateAge';
 import createDateToString from '../../helpers/createDateToString';
 import styles from './UserProfile.module.css';
@@ -13,7 +11,6 @@ function UserProfile() {
     const [userInfo, setUserInfo] = useState({});
     const [bio, setBio] = useState({});
     const [forums, setForums] = useState([]);
-    const [activeForm, setActiveForm] = useState(null);
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
 
@@ -65,23 +62,31 @@ function UserProfile() {
 
     return (
         <>
-            <section className="outer-container">
-                <h2>Welkom op de profielpagina van {username}</h2>
+            <section className={styles['outer-container_user']}>
+                <h1>Auti-Women</h1>
+                <h2>Welkom op de pagina van {username}</h2>
             </section>
 
-            <section>
-                <h2>{username} informatie</h2>
-             <ul>
-                 <li>Username: {userInfo.username}</li>
-                 <li>Leeftijd: {userInfo.dob}</li>
-                 <li>Autisme: {userInfo.autismDiagnoses}</li>
-                 <li>Autisme diagnose sinds: {userInfo.autismDiagnosesYear}</li>
-             </ul>
+            <section className={styles['section-user']}>
+                <div>
+                    <img src={userInfo.profilePictureUrl} className={styles['profile-image']} alt={username}/>
+                </div>
+                <div>
+                    <h2>Informatie {username}</h2>
+                    <ul className={styles['user-data']}>
+                        <li>Username: {userInfo.username}</li>
+                        <li>Leeftijd: {userInfo.dob}</li>
+                        <li>Autisme: {userInfo.autismDiagnoses}</li>
+                        <li>Autisme diagnose sinds: {userInfo.autismDiagnosesYear}</li>
+                    </ul>
+                </div>
             </section>
 
-            <section className={styles['profile-bio']}>
+            <section className={styles['profile-bio_container']}>
+                <div className={styles['profile-bio']}>
                 <h2>Bio van {username}</h2>
                 <p>{bio.bio}</p>
+                </div>
             </section>
 
             <section className={styles['profile-forums']}>
@@ -108,7 +113,6 @@ function UserProfile() {
                     <p>No forums found.</p>
                 )}
             </section>
-
 
         </>
     );
