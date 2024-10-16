@@ -2,27 +2,13 @@ import styles from './Navigation.module.css';
 import {NavLink, useNavigate} from 'react-router-dom';
 import Button from "../button/Button.jsx";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
-import {useContext, useEffect, useState} from "react";
-import axios from "axios";
+import {useContext} from "react";
+import {UserContext} from "../../context/UserProvider.jsx";
 
 function Navigation() {
     const navigate = useNavigate();
-    const {isAuth, logout, user} = useContext(AuthContext);
-    // eslint-disable-next-line no-unused-vars
-    const [userData, setUserData] = useState(null);
-
-    useEffect(() => {
-        if (isAuth && user) {
-            axios.get(`http://localhost:1991/users/${user.username}/image`)
-                .then(response => {
-                    console.log(response.data);
-                    setUserData(response.data);
-                })
-                .catch(error => {
-                    console.error("Er is een fout opgetreden bij het ophalen van de gebruikersgegevens:", error);
-                });
-        }
-    }, [isAuth, user]);
+    const {isAuth, logout} = useContext(AuthContext);
+    const { user } = useContext(UserContext);
 
     return (
         <nav className={styles['outer-container']}>
@@ -47,11 +33,11 @@ function Navigation() {
 
                     {isAuth ? (
                         <>
-                            {userData && userData.profilePictureUrl ? (
+                            {user && user.profilePicture ? (
                                 <div className={styles['user-info']}>
                                     <button onClick={() => navigate('/profile')}
                                             className={styles['profile-photo-button']}>
-                                        <img src={userData.profilePictureUrl} alt="Profielfoto"
+                                        <img src={user.profilePicture} alt="Profile"
                                              className={styles['profile-photo']}/>
                                         <span>{user.username}</span>
                                     </button>

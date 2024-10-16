@@ -98,7 +98,21 @@ function AccountRegister() {
                         errors={errors}
                     />
 
-
+                    <label htmlFor="gender-field">
+                        <p>Geslacht:</p>
+                        <select id="gender-field" {...register("gender", {
+                            required: {
+                                value: true,
+                                message: "Geslacht is verplicht",
+                            },
+                            validate: (value) => value === 'vrouw' || "Sorry, alleen vrouwen zijn welkom op deze website",
+                        })}>
+                            <option value="" disabled selected>-- Selecteer een optie --</option>
+                            <option value="vrouw">vrouw</option>
+                            <option value="man">man</option>
+                        </select>
+                        {errors.gender && <p>{errors.gender.message}</p>}
+                    </label>
 
                     <InputField
                         inputId="dob-field"
