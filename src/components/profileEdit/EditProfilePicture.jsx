@@ -1,16 +1,14 @@
-import {useContext, useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 import styles from './ProfileEdit.module.css';
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
-import {UserContext} from "../../context/UserProvider.jsx";
 
 function EditProfilePicture({ user, onUpdate }) {
     const [profilePicture, setProfilePicture] = useState(null);
     const [fileName, setFileName] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    const { setUser } = useContext(UserContext);
 
     const handleProfilePictureChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -30,14 +28,10 @@ function EditProfilePicture({ user, onUpdate }) {
                 },
             });
             onUpdate();
-            setUser(prevState => ({
-                ...prevState,
-                profilePicture: URL.createObjectURL(profilePicture)
-            }));
             setIsSubmitted(true);
         } catch (error) {
             console.error("Error updating profile picture:", error);
-            toggleError('Niet gelukt, waarschijnlijk is het bestand te groot');
+            toggleError(true);
         }
     };
 

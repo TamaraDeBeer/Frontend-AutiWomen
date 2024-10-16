@@ -7,7 +7,6 @@ import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import Button from "../../components/button/Button.jsx";
-import search from "../../assets/logo/search.png";
 
 function TopicPage() {
     const { topic } = useParams();

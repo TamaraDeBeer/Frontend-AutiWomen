@@ -63,7 +63,13 @@ function AdminPage() {
 
     async function getAllUsers() {
         try {
-            const response = await axios.get('http://localhost:1991/users');
+            const token = localStorage.getItem('jwt'); // of waar je de token ook opslaat
+            const response = await axios.get('http://localhost:1991/users', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
             setUsers(response.data);
         } catch (e) {
             console.error(e);
