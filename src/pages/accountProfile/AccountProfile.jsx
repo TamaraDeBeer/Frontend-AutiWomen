@@ -1,7 +1,6 @@
 import styles from './AccountProfile.module.css';
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
-import axios from "axios";
 import EditProfilePicture from "../../components/profileEdit/EditProfilePicture.jsx";
 import EditProfilePassword from "../../components/profileEdit/EditProfilePassword.jsx";
 import EditProfileData from "../../components/profileEdit/EditProfileData.jsx";
@@ -15,6 +14,7 @@ import BioPost from "../../components/bioPost/BioPost.jsx";
 import ReviewPost from "../../components/reviewPost/ReviewPost.jsx";
 import ReviewEdit from "../../components/reviewEdit/ReviewEdit.jsx";
 import {Link} from "react-router-dom";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
@@ -33,27 +33,22 @@ function AccountProfile() {
 
     useEffect(() => {
         if (user) {
-            const jwt = localStorage.getItem('jwt');
             const username = localStorage.getItem('username');
-            void fetchProfile(jwt, username);
-            void fetchBio(jwt, username);
-            void fetchForums(jwt, username);
-            void fetchLikedForums(jwt, username);
-            void fetchViewedForums(jwt, username);
-            void fetchCommentedForums(jwt, username);
-            void fetchReview(jwt, username);
+            void fetchProfile(username);
+            void fetchBio(username);
+            void fetchForums(username);
+            void fetchLikedForums(username);
+            void fetchViewedForums(username);
+            void fetchCommentedForums(username);
+            void fetchReview(username);
         }
     }, [user]);
 
-    async function fetchProfile(jwt, username) {
+    async function fetchProfile(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axios.get(`http://localhost:1991/users/${username}`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const profileResult = await axiosHeader.get(`/users/${username}`)
             setProfile(profileResult.data);
             console.log(profileResult.data);
             setProfile(profileResult.data);
@@ -67,15 +62,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchBio(jwt, username) {
+    async function fetchBio(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axios.get(`http://localhost:1991/users/profiles/${username}`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const profileResult = await axiosHeader.get(`/users/profiles/${username}`)
             setBio(profileResult.data);
         } catch (e) {
             console.error(e);
@@ -84,15 +75,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchForums(jwt, username) {
+    async function fetchForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/forums`)
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             console.log(sortedForums);
             setForums(sortedForums);
@@ -103,15 +90,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchLikedForums(jwt, username) {
+    async function fetchLikedForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/liked-forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/liked-forums`)
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setLikedForums(sortedForums);
         } catch (e) {
@@ -121,15 +104,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchViewedForums(jwt, username) {
+    async function fetchViewedForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/viewed-forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/viewed-forums`)
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setViewedForums(sortedForums);
         } catch (e) {
@@ -139,15 +118,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchCommentedForums(jwt, username) {
+    async function fetchCommentedForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/commented-forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/commented-forums`)
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setCommentedForums(sortedForums);
         } catch (e) {
@@ -157,15 +132,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchReview(jwt, username) {
+    async function fetchReview(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/reviews/${username}`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const response = await axiosHeader.get(`/reviews/${username}`)
             setReview(response.data);
         } catch (e) {
             console.error(e);

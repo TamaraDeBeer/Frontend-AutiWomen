@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import styles from './AdminPage.module.css';
 import {Link} from "react-router-dom";
 import calculateAge from "../../helpers/calculateAge.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function AdminPage() {
     const [forums, setForums] = useState([]);
@@ -25,7 +25,7 @@ function AdminPage() {
 
     async function getAllForums() {
         try {
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosHeader.get('/forums');
             setForums(response.data);
             console.log(response.data);
         } catch (e) {
@@ -35,7 +35,7 @@ function AdminPage() {
 
     async function deleteForum(id) {
         try {
-            await axios.delete(`http://localhost:1991/forums/${id}`);
+            await axiosHeader.delete(`/forums/${id}`);
             setForums(forums.filter(forum => forum.id !== id));
             getAllComments();
         } catch (e) {
@@ -45,7 +45,7 @@ function AdminPage() {
 
     async function getAllComments() {
         try {
-            const response = await axios.get('http://localhost:1991/forums/comments');
+            const response = await axiosHeader.get('/forums/comments');
             setComments(response.data);
         } catch (e) {
             console.error(e);
@@ -54,7 +54,7 @@ function AdminPage() {
 
     async function deleteComment(forumId, commentId) {
         try {
-            await axios.delete(`http://localhost:1991/forums/${forumId}/comments/${commentId}`);
+            await axiosHeader.delete(`/forums/${forumId}/comments/${commentId}`);
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (e) {
             console.error(e);
@@ -63,13 +63,7 @@ function AdminPage() {
 
     async function getAllUsers() {
         try {
-            const token = localStorage.getItem('jwt'); // of waar je de token ook opslaat
-            const response = await axios.get('http://localhost:1991/users', {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+            const response = await axiosHeader.get('/users');
             setUsers(response.data);
         } catch (e) {
             console.error(e);
@@ -78,7 +72,7 @@ function AdminPage() {
 
     async function deleteUser(username) {
         try {
-            await axios.delete(`http://localhost:1991/users/${username}`);
+            await axiosHeader.delete(`/users/${username}`);
             setUsers(users.filter(user => user.username !== username));
         } catch (e) {
             console.error(e);
@@ -87,7 +81,7 @@ function AdminPage() {
 
     async function getAllReviews() {
         try {
-            const response = await axios.get('http://localhost:1991/reviews');
+            const response = await axiosHeader.get('/reviews');
             setReview(response.data);
         } catch (e) {
             console.error(e);
@@ -96,7 +90,7 @@ function AdminPage() {
 
     async function deleteReview(id) {
         try {
-            await axios.delete(`http://localhost:1991/reviews/${id}`);
+            await axiosHeader.delete(`/reviews/${id}`);
             setReview(review.filter(review => review.id !== id));
         } catch (e) {
             console.error(e);
@@ -105,7 +99,7 @@ function AdminPage() {
 
     async function getAllAuthorities() {
         try {
-            const response = await axios.get('http://localhost:1991/authorities');
+            const response = await axiosHeader.get('/authorities');
             setAuthorities(response.data);
         } catch (e) {
             console.error(e);
@@ -114,7 +108,7 @@ function AdminPage() {
 
     async function deleteUserAuthority(username, authority) {
         try {
-            await axios.delete(`http://localhost:1991/${username}/authorities/${authority}`);
+            await axiosHeader.delete(`/${username}/authorities/${authority}`);
             setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
             getAllUsers();
         } catch (e) {
@@ -125,7 +119,7 @@ function AdminPage() {
     async function addUserAuthority(event) {
         event.preventDefault();
         try {
-            await axios.post(`http://localhost:1991/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
+            await axiosHeader.post(`/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
             setFormVisible(false);
             getAllAuthorities();
             getAllUsers();
@@ -137,7 +131,7 @@ function AdminPage() {
     async function updateUserAuthority(event) {
         event.preventDefault();
         try {
-            await axios.put(`http://localhost:1991/${updateAuthority.username}/authorities`, {
+            await axiosHeader.put(`/${updateAuthority.username}/authorities`, {
                 oldAuthority: updateAuthority.oldAuthority,
                 newAuthority: updateAuthority.newAuthority
             });

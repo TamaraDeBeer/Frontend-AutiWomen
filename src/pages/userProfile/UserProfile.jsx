@@ -5,6 +5,7 @@ import ForumPostShort from '../../components/forumPostShort/ForumPostShort';
 import calculateAge from '../../helpers/calculateAge';
 import createDateToString from '../../helpers/createDateToString';
 import styles from './UserProfile.module.css';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function UserProfile() {
     const {username} = useParams();
@@ -26,7 +27,7 @@ function UserProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/users/${username}`);
+            const response = await axiosHeader.get(`/users/${username}`);
             setUserInfo(response.data);
         } catch (e) {
             console.error(e);
@@ -39,7 +40,7 @@ function UserProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/users/profiles/${username}`);
+            const response = await axiosHeader.get(`/users/profiles/${username}`);
             setBio(response.data);
         } catch (e) {
             console.error(e);

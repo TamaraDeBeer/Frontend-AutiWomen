@@ -11,6 +11,7 @@ import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 // import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
 import UserForums from "../../components/userForums/UserForums.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -83,7 +84,7 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axios.post(`http://localhost:1991/forums/${forumId}/comments/${username}`, {
+            const response = await axiosHeader.post(`/forums/${forumId}/comments/${username}`, {
                 name: username,
                 text: commentText,
                 date: new Date().toISOString(),
@@ -122,7 +123,7 @@ function ForumPost() {
 
             <section className={`${styles['outer-container']} ${styles['section-forum__main']}`}>
                 <section className={styles['section-forum__posts-long']}>
-                    {error && <p className="error-message">Deze forum post bestaat niet (meer).</p>}
+                    {error && <p className="error-message">Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>}
                     {loading && <p>Loading...</p>}
 
                     {Object.keys(forumById).length > 0 && (

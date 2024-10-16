@@ -1,8 +1,8 @@
 import styles from "../forumCreate/ForumCreate.module.css";
 import Button from "../../components/button/Button.jsx";
-import axios from "axios";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 
 function ForumCreate() {
@@ -10,7 +10,6 @@ function ForumCreate() {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [topic, setTopic] = useState('');
-    // const [date] = useState('');
     const navigate = useNavigate();
     // eslint-disable-next-line no-unused-vars
     const [postForum, setPostForum] = useState([]);
@@ -28,7 +27,7 @@ function ForumCreate() {
         console.log(name, title, text, topic);
 
         try {
-            const response = await axios.post(`http://localhost:1991/forums/${username}`, {
+            const response = await axiosHeader.post(`/forums/${username}`, {
                 name: username,
                 title: title,
                 text: text,

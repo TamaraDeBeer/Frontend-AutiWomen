@@ -5,7 +5,6 @@ import InputField from "../../components/inputField/InputField.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import defaultProfileImage from '../../assets/profilePhoto/profile.png';
 
 function AccountRegister() {
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
@@ -60,8 +59,6 @@ function AccountRegister() {
 
         if (data.photo && data.photo[0]) {
             formData.append('file', data.photo[0]);
-        } else {
-            formData.append('file', defaultProfileImage);
         }
         try {
             const response = await axios.post('http://localhost:1991/register', formData, {
