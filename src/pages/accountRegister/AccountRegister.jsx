@@ -5,6 +5,7 @@ import InputField from "../../components/inputField/InputField.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import { differenceInYears } from 'date-fns';
 
 function AccountRegister() {
     const {handleSubmit, formState: {errors}, register, watch} = useForm({
@@ -29,6 +30,11 @@ function AccountRegister() {
     const navigate = useNavigate();
     const source = axios.CancelToken.source();
     const watchSelectedAutism = watch('autism-question');
+    const isAtLeast16YearsOld = (dob) => {
+        const today = new Date();
+        const birthDate = new Date(dob);
+        return differenceInYears(today, birthDate) >= 16;
+    };
 
     useEffect(() => {
         return function cleanup() {
@@ -71,7 +77,9 @@ function AccountRegister() {
             navigate('/login');
         } catch (e) {
             console.error('Error during registration:', e);
+            toggleError(true);
         }
+
     }
 
     return (<>
@@ -96,7 +104,7 @@ function AccountRegister() {
                     />
 
                     <label htmlFor="gender-field">
-                        <p>Geslacht:</p>
+                        <p className={styles['section-register__autism']}>Geslacht:</p>
                         <select id="gender-field" {...register("gender", {
                             required: {
                                 value: true,
@@ -121,6 +129,9 @@ function AccountRegister() {
                                 value: true,
                                 message: "Geboortedatum is verplicht",
                             },
+                            validate: {
+                                isOldEnough: (value) => isAtLeast16YearsOld(value) || "Je moet minimaal 16 jaar oud zijn",
+                            },
                         }}
                         register={register}
                         errors={errors}
@@ -133,7 +144,7 @@ function AccountRegister() {
                                 value: true,
                                 message: "Deze vraag is verplicht",
                             },
-                            validate: (value) => value !== "Nee" || "Sorry, Deze website is voor vrouwen met autisme of een vermoeden van",
+                            validate: (value) => value !== "Nee" || "Sorry, deze website is voor vrouwen met autisme of een vermoeden van",
                         })}>
                             <option value="" disabled selected>-- Selecteer een optie --</option>
                             <option value="Ja">Ja</option>
