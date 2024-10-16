@@ -254,7 +254,8 @@ function AccountRegister() {
                     />
 
                     <label htmlFor="photo-field" className={styles['register-image']}>
-                        Profielfoto: foto kiezen
+                        {/*Profielfoto: foto kiezen*/}
+                        Op je profilepagina kun je een profielfoto toevoegen.
                         <input
                             id="photo-field"
                             type="file"

@@ -58,14 +58,17 @@
 
 .section-reviews__outer-container {
     background-color: var(--primary-bg-color);
-    padding: 3rem 8rem;
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.review--center {
-    transform: scale(1.2);
-    transition: transform 0.3s ease;
+.section-reviews__inner-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-
 
 /*Media Queries*/
 @media screen and (max-width: 992px){

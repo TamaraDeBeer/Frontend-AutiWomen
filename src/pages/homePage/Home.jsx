@@ -54,14 +54,14 @@ function Home() {
         arrows: false,
         responsive: [
             {
-                breakpoint: 1300,
+                breakpoint: 1400,
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                 }
             },
             {
-                breakpoint: 1200,
+                breakpoint: 1000,
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
@@ -120,19 +120,21 @@ function Home() {
 
         <section className={styles['section-reviews__outer-container']}>
             <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
-            <Slider {...settings} className={styles['section-reviews__inner-container']}>
-                {reviews.map((review) => (
-                    <div key={review.id} className={styles['review']}>
-                        <Reviews
-                            image={review.profilePictureUrl}
-                            name={review.name}
-                            text={review.review}
-                            age={calculateAge(review.dob) + ' jaar'}
-                            diagnoseYear={review.diagnoseYear}
-                        />
-                    </div>
-                ))}
-            </Slider>
+            <div className={styles['section-reviews__inner-container']}>
+                <Slider {...settings}>
+                    {reviews.map((review) => (
+                        <div key={review.id} className={styles['review']}>
+                            <Reviews
+                                image={review.profilePictureUrl}
+                                name={review.name}
+                                text={review.review}
+                                age={calculateAge(review.dob) + ' jaar'}
+                                diagnoseYear={review.diagnoseYear}
+                            />
+                        </div>
+                    ))}
+                </Slider>
+            </div>
         </section>
 
     </>);
