@@ -50,6 +50,38 @@ function AccountRegister() {
         }
     };
 
+    // async function registerUser(data) {
+    //     const formData = new FormData();
+    //     formData.append('user', new Blob([JSON.stringify({
+    //         email: data.email,
+    //         username: data.username,
+    //         password: data.password,
+    //         name: data.name,
+    //         gender: data.gender,
+    //         dob: data.dob,
+    //         autismDiagnoses: data['autism-question'],
+    //         autismDiagnosesYear: data['autism-question-Ja'],
+    //     })], { type: 'application/json' }));
+    //
+    //     if (data.photo && data.photo[0]) {
+    //         formData.append('file', data.photo[0]);
+    //     }
+    //     try {
+    //         const response = await axios.post('http://localhost:1991/register', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             },
+    //             cancelToken: source.token,
+    //         });
+    //         console.log(response.data); // Check the response data
+    //         navigate('/login');
+    //     } catch (e) {
+    //         console.error('Error during registration:', e);
+    //         toggleError(true);
+    //     }
+    //
+    // }
+
     async function registerUser(data) {
         const formData = new FormData();
         formData.append('user', new Blob([JSON.stringify({
@@ -66,6 +98,7 @@ function AccountRegister() {
         if (data.photo && data.photo[0]) {
             formData.append('file', data.photo[0]);
         }
+
         try {
             const response = await axios.post('http://localhost:1991/register', formData, {
                 headers: {
@@ -79,7 +112,6 @@ function AccountRegister() {
             console.error('Error during registration:', e);
             toggleError(true);
         }
-
     }
 
     return (<>
