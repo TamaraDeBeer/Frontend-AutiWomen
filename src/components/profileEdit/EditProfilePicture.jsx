@@ -1,10 +1,10 @@
-import { useState } from "react";
-import axios from "axios";
+import {useState} from "react";
 import styles from './ProfileEdit.module.css';
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function EditProfilePicture({ user, onUpdate }) {
+function EditProfilePicture({user, onUpdate}) {
     const [profilePicture, setProfilePicture] = useState(null);
     const [fileName, setFileName] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -21,11 +21,10 @@ function EditProfilePicture({ user, onUpdate }) {
         formData.append("file", profilePicture);
 
         try {
-            await axios.put(`http://localhost:1991/users/${user.username}/profile-picture`, formData, {
+            await axiosHeader.put(`/users/${user.username}/profile-picture`, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             onUpdate();
             setIsSubmitted(true);
@@ -39,7 +38,7 @@ function EditProfilePicture({ user, onUpdate }) {
         <div>
             {isSubmitted ? (
                 <div className={styles['edit-form']}>
-                <p>Update succesvol!</p>
+                    <p>Update succesvol!</p>
                 </div>
             ) : (
                 <form onSubmit={handleProfilePictureSubmit} className={styles['edit-form']}>
@@ -55,7 +54,7 @@ function EditProfilePicture({ user, onUpdate }) {
                     </label>
                     {fileName && <p className={styles['file-name']}>{fileName}</p>}
                     <Button type="submit" variant="secondary">Update Profielfoto</Button>
-                    {error && <ErrorMessage message={error} />}
+                    {error && <ErrorMessage message={error}/>}
                 </form>
             )}
         </div>

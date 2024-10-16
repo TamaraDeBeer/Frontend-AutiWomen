@@ -1,10 +1,8 @@
-import styles from './AccountProfile.module.css';
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
 import EditProfilePicture from "../../components/profileEdit/EditProfilePicture.jsx";
 import EditProfilePassword from "../../components/profileEdit/EditProfilePassword.jsx";
 import EditProfileData from "../../components/profileEdit/EditProfileData.jsx";
-// import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
@@ -15,6 +13,7 @@ import ReviewPost from "../../components/reviewPost/ReviewPost.jsx";
 import ReviewEdit from "../../components/reviewEdit/ReviewEdit.jsx";
 import {Link} from "react-router-dom";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
+import styles from './AccountProfile.module.css';
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
@@ -30,17 +29,19 @@ function AccountProfile() {
     // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const {user} = useContext(AuthContext);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         if (user) {
-            const username = localStorage.getItem('username');
-            void fetchProfile(username);
-            void fetchBio(username);
-            void fetchForums(username);
-            void fetchLikedForums(username);
-            void fetchViewedForums(username);
-            void fetchCommentedForums(username);
-            void fetchReview(username);
+            const storedUsername = localStorage.getItem('username');
+            setUsername(storedUsername);
+            void fetchProfile(storedUsername);
+            void fetchBio(storedUsername);
+            void fetchForums(storedUsername);
+            void fetchLikedForums(storedUsername);
+            void fetchViewedForums(storedUsername);
+            void fetchCommentedForums(storedUsername);
+            void fetchReview(storedUsername);
         }
     }, [user]);
 
@@ -48,13 +49,8 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axiosHeader.get(`/users/${username}`)
+            const profileResult = await axiosHeader.get(`/users/${username}`);
             setProfile(profileResult.data);
-            console.log(profileResult.data);
-            setProfile(profileResult.data);
-            if (profileResult.data.authorities && profileResult.data.authorities.length > 0) {
-                console.log(profileResult.data.authorities[0].authority);
-            }
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -66,7 +62,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axiosHeader.get(`/users/profiles/${username}`)
+            const profileResult = await axiosHeader.get(`/users/profiles/${username}`);
             setBio(profileResult.data);
         } catch (e) {
             console.error(e);
@@ -79,9 +75,8 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/forums`)
+            const forumsResult = await axiosHeader.get(`/users/${username}/forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
-            console.log(sortedForums);
             setForums(sortedForums);
         } catch (e) {
             console.error(e);
@@ -94,7 +89,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/liked-forums`)
+            const forumsResult = await axiosHeader.get(`/users/${username}/liked-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setLikedForums(sortedForums);
         } catch (e) {
@@ -108,7 +103,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/viewed-forums`)
+            const forumsResult = await axiosHeader.get(`/users/${username}/viewed-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setViewedForums(sortedForums);
         } catch (e) {
@@ -122,7 +117,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/commented-forums`)
+            const forumsResult = await axiosHeader.get(`/users/${username}/commented-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setCommentedForums(sortedForums);
         } catch (e) {
@@ -136,7 +131,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.get(`/reviews/${username}`)
+            const response = await axiosHeader.get(`/reviews/${username}`);
             setReview(response.data);
         } catch (e) {
             console.error(e);
@@ -198,7 +193,7 @@ function AccountProfile() {
                                     <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
                                     </button>
                                     <EditProfilePicture user={user}
-                                                        onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                                                        onUpdate={() => fetchProfile(username)}/>
                                 </div>
                             )}
                             {activeForm === 'password' && (
@@ -206,7 +201,7 @@ function AccountProfile() {
                                     <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
                                     </button>
                                     <EditProfilePassword user={user}
-                                                         onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                                                         onUpdate={() => fetchProfile(username)}/>
                                 </div>
                             )}
                             {activeForm === 'userInfo' && (
@@ -214,7 +209,7 @@ function AccountProfile() {
                                     <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
                                     </button>
                                     <EditProfileData user={user} profile={profile}
-                                                     onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                                                     onUpdate={() => fetchProfile(username)}/>
                                 </div>
                             )}
                         </div>
@@ -231,14 +226,14 @@ function AccountProfile() {
                             </div>
                         ) : (
                             <BioPost bio={bio.bio} user={user}
-                                     onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                                     onUpdate={() => fetchBio(username)}/>
                         )}
                         {activeForm === 'bioEdit' && (
                             <div className={styles['form-container']}>
                                 <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
                                 </button>
                                 <BioEdit bio={bio} user={user} onUpdate={() => {
-                                    fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
+                                    fetchBio(username);
                                     setActiveForm(null);
                                 }}/>
                             </div>
@@ -335,14 +330,14 @@ function AccountProfile() {
                             </div>
                         ) : (
                             <ReviewPost review={review.review} user={user}
-                                        onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                                        onUpdate={() => fetchReview(username)}/>
                         )}
                         {activeForm === 'reviewEdit' && (
                             <div className={styles['form-container']}>
                                 <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
                                 </button>
                                 <ReviewEdit review={review} user={user} onUpdate={() => {
-                                    fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'));
+                                    fetchReview(username);
                                     setActiveForm(null);
                                 }}/>
                             </div>

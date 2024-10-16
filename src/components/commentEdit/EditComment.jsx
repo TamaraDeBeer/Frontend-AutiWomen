@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "../forumEdit/ForumEdit.module.css";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function EditComment ({forumId, commentId, commentData, onUpdate}) {
     console.log('forumId:', forumId);
@@ -24,12 +25,7 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.put(`http://localhost:1991/forums/${forumId}/comments/${commentId}`, data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
-            });
+            const response = await axiosHeader.put(`/forums/${forumId}/comments/${commentId}`, data);
             onUpdate(response.data);
             setIsSubmitted(true);
         } catch (e) {

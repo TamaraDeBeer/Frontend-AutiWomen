@@ -47,6 +47,7 @@ function AdminPage() {
         try {
             const response = await axiosHeader.get('/forums/comments');
             setComments(response.data);
+            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -74,6 +75,10 @@ function AdminPage() {
         try {
             await axiosHeader.delete(`/users/${username}`);
             setUsers(users.filter(user => user.username !== username));
+            getAllForums();
+            getAllComments();
+            getAllAuthorities();
+            getAllReviews();
         } catch (e) {
             console.error(e);
         }
@@ -163,7 +168,7 @@ function AdminPage() {
                         <tr key={forum.id}>
                             <td>{forum.id}</td>
                             <td>{forum.name}</td>
-                            <td><Link to={`/forum/${forum.id}`}>{forum.title}</Link></td>
+                            <td><Link to={`/forums/${forum.id}`}>{forum.title}</Link></td>
                             <td>
                                 <button className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
                             </td>
@@ -192,7 +197,7 @@ function AdminPage() {
                             <td>{comment.forumDto.id}</td>
                             <td>{comment.name}</td>
                             <td>
-                                <Link to={`/forum/${comment.forumId}`}>
+                                <Link to={`/forums/${comment.forumDto.id}`}>
                                     {comment.text.slice(0, 60)}...
                                 </Link>
                             </td>

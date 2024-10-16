@@ -9,6 +9,7 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById, scrollToCommentForm}) {
     const {forumId} = useParams();
@@ -38,7 +39,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function checkUserLike(storedUsername) {
         try {
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/likes/check`);
+            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/likes/check`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
@@ -56,7 +57,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function addLike() {
         try {
-            const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${username}/likes/add`);
+            const response = await axiosHeader.post(`/forums/${forumId}/users/${username}/likes/add`);
             setCurrentLikesCount(response.data);
             setHasLiked(true);
             fetchLikeCount();
@@ -67,7 +68,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function removeLike() {
         try {
-            const response = await axios.delete(`http://localhost:1991/forums/${forumId}/users/${username}/likes/remove`);
+            const response = await axiosHeader.delete(`/forums/${forumId}/users/${username}/likes/remove`);
             setCurrentLikesCount(response.data);
             setHasLiked(false);
             fetchLikeCount();
@@ -78,7 +79,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function checkUserView(storedUsername) {
         try {
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/check`);
+            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/views/check`);
             setHasViewed(response.data);
         } catch (e) {
             console.error(e);
@@ -96,7 +97,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function addView(storedUsername) {
         try {
-            const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/add`);
+            const response = await axiosHeader.post(`/forums/${forumId}/users/${storedUsername}/views/add`);
             setCurrentViewsCount(response.data);
             setHasViewed(true);
         } catch (e) {

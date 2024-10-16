@@ -6,7 +6,7 @@ import view1 from "../../assets/logo/view1.png";
 import view2 from "../../assets/logo/view2.png";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function ForumPostShort({forumId, image, name, age, title, date, text, link, likesCount, commentsCount, viewsCount, lastReaction}) {
     // eslint-disable-next-line no-unused-vars
@@ -25,7 +25,7 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
 
     async function checkUserLike(storedUsername) {
         try {
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/likes/check`);
+            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/likes/check`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
@@ -34,7 +34,7 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
 
     async function checkUserView(storedUsername) {
         try {
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/check`);
+            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/views/check`);
             setHasViewed(response.data);
         } catch (e) {
             console.error(e);
