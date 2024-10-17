@@ -20,6 +20,7 @@ import {useContext} from "react";
 import {AuthContext} from "./context/AuthContextProvider.jsx";
 import UserProfile from "./pages/userProfile/UserProfile.jsx";
 import ContactMe from "./pages/contactMe/ContactMe.jsx";
+import PrivacyPolicy from "./pages/privacyPolicy/PrivacyPolicy.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -44,6 +45,7 @@ function App() {
                     <Route path={"/error"} element={<ErrorPage/>}/>
                     <Route path={"/admin"} element={<PrivateRoute element={AdminPage} roles={['ROLE_ADMIN']}/>}/>
                     <Route path={"/contact"} element={<ContactMe/>}/>
+                    <Route path={"/privacy"} element={<PrivacyPolicy/>}/>
                 </Routes>
             </main>
             <Footer/>

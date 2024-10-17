@@ -34,7 +34,7 @@ function Footer() {
                         <ul className={styles['section-links']}>
                             <li><a href="/forum">Forums</a></li>
                             <li><a href="/contact">Contact opnemen</a></li>
-                            <li>Privacy Verklaring</li>
+                            <li><a href="/privacy">Privacy Verklaring</a></li>
                             <li>Algemene Voorwaarden</li>
                         </ul>
 
