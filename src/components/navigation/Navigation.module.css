@@ -6,7 +6,6 @@
     justify-content: center;
     position: fixed;
     width: 100%;
-    /*padding: 0 50rem;*/
 }
 
 .navigation__outer-container {
@@ -123,6 +122,11 @@
     height: 3.125rem;
 }
 
+.home-logo {
+    width: 3rem;
+    height: 3rem;
+}
+
 /* de active link css is te vinden in app.css - deze werkt niet wanneer ik hem hier toevoeg*/
 
 /*Media Queries*/
@@ -139,7 +143,6 @@
     .user-actions {
         width: auto;
     }
-
 }
 
 @media screen and (max-width: 768px) {
