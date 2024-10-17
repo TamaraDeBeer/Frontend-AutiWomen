@@ -28,6 +28,7 @@ function ForumPost() {
     const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
     const commentFormRef = useRef(null);
+    const [commentsCount, setCommentsCount] = useState(0);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -41,6 +42,7 @@ function ForumPost() {
 
     useEffect(() => {
         if (forumById.id) {
+            setCommentsCount(forumById.commentsCount);
             fetchCommentsByForumId();
         }
         if (forumById.lastReaction) {
@@ -93,6 +95,7 @@ function ForumPost() {
             fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
+            setCommentsCount(prevCount => prevCount + 1);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -129,14 +132,14 @@ function ForumPost() {
                     {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
                             title={forumById.title}
-                            image={forumById.userDto?.profilePictureUrl}
+                            image={forumById.userDto?.profilePictureUrl}q
                             name={forumById.name}
                             age={calculateAge(forumById.age) + ' jaar'}
                             date={createDateToString(forumById.date)}
                             lastReaction={lastReaction ? lastReaction : 'Plaast de eerste reactie hieronder'}
                             text={forumById.text}
                             likesCount={forumById.likesCount}
-                            commentsCount={forumById.commentsCount}
+                            commentsCount={commentsCount}
                             viewsCount={forumById.viewsCount}
                             currentUser={name}
                             fetchForumById={fetchForumById}
