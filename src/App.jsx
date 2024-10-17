@@ -10,7 +10,7 @@ import ForumHome from "./pages/forumHome/ForumHome.jsx";
 import ForumPost from "./pages/forumPost/ForumPost.jsx";
 import NotFound from "./pages/notFound/NotFound.jsx";
 import Footer from './components/footer/Footer.jsx';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import ErrorPage from "./pages/errorPage/ErrorPage.jsx";
 import AuthContextProvider from "./context/AuthContextProvider.jsx";
 import TopicPage from "./pages/topicPage/TopicPage.jsx";
@@ -33,20 +33,15 @@ function App() {
                     <Route path={"/login"} element={<AccountLogin/>}/>
                     <Route path={"/register"} element={<AccountRegister/>}/>
                     <Route path={"/forum"} element={<ForumHome/>}/>
-                    <Route path={"/profile"} element={<AccountProfile />}/>
                     <Route path={"/forum"} element={<ForumHome/>}/>
                     <Route path="/forums/topic/:topic" element={<TopicPage/>} />
-                    <Route path={"/forum/create"} element={<ForumCreate/>}/>
                     <Route path="/forums/:forumId" element={<ForumPost />} />
                     <Route path="/users/:username" element={<UserProfile />} />
-                    {/*<Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/error"/>}/>*/}
-                    {/*<Route path="/forums/topic/:topic" element={isAuth ? <TopicPage/> : <Navigate to="/error"/>}/>*/}
-                    {/*<Route path={"/forum/create"} element={isAuth ? <ForumCreate/> : <Navigate to="/error"/>}/>*/}
-                    {/*<Route path="/forums/:forumId" element={isAuth ? <ForumPost /> : <Navigate to="/error"/>}/>*/}
+                    <Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="*"/>}/>
+                    <Route path={"/forum/create"} element={isAuth ? <ForumCreate/> : <Navigate to="/error"/>}/>
                     <Route path={"*"} element={<NotFound/>}/>
                     <Route path={"/error"} element={<ErrorPage/>}/>
                     <Route path={"/admin"} element={<PrivateRoute element={AdminPage} roles={['ROLE_ADMIN']}/>}/>
-                    {/*<Route path={"/admin"} element={<AdminPage/>}/>*/}
                 </Routes>
             </main>
             <Footer/>

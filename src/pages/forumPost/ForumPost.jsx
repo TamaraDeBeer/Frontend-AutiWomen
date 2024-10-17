@@ -205,7 +205,7 @@ function ForumPost() {
                                 </form>
                             </>
                         ) : (
-                            <p>Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>
+                            <p>Je moet ingelogd zijn om een reactie te kunnen toevoegen.</p>
                         )}
                     </div>
                 </section>
