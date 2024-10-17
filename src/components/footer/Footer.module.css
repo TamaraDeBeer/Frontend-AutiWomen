@@ -47,6 +47,15 @@ footer {
     gap: 1.25rem;
 }
 
+.section-links a {
+    text-decoration: none;
+    color: var(--primary-text-color);
+}
+
+.section-links a:visited {
+    color: var(--primary-text-color);
+}
+
 .section-media {
     display: flex;
     flex-direction: column;
