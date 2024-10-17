@@ -126,13 +126,14 @@ function ForumPost() {
 
             <section className={`${styles['outer-container']} ${styles['section-forum__main']}`}>
                 <section className={styles['section-forum__posts-long']}>
-                    {error && <p className="error-message">Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>}
+                    {error &&
+                        <p className="error-message">Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>}
                     {loading && <p>Loading...</p>}
 
                     {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
                             title={forumById.title}
-                            image={forumById.userDto?.profilePictureUrl}q
+                            image={forumById.userDto?.profilePictureUrl} q
                             name={forumById.name}
                             age={calculateAge(forumById.age) + ' jaar'}
                             date={createDateToString(forumById.date)}
@@ -145,68 +146,74 @@ function ForumPost() {
                             fetchForumById={fetchForumById}
                             scrollToCommentForm={scrollToCommentForm}
                         />
-                        )}
+                    )}
 
                     <div className={styles['section-forum__line']}></div>
 
                     <section className={styles['section-response']}>
-                            {error && <p className="error-message">Data ophalen lukt niet, probeer het later nog een keer.</p>}
-                            {loading && <p>Loading...</p>}
+                        {error &&
+                            <p className="error-message">Data ophalen lukt niet, probeer het later nog een keer.</p>}
+                        {loading && <p>Loading...</p>}
 
-                            {commentsByForumId.length > 0 && commentsByForumId.map(comment => (
-                                <CommentForum
-                                    key={comment.id}
-                                    image={comment.userDto?.profilePictureUrl}
-                                    name={comment.name}
-                                    age={calculateAge(comment.age) + ' jaar'}
-                                    date={createDateToString(comment.date)}
-                                    text={comment.text}
-                                    commentId={comment.id}
-                                    forumId={forumId}
-                                    currentUser={name}
-                                    fetchCommentsByForumId={fetchCommentsByForumId}
-                                />
-                            ))}
+                        {commentsByForumId.length > 0 && commentsByForumId.map(comment => (
+                            <CommentForum
+                                key={comment.id}
+                                image={comment.userDto?.profilePictureUrl}
+                                name={comment.name}
+                                age={calculateAge(comment.age) + ' jaar'}
+                                date={createDateToString(comment.date)}
+                                text={comment.text}
+                                commentId={comment.id}
+                                forumId={forumId}
+                                currentUser={name}
+                                fetchCommentsByForumId={fetchCommentsByForumId}
+                            />
+                        ))}
                     </section>
 
                     <div className={styles['section-forum__line']}></div>
 
                     <div className={styles['section-forum__comment']} ref={commentFormRef}>
-                        <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
+                        {name ? (
+                            <>
+                                <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
+                                <form onSubmit={addComment} className={styles['section-forum__comment-card']}>
+                                    <label htmlFor="name">Naam:
+                                        <input type="text"
+                                               name="name"
+                                               id="name"
+                                               value={name}
+                                               onChange={(e) => setCommentName(e.target.value)}
+                                        />
+                                    </label>
 
-                        <form onSubmit={addComment} className={styles['section-forum__comment-card']}>
-                            <label htmlFor="name">Naam:
-                                <input type="text"
-                                       name="name"
-                                       id="name"
-                                       value={name}
-                                       onChange={(e) => setCommentName(e.target.value)}
-                                />
-                            </label>
+                                    <label htmlFor="text-field"> Tekst:
+                                        <textarea
+                                            name="forum-text"
+                                            id="forum-text"
+                                            cols="60"
+                                            rows="10"
+                                            value={commentText}
+                                            onChange={(e) => setCommentText(e.target.value)}
+                                        ></textarea>
+                                    </label>
 
-                            <label htmlFor="text-field"> Tekst:
-                                <textarea
-                                    name="forum-text"
-                                    id="forum-text"
-                                    cols="60"
-                                    rows="10"
-                                    value={commentText}
-                                    onChange={(e) => setCommentText(e.target.value)}
-                                ></textarea>
-                            </label>
-
-                            <div className={styles['section-forum__comment-button']}>
-                                <Button type="reset">Annuleren</Button>
-                                <Button type="submit">Verstuur</Button>
-                            </div>
-                        </form>
+                                    <div className={styles['section-forum__comment-button']}>
+                                        <Button type="reset">Annuleren</Button>
+                                        <Button type="submit">Verstuur</Button>
+                                    </div>
+                                </form>
+                            </>
+                        ) : (
+                            <p>Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>
+                        )}
                     </div>
                 </section>
 
                 <section className={styles['section-forum__sidebar']}>
                     <PopulairTopics/>
                     <RelatedForums topic={forumById.topic} currentForumId={forumById.id}/>
-                    <UserForums username={forumById.name} currentForumId={forumById.id} />
+                    <UserForums username={forumById.name} currentForumId={forumById.id}/>
                 </section>
             </section>
         </>
