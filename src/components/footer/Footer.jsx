@@ -33,7 +33,7 @@ function Footer() {
                     <section>
                         <ul className={styles['section-links']}>
                             <li><a href="/forum">Forums</a></li>
-                            <li>Contact opnemen</li>
+                            <li><a href="/contact">Contact opnemen</a></li>
                             <li>Privacy Verklaring</li>
                             <li>Algemene Voorwaarden</li>
                         </ul>
