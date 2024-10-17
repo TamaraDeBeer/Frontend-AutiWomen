@@ -1,4 +1,4 @@
-.privacy-page {
+.terms-page {
     display: flex;
     flex-direction: column;
     padding: 9rem 9rem 4rem 9rem;
@@ -14,11 +14,11 @@
     gap: 0.5rem;
 }
 
-.privacy-page h2,
-.privacy-page p {
+.terms-page h2,
+.terms-page p {
     text-align: left;
 }
 
-.privacy-page ul {
+.terms-page ul {
     list-style-type: none;
 }

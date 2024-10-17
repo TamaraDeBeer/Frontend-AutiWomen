@@ -35,7 +35,7 @@ function Footer() {
                             <li><a href="/forum">Forums</a></li>
                             <li><a href="/contact">Contact opnemen</a></li>
                             <li><a href="/privacy">Privacy Verklaring</a></li>
-                            <li>Algemene Voorwaarden</li>
+                            <li><a href="/terms">Algemene Voorwaarden</a></li>
                         </ul>
 
                     </section>

@@ -7,7 +7,7 @@
 }
 
 .section-hero__inner-container-text {
-    width: 32.8125rem;
+    width: 25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,7 +42,7 @@
 .section-forums {
     display: flex;
     flex-direction: column;
-    padding: 3rem 8rem;
+    padding: 3rem 9rem;
 }
 
 .section-forums__inner-container {
