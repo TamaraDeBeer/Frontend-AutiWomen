@@ -8,7 +8,6 @@ import createDateToString from "../../helpers/createDateToString.jsx";
 import CommentForum from "../../components/commentForum/CommentForum.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
-// import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
 import UserForums from "../../components/userForums/UserForums.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";

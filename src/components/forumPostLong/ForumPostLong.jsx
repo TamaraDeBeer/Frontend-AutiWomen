@@ -2,7 +2,6 @@ import styles from './ForumPostLong.module.css';
 import likes1 from "../../assets/logo/likes1.png";
 import likes2 from "../../assets/logo/likes2.png";
 import comments1 from "../../assets/logo/comments.png";
-import view1 from "../../assets/logo/view1.png";
 import view2 from "../../assets/logo/view2.png";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -11,9 +10,10 @@ import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById, scrollToCommentForm}) {
+function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById, scrollToCommentForm, isAuth}) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
     const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
@@ -131,13 +131,14 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
                     <img src={hasLiked ? likes2 : likes1}
                          alt="Likes Logo"
                          className={styles['logo-like']}
-                         onClick={hasLiked ? removeLike : addLike}/>{currentLikesCount}
+                         onClick={isAuth ? (hasLiked ? removeLike : addLike) : null}
+                    />{currentLikesCount}
                 </p>
                 <p className={styles['card-information__logo']}><img src={comments1}
                                                                      alt="Comments Logo"
                                                                      className={styles['logo']}
                                                                      onClick={scrollToCommentForm}/>{commentsCount}</p>
-                <p className={styles['card-information__logo']}><img src={hasViewed ? view2 : view1}
+                <p className={styles['card-information__logo']}><img src={view2}
                                                                      alt="Views Logo"
                                                                      className={styles['logo-view']}/>{currentViewsCount}
                 </p>

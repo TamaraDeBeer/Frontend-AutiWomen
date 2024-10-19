@@ -267,7 +267,7 @@ function AccountRegister() {
                     </label>
                     {fileName && <p className={styles['file-name']}>{fileName}</p>}
 
-                    {error && <p>Dit account bestaat al. Probeer een ander emailadres.</p>}
+                    {error && <p>Dit account bestaat al. Probeer een andere username.</p>}
                     <p>Door te registreren ga je akkoord met de <a href="/privacy">Privacy Verklaring</a> en de <a href="/terms">Algemene Voorwaarden</a>.</p>
                     <Button type="submit" disabled={loading}>Registreren</Button>
                     <p>Heb je al een account? <Link to="/login">Log</Link> dan in.</p>
