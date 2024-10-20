@@ -42,7 +42,7 @@
 .section-forums {
     display: flex;
     flex-direction: column;
-    padding: 3rem 9rem;
+    padding: 3rem 15rem;
 }
 
 .section-forums__inner-container {
@@ -58,7 +58,7 @@
 
 .section-reviews__outer-container {
     background-color: var(--primary-bg-color);
-    padding: 3rem 0 3rem 1rem;
+    padding: 3rem 0 5rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,6 +74,10 @@
 @media screen and (max-width: 992px){
     .section-hero__inner-container-text {
         width: 16rem;
+    }
+
+    .section-forums {
+        padding: 3rem 0;
     }
 }
 
