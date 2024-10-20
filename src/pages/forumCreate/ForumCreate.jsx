@@ -42,6 +42,13 @@ function ForumCreate() {
         }
     }
 
+    function handleReset() {
+        setName('');
+        setTitle('');
+        setText('');
+        setTopic('');
+    }
+
     return (<>
 
             <div className={styles['background-color']}>
@@ -54,7 +61,7 @@ function ForumCreate() {
                 </section>
 
                 <section className={styles['section-forum']}>
-                    <form onSubmit={addForum} className={styles['forum-form']}>
+                    <form onSubmit={addForum} onReset={handleReset} className={styles['forum-form']}>
 
                         <label htmlFor="name">Naam:
                             <input type="text"
