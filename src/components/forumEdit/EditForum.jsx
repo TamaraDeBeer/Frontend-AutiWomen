@@ -1,10 +1,10 @@
-import axios from "axios";
 import Button from "../button/Button.jsx";
 import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import InputField from "../inputField/InputField.jsx";
 import { useForm } from "react-hook-form";
 import {useState} from "react";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function EditForum({ forumId, forumData, onUpdate }) {
     const { handleSubmit, formState: { errors }, register} = useForm({
@@ -25,12 +25,7 @@ function EditForum({ forumId, forumData, onUpdate }) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.put(`http://localhost:1991/forums/${forumId}`, data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
-            });
+            const response = await axiosHeader.put(`/forums/${forumId}`, data);
             onUpdate(response.data);
             setIsSubmitted(true);
         } catch (e) {

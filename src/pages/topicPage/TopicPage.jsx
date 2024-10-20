@@ -7,7 +7,6 @@ import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import Button from "../../components/button/Button.jsx";
-import search from "../../assets/logo/search.png";
 
 function TopicPage() {
     const { topic } = useParams();
@@ -47,10 +46,6 @@ function TopicPage() {
                         <Button type="button" className={styles['button-forum']}
                                 onClick={() => navigate('/forum/create')}
                         >Schrijf een forum</Button>
-                    </div>
-                    <div>
-                        <button className={styles['section-forum__button-search']}>Zoeken in alle forums.. <img
-                            src={search} alt="search logo"/></button>
                     </div>
                 </div>
             </section>

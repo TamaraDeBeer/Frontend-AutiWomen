@@ -1,9 +1,9 @@
 import {useState} from "react";
-import axios from "axios";
 import {useForm} from "react-hook-form";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from './ReviewPost.module.css';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function ReviewPost({review, user, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
@@ -17,13 +17,8 @@ function ReviewPost({review, user, onUpdate}) {
 
     async function postReview(data) {
         try {
-            const response = await axios.post(`http://localhost:1991/reviews/${user.username}`, {
+            const response = await axiosHeader.post(`/reviews/${user.username}`, {
                 review: data.review,
-            },{
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
             });
             setBioPost(response.data);
             onUpdate();

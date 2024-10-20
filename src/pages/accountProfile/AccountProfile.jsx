@@ -1,11 +1,8 @@
-import styles from './AccountProfile.module.css';
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
-import axios from "axios";
 import EditProfilePicture from "../../components/profileEdit/EditProfilePicture.jsx";
 import EditProfilePassword from "../../components/profileEdit/EditProfilePassword.jsx";
 import EditProfileData from "../../components/profileEdit/EditProfileData.jsx";
-// import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
@@ -14,6 +11,9 @@ import BioEdit from "../../components/bioEdit/BioEdit.jsx";
 import BioPost from "../../components/bioPost/BioPost.jsx";
 import ReviewPost from "../../components/reviewPost/ReviewPost.jsx";
 import ReviewEdit from "../../components/reviewEdit/ReviewEdit.jsx";
+import {Link} from "react-router-dom";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
+import styles from './AccountProfile.module.css';
 
 function AccountProfile() {
     const [profile, setProfile] = useState({});
@@ -29,30 +29,27 @@ function AccountProfile() {
     // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const {user} = useContext(AuthContext);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         if (user) {
-            const jwt = localStorage.getItem('jwt');
-            const username = localStorage.getItem('username');
-            void fetchProfile(jwt, username);
-            void fetchBio(jwt, username);
-            void fetchForums(jwt, username);
-            void fetchLikedForums(jwt, username);
-            void fetchViewedForums(jwt, username);
-            void fetchCommentedForums(jwt, username);
-            void fetchReview(jwt, username);
+            const storedUsername = localStorage.getItem('username');
+            setUsername(storedUsername);
+            void fetchProfile(storedUsername);
+            void fetchBio(storedUsername);
+            void fetchForums(storedUsername);
+            void fetchLikedForums(storedUsername);
+            void fetchViewedForums(storedUsername);
+            void fetchCommentedForums(storedUsername);
+            void fetchReview(storedUsername);
         }
     }, [user]);
 
-    async function fetchProfile(jwt, username) {
+    async function fetchProfile(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axios.get(`http://localhost:1991/users/${username}`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const profileResult = await axiosHeader.get(`/users/${username}`);
             setProfile(profileResult.data);
         } catch (e) {
             console.error(e);
@@ -61,15 +58,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchBio(jwt, username) {
+    async function fetchBio(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axios.get(`http://localhost:1991/users/profiles/${username}`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const profileResult = await axiosHeader.get(`/users/profiles/${username}`);
             setBio(profileResult.data);
         } catch (e) {
             console.error(e);
@@ -78,15 +71,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchForums(jwt, username) {
+    async function fetchForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setForums(sortedForums);
         } catch (e) {
@@ -96,15 +85,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchLikedForums(jwt, username) {
+    async function fetchLikedForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/liked-forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/liked-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setLikedForums(sortedForums);
         } catch (e) {
@@ -114,15 +99,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchViewedForums(jwt, username) {
+    async function fetchViewedForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/viewed-forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/viewed-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setViewedForums(sortedForums);
         } catch (e) {
@@ -132,15 +113,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchCommentedForums(jwt, username) {
+    async function fetchCommentedForums(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axios.get(`http://localhost:1991/users/${username}/commented-forums`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const forumsResult = await axiosHeader.get(`/users/${username}/commented-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setCommentedForums(sortedForums);
         } catch (e) {
@@ -150,15 +127,11 @@ function AccountProfile() {
         toggleLoading(false);
     }
 
-    async function fetchReview(jwt, username) {
+    async function fetchReview(username) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/reviews/${username}`, {
-                headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const response = await axiosHeader.get(`/reviews/${username}`);
             setReview(response.data);
         } catch (e) {
             console.error(e);
@@ -175,13 +148,18 @@ function AccountProfile() {
                         <div className={`inner-container ${styles['section-hero__inner-container']}`}>
                             <h1>Auti-Women</h1>
                             <h2>Welkom {user.username}!</h2>
+                            {profile.authorities && profile.authorities.length > 0 && profile.authorities[0].authority === 'ROLE_ADMIN' && (
+                                <Link to="/admin" className={styles['admin-link']}>Admin Page</Link>
+                            )}
                         </div>
                     </section>
+
                     <section className={styles['section-profile__inner-container']}>
                         <div className={styles['profile-complete']}>
                             <div className={styles['image-data']}>
                                 <div className={styles['section-profile_image']}>
-                                    <img src={profile.profilePictureUrl} className={styles['profile_picture']} alt="Profiel Foto"/>
+                                    <img src={profile.profilePictureUrl} className={styles['profile_picture']}
+                                         alt="Profiel Foto"/>
                                 </div>
                                 <div className={styles['section-profile_data']}>
                                     <h2>Jouw Gegegens</h2>
@@ -189,7 +167,7 @@ function AccountProfile() {
                                         <li>Username: {profile.username}</li>
                                         <li>Email: {profile.email}</li>
                                         <li>Naam: {profile.name}</li>
-                                        <li>Leeftijd: {profile.dob}</li>
+                                        {profile.dob && <li>Leeftijd: {calculateAge(profile.dob) + ' jaar'}</li>}
                                         <li>Autisme: {profile.autismDiagnoses}</li>
                                         {profile.autismDiagnoses === 'Ja' && (
                                             <li>Autisme diagnose sinds: {profile.autismDiagnosesYear}</li>
@@ -198,32 +176,67 @@ function AccountProfile() {
                                 </div>
                             </div>
                             <div className={styles['buttons']}>
-                                <button onClick={() => setActiveForm('profilePicture')} className={`${styles['button']} ${styles['button-left']}`}>Update Profielfoto</button>
-                                <button onClick={() => setActiveForm('password')} className={`${styles['button']} ${styles['button-middle']}`}>Update Wachtwoord</button>
-                                <button onClick={() => setActiveForm('userInfo')} className={`${styles['button']} ${styles['button-right']}`}>Update Gegevens</button>
+                                <button onClick={() => setActiveForm('profilePicture')}
+                                        className={`${styles['button']} ${styles['button-left']}`}>Update Profielfoto
+                                </button>
+                                <button onClick={() => setActiveForm('password')}
+                                        className={`${styles['button']} ${styles['button-middle']}`}>Update Wachtwoord
+                                </button>
+                                <button onClick={() => setActiveForm('userInfo')}
+                                        className={`${styles['button']} ${styles['button-right']}`}>Update Gegevens
+                                </button>
                             </div>
                         </div>
                         <div className={styles['forms-edit']}>
-                            {activeForm === 'profilePicture' && <EditProfilePicture user={user} onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
-                            {activeForm === 'password' && <EditProfilePassword user={user} onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
-                            {activeForm === 'userInfo' && <EditProfileData user={user} profile={profile} onUpdate={() => fetchProfile(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>}
+                            {activeForm === 'profilePicture' && (
+                                <div className={styles['form-container']}>
+                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                    </button>
+                                    <EditProfilePicture user={user}
+                                                        onUpdate={() => fetchProfile(username)}/>
+                                </div>
+                            )}
+                            {activeForm === 'password' && (
+                                <div className={styles['form-container']}>
+                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
+                                    </button>
+                                    <EditProfilePassword user={user}
+                                                         onUpdate={() => fetchProfile(username)}/>
+                                </div>
+                            )}
+                            {activeForm === 'userInfo' && (
+                                <div className={styles['form-container']}>
+                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
+                                    </button>
+                                    <EditProfileData user={user} profile={profile}
+                                                     onUpdate={() => fetchProfile(username)}/>
+                                </div>
+                            )}
                         </div>
                     </section>
+
                     <section className={styles['section-bio_container']}>
                         {bio.bio ? (
                             <div className={styles['section-bio']}>
                                 <h2>Jouw Verhaal</h2>
                                 <p>{bio.bio}</p>
-                                <button onClick={() => setActiveForm('bioEdit')} className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal</button>
+                                <button onClick={() => setActiveForm('bioEdit')}
+                                        className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal
+                                </button>
                             </div>
                         ) : (
-                            <BioPost bio={bio.bio} user={user} onUpdate={() => fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                            <BioPost bio={bio.bio} user={user}
+                                     onUpdate={() => fetchBio(username)}/>
                         )}
                         {activeForm === 'bioEdit' && (
-                            <BioEdit bio={bio} user={user} onUpdate={() => {
-                                fetchBio(localStorage.getItem('jwt'), localStorage.getItem('username'));
-                                setActiveForm(null);
-                            }}/>
+                            <div className={styles['form-container']}>
+                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                </button>
+                                <BioEdit bio={bio} user={user} onUpdate={() => {
+                                    fetchBio(username);
+                                    setActiveForm(null);
+                                }}/>
+                            </div>
                         )}
                     </section>
                     <section className={styles['account-forum']}>
@@ -251,6 +264,7 @@ function AccountProfile() {
                         )}
                     </section>
                     <div className={styles['section-forum__line']}></div>
+
                     <div className={styles['forums_other']}>
                         <section className={`${styles['account-forum']} ${styles['forum-like']}`}>
                             <h2>Liked Forums</h2>
@@ -310,16 +324,23 @@ function AccountProfile() {
                             <div className={styles['section-bio']}>
                                 <h2>Jouw Review</h2>
                                 <p>{review.review}</p>
-                                <button onClick={() => setActiveForm('reviewEdit')} className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review</button>
+                                <button onClick={() => setActiveForm('reviewEdit')}
+                                        className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review
+                                </button>
                             </div>
                         ) : (
-                            <ReviewPost review={review.review} user={user} onUpdate={() => fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'))}/>
+                            <ReviewPost review={review.review} user={user}
+                                        onUpdate={() => fetchReview(username)}/>
                         )}
                         {activeForm === 'reviewEdit' && (
-                            <ReviewEdit review={review} user={user} onUpdate={() => {
-                                fetchReview(localStorage.getItem('jwt'), localStorage.getItem('username'));
-                                setActiveForm(null);
-                            }}/>
+                            <div className={styles['form-container']}>
+                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                </button>
+                                <ReviewEdit review={review} user={user} onUpdate={() => {
+                                    fetchReview(username);
+                                    setActiveForm(null);
+                                }}/>
+                            </div>
                         )}
                     </section>
                 </>

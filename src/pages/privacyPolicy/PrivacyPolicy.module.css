@@ -1,0 +1,24 @@
+.privacy-page {
+    display: flex;
+    flex-direction: column;
+    padding: 9rem 9rem 4rem 9rem;
+    background-color: var(--primary-bg-color);
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.inner-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.privacy-page h2,
+.privacy-page p {
+    text-align: left;
+}
+
+.privacy-page ul {
+    list-style-type: none;
+}

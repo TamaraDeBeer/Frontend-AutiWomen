@@ -1,9 +1,9 @@
 import {useState} from "react";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import Button from "../button/Button.jsx";
 import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function DeleteForum({forumId, onDelete}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -16,7 +16,7 @@ function DeleteForum({forumId, onDelete}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axios.delete(`http://localhost:1991/forums/${forumId}`);
+            await axiosHeader.delete(`/forums/${forumId}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => navigate('/profile'), 500);

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 import styles from './ProfileEdit.module.css';
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function EditProfilePassword({ user, onUpdate }) {
     const [oldPassword, setOldPassword] = useState("");
@@ -21,15 +21,10 @@ function EditProfilePassword({ user, onUpdate }) {
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:1991/users/${user.username}/password`, {
+            await axiosHeader.put(`/users/${user.username}/password`, {
                 username: user.username,
                 password: password,
                 oldPassword: oldPassword
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
             });
             onUpdate();
             setIsSubmitted(true);

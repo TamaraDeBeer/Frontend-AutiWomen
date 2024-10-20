@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import styles from './AdminPage.module.css';
 import {Link} from "react-router-dom";
+import calculateAge from "../../helpers/calculateAge.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function AdminPage() {
     const [forums, setForums] = useState([]);
@@ -24,7 +25,7 @@ function AdminPage() {
 
     async function getAllForums() {
         try {
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosHeader.get('/forums');
             setForums(response.data);
             console.log(response.data);
         } catch (e) {
@@ -34,7 +35,7 @@ function AdminPage() {
 
     async function deleteForum(id) {
         try {
-            await axios.delete(`http://localhost:1991/forums/${id}`);
+            await axiosHeader.delete(`/forums/${id}`);
             setForums(forums.filter(forum => forum.id !== id));
             getAllComments();
         } catch (e) {
@@ -44,8 +45,9 @@ function AdminPage() {
 
     async function getAllComments() {
         try {
-            const response = await axios.get('http://localhost:1991/forums/comments');
+            const response = await axiosHeader.get('/forums/comments');
             setComments(response.data);
+            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -53,7 +55,7 @@ function AdminPage() {
 
     async function deleteComment(forumId, commentId) {
         try {
-            await axios.delete(`http://localhost:1991/forums/${forumId}/comments/${commentId}`);
+            await axiosHeader.delete(`/forums/${forumId}/comments/${commentId}`);
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (e) {
             console.error(e);
@@ -62,7 +64,7 @@ function AdminPage() {
 
     async function getAllUsers() {
         try {
-            const response = await axios.get('http://localhost:1991/users');
+            const response = await axiosHeader.get('/users');
             setUsers(response.data);
         } catch (e) {
             console.error(e);
@@ -71,8 +73,12 @@ function AdminPage() {
 
     async function deleteUser(username) {
         try {
-            await axios.delete(`http://localhost:1991/users/${username}`);
+            await axiosHeader.delete(`/users/${username}`);
             setUsers(users.filter(user => user.username !== username));
+            getAllForums();
+            getAllComments();
+            getAllAuthorities();
+            getAllReviews();
         } catch (e) {
             console.error(e);
         }
@@ -80,7 +86,7 @@ function AdminPage() {
 
     async function getAllReviews() {
         try {
-            const response = await axios.get('http://localhost:1991/reviews');
+            const response = await axiosHeader.get('/reviews');
             setReview(response.data);
         } catch (e) {
             console.error(e);
@@ -89,7 +95,7 @@ function AdminPage() {
 
     async function deleteReview(id) {
         try {
-            await axios.delete(`http://localhost:1991/reviews/${id}`);
+            await axiosHeader.delete(`/reviews/${id}`);
             setReview(review.filter(review => review.id !== id));
         } catch (e) {
             console.error(e);
@@ -98,7 +104,7 @@ function AdminPage() {
 
     async function getAllAuthorities() {
         try {
-            const response = await axios.get('http://localhost:1991/authorities');
+            const response = await axiosHeader.get('/authorities');
             setAuthorities(response.data);
         } catch (e) {
             console.error(e);
@@ -107,7 +113,7 @@ function AdminPage() {
 
     async function deleteUserAuthority(username, authority) {
         try {
-            await axios.delete(`http://localhost:1991/${username}/authorities/${authority}`);
+            await axiosHeader.delete(`/${username}/authorities/${authority}`);
             setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
             getAllUsers();
         } catch (e) {
@@ -118,7 +124,7 @@ function AdminPage() {
     async function addUserAuthority(event) {
         event.preventDefault();
         try {
-            await axios.post(`http://localhost:1991/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
+            await axiosHeader.post(`/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
             setFormVisible(false);
             getAllAuthorities();
             getAllUsers();
@@ -130,7 +136,7 @@ function AdminPage() {
     async function updateUserAuthority(event) {
         event.preventDefault();
         try {
-            await axios.put(`http://localhost:1991/${updateAuthority.username}/authorities`, {
+            await axiosHeader.put(`/${updateAuthority.username}/authorities`, {
                 oldAuthority: updateAuthority.oldAuthority,
                 newAuthority: updateAuthority.newAuthority
             });
@@ -162,7 +168,7 @@ function AdminPage() {
                         <tr key={forum.id}>
                             <td>{forum.id}</td>
                             <td>{forum.name}</td>
-                            <td><Link to={`/forum/${forum.id}`}>{forum.title}</Link></td>
+                            <td><Link to={`/forums/${forum.id}`}>{forum.title}</Link></td>
                             <td>
                                 <button className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
                             </td>
@@ -191,7 +197,7 @@ function AdminPage() {
                             <td>{comment.forumDto.id}</td>
                             <td>{comment.name}</td>
                             <td>
-                                <Link to={`/forum/${comment.forumId}`}>
+                                <Link to={`/forums/${comment.forumDto.id}`}>
                                     {comment.text.slice(0, 60)}...
                                 </Link>
                             </td>
@@ -210,6 +216,7 @@ function AdminPage() {
                 <button className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
                 {isFormVisible && (
                     <form onSubmit={addUserAuthority} className={styles['admin-form']}>
+                        <button type="button" className={styles['close-button']} onClick={() => setFormVisible(false)}>x</button>
                         <input
                             type="text"
                             placeholder="Username"
@@ -245,7 +252,7 @@ function AdminPage() {
                             <td>{user.username}</td>
                             <td>{user.autismDiagnoses}</td>
                             <td>{user.autismDiagnosesYear}</td>
-                            <td>{user.dob}</td>
+                            {user.dob && <td>{calculateAge(user.dob) + ' jaar'}</td>}
                             <td>{user.email}</td>
                             <td>{user.authorities[0]?.authority}</td>
                             <td>
@@ -287,35 +294,38 @@ function AdminPage() {
                 <h2>Authorities</h2>
                 <button className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
                 {isUpdateFormVisible && (
-                    <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={updateAuthority.username}
-                            onChange={(e) => setUpdateAuthority({...updateAuthority, username: e.target.value})}
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="Old Authority"
-                            value={updateAuthority.oldAuthority}
-                            onChange={(e) => setUpdateAuthority({...updateAuthority, oldAuthority: e.target.value})}
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="New Authority"
-                            value={updateAuthority.newAuthority}
-                            onChange={(e) => setUpdateAuthority({...updateAuthority, newAuthority: e.target.value})}
-                            required
-                        />
-                        <button className={styles['admin-button']} type="submit">Submit</button>
-                    </form>
-                )}
+                        <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
+                            <button type="button" className={styles['close-button']}
+                                    onClick={() => setUpdateFormVisible(false)}>x
+                            </button>
+                            <input
+                                type="text"
+                                placeholder="Username"
+                                value={updateAuthority.username}
+                                onChange={(e) => setUpdateAuthority({...updateAuthority, username: e.target.value})}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Old Authority"
+                                value={updateAuthority.oldAuthority}
+                                onChange={(e) => setUpdateAuthority({...updateAuthority, oldAuthority: e.target.value})}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="New Authority"
+                                value={updateAuthority.newAuthority}
+                                onChange={(e) => setUpdateAuthority({...updateAuthority, newAuthority: e.target.value})}
+                                required
+                            />
+                            <button className={styles['admin-button']} type="submit">Submit</button>
+                        </form>
+                    )}
                 <table>
                     <thead>
                     <tr>
-                        <th>Username</th>
+                    <th>Username</th>
                         <th>Role</th>
                         <th>Actions</th>
                     </tr>

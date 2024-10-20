@@ -3,6 +3,7 @@ import {NavLink, useNavigate} from 'react-router-dom';
 import Button from "../button/Button.jsx";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
 import {useContext, useEffect, useState} from "react";
+import logo from '../../assets/logo/women.png';
 import axios from "axios";
 
 function Navigation() {
@@ -28,9 +29,9 @@ function Navigation() {
         <nav className={styles['outer-container']}>
             <div className={styles['navigation__outer-container']}>
 
-                <span className={styles['navigation-logo']}>
-                    <h3>LOGO</h3>
-                </span>
+                <NavLink to="/" className={styles['navigation-logo']}>
+                    <img src={logo} alt="logo" className={styles['home-logo']}/>
+                </NavLink>
 
                 <ul className={styles['navigation__inner-container']}>
                     <li>

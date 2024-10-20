@@ -1,9 +1,9 @@
 import {useState} from "react";
-import axios from "axios";
 import {useForm} from "react-hook-form";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from './BioPost.module.css';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function BioPost({bio, user, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
@@ -17,13 +17,8 @@ function BioPost({bio, user, onUpdate}) {
 
     async function postBio(data) {
         try {
-            const response = await axios.post(`http://localhost:1991/users/profiles/${user.username}`, {
+            const response = await axiosHeader.post(`/users/profiles/${user.username}`, {
                 bio: data.bio,
-            },{
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
             });
             setBioPost(response.data.bio);
             onUpdate();

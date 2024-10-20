@@ -34,3 +34,13 @@
     align-items: flex-start;
     gap: 1.25rem;
 }
+
+/*Media Queries*/
+@media screen and (max-width: 992px) {
+    .section-topic__main {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+    }
+}
+

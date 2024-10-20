@@ -80,7 +80,7 @@ function AccountLogin() {
                         register={register}
                         errors={errors}
                     />
-                    {error && <p>Er bestaat geen account met deze username en wachtwoord.</p>}
+                    {error && <p>Er is iets fout gegaan, controleer je username en wachtwoord</p>}
                     <Button type="submit" disabled={loading}>Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>
                 </form>

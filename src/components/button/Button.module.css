@@ -39,3 +39,12 @@ button:hover {
 /*    font-size: 0.75rem;*/
 /*    background-color: hsla(45, 87%, 74%, 1);*/
 /*}*/
+
+
+/* Media Queries */
+@media screen and (max-width: 992px) {
+    .button {
+        font-size: 1rem;
+        height: 2rem;
+    }
+}

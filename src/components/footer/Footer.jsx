@@ -4,7 +4,6 @@ import instagram from '../../assets/logo/instagram.png';
 import linkedin from '../../assets/logo/linkedin.png';
 import facebook from '../../assets/logo/facebook.png';
 import copyright from '../../assets/logo/copyright.png';
-import search from '../../assets/logo/search.png';
 import Button from "../button/Button.jsx";
 import {useNavigate} from "react-router-dom";
 
@@ -33,12 +32,10 @@ function Footer() {
 
                     <section>
                         <ul className={styles['section-links']}>
-                            <li>Populaire Blogs</li>
-                            <li>Populaire Forums</li>
-                            <li>Over mij</li>
-                            <li>Contact opnemen</li>
-                            <li>Privacy Verklaring</li>
-                            <li>Algemene Voorwaarden</li>
+                            <li><a href="/forum">Forums</a></li>
+                            <li><a href="/contact">Contact opnemen</a></li>
+                            <li><a href="/privacy">Privacy Verklaring</a></li>
+                            <li><a href="/terms">Algemene Voorwaarden</a></li>
                         </ul>
 
                     </section>
@@ -49,11 +46,6 @@ function Footer() {
                             <Button type="button" className={styles['button-register']}
                                     onClick={() => navigate('/register')}
                             >Registreren</Button>
-                        </div>
-
-                        <div>
-                            <button className={styles['button-search']}>Zoeken.. <img src={search} alt="search logo"/>
-                            </button>
                         </div>
 
                         <div>

@@ -11,7 +11,7 @@
 .navigation__outer-container {
     flex-basis: 1400px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     margin: 0 20px;
 }
@@ -23,8 +23,7 @@
     align-items: center;
     list-style: none;
     text-decoration: none;
-    margin-left: 30rem;
-    margin-right: 8rem;
+    margin-left: 25rem;
 }
 
 .navigation__inner-container--forum {
@@ -39,7 +38,6 @@
 }
 
 .user-actions {
-    position: relative;
     display: flex;
     align-content: center;
     width: 30rem;
@@ -47,13 +45,11 @@
 }
 
 .user-info {
-    position: relative;
     z-index: 2;
     margin-right: -1.5rem;
 }
 
 .logout-button {
-    position: relative;
     z-index: 1;
     margin-left: -0.75rem;
 }
@@ -115,7 +111,6 @@
     align-items: center;
     gap: 0.625rem;
     border-radius: 3.125rem;
-    /*background-color: hsla(45, 87%, 64%, 1);*/
     background-color: hsla(45, 87%, 74%, 1);
     color: var(--primary-text-color);
     border: none;
@@ -127,4 +122,48 @@
     height: 3.125rem;
 }
 
+.home-logo {
+    width: 3rem;
+    height: 3rem;
+}
+
 /* de active link css is te vinden in app.css - deze werkt niet wanneer ik hem hier toevoeg*/
+
+/*Media Queries*/
+@media screen and (max-width: 1200px) {
+    .navigation__outer-container {
+        width: 100%;
+        margin: 1rem 2rem;
+    }
+
+    .navigation__inner-container {
+        margin: 0 1rem;
+    }
+
+    .user-actions {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navigation__outer-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .outer-container {
+        height: 10rem;
+    }
+
+    .navigation-logo {
+        align-self: flex-start;
+        margin-left: 1rem;
+    }
+
+    .user-actions {
+        width: 100%;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+}

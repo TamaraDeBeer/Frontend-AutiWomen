@@ -45,27 +45,21 @@ footer {
     flex-direction: column;
     list-style: none;
     gap: 1.25rem;
+    width: 13rem;
 }
 
-/*hoe de button-register aanpassen naar font-weight 300?*/
-
-.button-search {
-    display: inline-flex;
-    padding: 0.375rem 8.12rem;
-    justify-content: center;
-    align-items: center;
-    gap: 1.25rem;
-    border-radius: 3.125rem;
-    background-color: var(--secondary-bg-button);
+.section-links a {
+    text-decoration: none;
     color: var(--primary-text-color);
-    border: none;
-    font-size: 1.5625rem;
-    font-style: normal;
-    font-weight: 275;
-    line-height: normal;
-    letter-spacing: 0.15625rem;
-    width: 13.75rem;
-    height: 3.125rem;
+}
+
+.section-links a:visited {
+    color: var(--primary-text-color);
+}
+
+.section-links a:hover {
+    color: var(--primary-bg-button);
+    font-weight: bold;
 }
 
 .section-media {
@@ -89,4 +83,19 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
+}
+
+/*Media Queries*/
+@media screen and (max-width: 1200px) {
+    .inner-container {
+        gap: 5rem;
+    }
+}
+
+/* Voor tablets */
+@media screen and (max-width: 992px) {
+    .inner-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
 }

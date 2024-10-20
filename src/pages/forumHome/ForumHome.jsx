@@ -17,6 +17,7 @@ function ForumHome() {
     // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [sliderOption, setSliderOption] = useState('newest');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetchAllForums();
@@ -28,6 +29,19 @@ function ForumHome() {
         const endpoint = sliderOption === 'newest' ? 'http://localhost:1991/forums/sorted-by-date' : 'http://localhost:1991/forums/sorted-by-likes';
         try {
             const response = await axios.get(endpoint);
+            setForums(response.data);
+        } catch (e) {
+            console.error(e);
+            toggleError(true);
+        }
+        toggleLoading(false);
+    }
+
+    async function searchForums() {
+        toggleError(false);
+        toggleLoading(true);
+        try {
+            const response = await axios.get(`http://localhost:1991/forums/search/${searchQuery}`);
             setForums(response.data);
             console.log(response.data);
         } catch (e) {
@@ -48,9 +62,17 @@ function ForumHome() {
                                 onClick={() => navigate('/forum/create')}
                         >Schrijf een forum</Button>
                     </div>
-                    <div>
-                        <button className={styles['section-forum__button-search']}>Zoeken in alle forums.. <img
-                            src={search} alt="search logo"/></button>
+                    <div className={styles['section-forum__search-container']}>
+                        <input
+                            type="text"
+                            className={styles['section-forum__input-search']}
+                            placeholder="Zoeken in alle forums.."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button className={styles['section-forum__button-search']} onClick={searchForums}>
+                            <img src={search} alt="search logo"/>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -102,3 +124,4 @@ function ForumHome() {
 }
 
 export default ForumHome;
+

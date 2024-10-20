@@ -2,17 +2,18 @@ import styles from './ForumPostLong.module.css';
 import likes1 from "../../assets/logo/likes1.png";
 import likes2 from "../../assets/logo/likes2.png";
 import comments1 from "../../assets/logo/comments.png";
-import view1 from "../../assets/logo/view1.png";
 import view2 from "../../assets/logo/view2.png";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById}) {
+function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById, scrollToCommentForm, isAuth}) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
     const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
@@ -38,7 +39,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function checkUserLike(storedUsername) {
         try {
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/likes/check`);
+            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/likes/check`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
@@ -56,7 +57,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function addLike() {
         try {
-            const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${username}/likes/add`);
+            const response = await axiosHeader.post(`/forums/${forumId}/users/${username}/likes/add`);
             setCurrentLikesCount(response.data);
             setHasLiked(true);
             fetchLikeCount();
@@ -67,7 +68,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function removeLike() {
         try {
-            const response = await axios.delete(`http://localhost:1991/forums/${forumId}/users/${username}/likes/remove`);
+            const response = await axiosHeader.delete(`/forums/${forumId}/users/${username}/likes/remove`);
             setCurrentLikesCount(response.data);
             setHasLiked(false);
             fetchLikeCount();
@@ -78,7 +79,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function checkUserView(storedUsername) {
         try {
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/check`);
+            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/views/check`);
             setHasViewed(response.data);
         } catch (e) {
             console.error(e);
@@ -96,7 +97,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function addView(storedUsername) {
         try {
-            const response = await axios.post(`http://localhost:1991/forums/${forumId}/users/${storedUsername}/views/add`);
+            const response = await axiosHeader.post(`/forums/${forumId}/users/${storedUsername}/views/add`);
             setCurrentViewsCount(response.data);
             setHasViewed(true);
         } catch (e) {
@@ -130,12 +131,14 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
                     <img src={hasLiked ? likes2 : likes1}
                          alt="Likes Logo"
                          className={styles['logo-like']}
-                         onClick={hasLiked ? removeLike : addLike}/>{currentLikesCount}
+                         onClick={isAuth ? (hasLiked ? removeLike : addLike) : null}
+                    />{currentLikesCount}
                 </p>
                 <p className={styles['card-information__logo']}><img src={comments1}
                                                                      alt="Comments Logo"
-                                                                     className={styles['logo']}/>{commentsCount}</p>
-                <p className={styles['card-information__logo']}><img src={hasViewed ? view2 : view1}
+                                                                     className={styles['logo']}
+                                                                     onClick={scrollToCommentForm}/>{commentsCount}</p>
+                <p className={styles['card-information__logo']}><img src={view2}
                                                                      alt="Views Logo"
                                                                      className={styles['logo-view']}/>{currentViewsCount}
                 </p>

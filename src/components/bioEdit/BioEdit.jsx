@@ -2,8 +2,8 @@ import {useForm} from "react-hook-form";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import Button from "../button/Button.jsx";
 import {useState} from "react";
-import axios from "axios";
 import styles from './BioEdit.module.css';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function BioEdit({user, bio, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
@@ -16,12 +16,7 @@ function BioEdit({user, bio, onUpdate}) {
 
     async function editBio(data) {
         try {
-            await axios.put(`http://localhost:1991/users/profiles/${user.username}`, data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
-            });
+            await axiosHeader.put(`/users/profiles/${user.username}`, data);
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {

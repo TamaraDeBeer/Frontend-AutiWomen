@@ -1,4 +1,4 @@
-.related-forums {
+.user-forums {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -42,14 +42,24 @@
     font-weight: 500;
 }
 
+.link-user {
+    text-decoration: none;
+    font-size: 1.8rem;
+    color: var(--primary-bg-button);
+}
+
+.link-user:hover {
+    font-size: 2rem;
+}
+
 /*Media Queries*/
 @media screen and (max-width: 992px) {
-    .related-forums {
+    .user-forums {
         align-items: center;
         width: 20rem;
     }
 
-    .forums-list{
+    .forums-list {
         text-align: center;
     }
 }
