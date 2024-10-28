@@ -55,7 +55,7 @@ function AdminPage() {
 
     async function deleteComment(forumId, commentId) {
         try {
-            await axiosHeader.delete(`/forums/${forumId}/comments/${commentId}`);
+            await axiosHeader.delete(`/forums/comments/${commentId}`);
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (e) {
             console.error(e);
@@ -113,7 +113,7 @@ function AdminPage() {
 
     async function deleteUserAuthority(username, authority) {
         try {
-            await axiosHeader.delete(`/${username}/authorities/${authority}`);
+            await axiosHeader.delete(`/authorities/${username}/${authority}`);
             setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
             getAllUsers();
         } catch (e) {
@@ -124,7 +124,7 @@ function AdminPage() {
     async function addUserAuthority(event) {
         event.preventDefault();
         try {
-            await axiosHeader.post(`/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
+            await axiosHeader.post(`/authorities/${newAuthority.username}`, { authority: newAuthority.authority });
             setFormVisible(false);
             getAllAuthorities();
             getAllUsers();
@@ -136,7 +136,7 @@ function AdminPage() {
     async function updateUserAuthority(event) {
         event.preventDefault();
         try {
-            await axiosHeader.put(`/${updateAuthority.username}/authorities`, {
+            await axiosHeader.put(`/authorities/${updateAuthority.username}`, {
                 oldAuthority: updateAuthority.oldAuthority,
                 newAuthority: updateAuthority.newAuthority
             });
