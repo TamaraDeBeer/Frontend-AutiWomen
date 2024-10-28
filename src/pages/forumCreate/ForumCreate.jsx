@@ -43,7 +43,6 @@ function ForumCreate() {
     }
 
     function handleReset() {
-        setName('');
         setTitle('');
         setText('');
         setTopic('');
@@ -53,7 +52,7 @@ function ForumCreate() {
 
             <div className={styles['background-color']}>
 
-                <section className="outer-container">
+                <section className="outer-container">q
                     <div className={`inner-container ${styles['section-hero__inner-container']}`}>
                         <h1>Auti-Women Forum</h1>
                         <h2>Deel je problemen, geef advies en wees respectvol</h2>
