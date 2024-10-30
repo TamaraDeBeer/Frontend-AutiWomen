@@ -41,9 +41,10 @@ function ForumHome() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/forums/search/${searchQuery}`);
+            const response = await axios.get(`http://localhost:1991/forums/search`, {
+                params: { searchQuery }
+            });
             setForums(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);

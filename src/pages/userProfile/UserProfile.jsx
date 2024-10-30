@@ -40,7 +40,7 @@ function UserProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.get(`/users/profiles/${username}`);
+            const response = await axiosHeader.get(`/profiles/${username}`);
             setBio(response.data);
         } catch (e) {
             console.error(e);

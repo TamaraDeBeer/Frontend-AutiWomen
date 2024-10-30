@@ -62,7 +62,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axiosHeader.get(`/users/profiles/${username}`);
+            const profileResult = await axiosHeader.get(`/profiles/${username}`);
             setBio(profileResult.data);
         } catch (e) {
             console.error(e);

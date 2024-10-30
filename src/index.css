@@ -1,4 +1,14 @@
-/*noinspection CssUnknownTarget*/
+/*////////////////////////
+    Table of Contents
+    1. Root Variables
+    2. Global Styles
+    3. Typography
+    4. Reusables
+    5. Media Queries
+////////////////////////*/
+
+
+/* 1. Root Variables */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,200;1,300&display=swap');
 
 :root {
@@ -11,6 +21,8 @@
     --primary-text-color: hsla(0, 0%, 0%, 1);
 }
 
+
+/* 2. Global Styles */
 * {
     box-sizing: border-box;
     padding: 0;
@@ -22,6 +34,8 @@ body {
     color: var(--primary-text-color);
 }
 
+
+/* 3. Typography */
 h1 {
     font-size: 2.75rem;
     font-style: normal;
@@ -58,8 +72,7 @@ p {
     line-height: normal;
 }
 
-/*Reusables*/
-
+/* 4. Reusables */
 .outer-container {
     display: flex;
     flex-direction: row;
@@ -75,14 +88,18 @@ p {
     margin: 0 20px;
 }
 
-
-/*Media Queries*/
-/* Voor kleine computerschermen*/
-@media screen and (max-width: 1200px) {
-
+/* 4.1 Navigation & Footer Links */
+.section-links a:hover {
+    color: var(--primary-bg-button);
+    font-weight: bold;
 }
 
-/* Voor tablets */
+.section-links a:active {
+    font-weight: bolder;
+    color: var(--primary-bg-button);
+}
+
+/* 5. Media Queries */
 @media screen and (max-width: 992px) {
     h1 {
         font-size: 2rem;
@@ -97,7 +114,6 @@ p {
     }
 }
 
-/* Voor mobiele telefoons in landscape */
 @media screen and (max-width: 768px) {
     .outer-container {
         padding-top: 10.75rem;
@@ -105,9 +121,4 @@ p {
 
 }
 
-/* Voor mobiele telefoons in portait */
-@media screen and (max-width: 576px) {
-
-
-}
 

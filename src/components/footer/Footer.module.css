@@ -1,3 +1,15 @@
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+    2. Areas
+        2.1 About Me
+        2.2 Liks
+        2.3 Media
+        2.4 Subfooter
+    3. Media Queries
+////////////////////////*/
+
+/* 1. Global Styles */
 footer {
     background-image: linear-gradient(180deg, rgba(122, 186, 120, 0.60) 0%, rgba(10, 104, 71, 0.80) 100%);
 }
@@ -6,7 +18,7 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 4.44rem 9.38rem;
+    padding: 4.44rem 9.38rem 1.44rem 9.38rem;
 }
 
 .inner-container {
@@ -18,6 +30,8 @@ footer {
     gap: 9.375rem;
 }
 
+/* 2. Areas */
+/* 2.1 About Me */
 .section-about-me {
     display: flex;
     align-items: center;
@@ -40,6 +54,7 @@ footer {
 
 }
 
+/* 2.2 Links */
 .section-links {
     display: flex;
     flex-direction: column;
@@ -53,15 +68,8 @@ footer {
     color: var(--primary-text-color);
 }
 
-.section-links a:visited {
-    color: var(--primary-text-color);
-}
 
-.section-links a:hover {
-    color: var(--primary-bg-button);
-    font-weight: bold;
-}
-
+/* 2.3 Media */
 .section-media {
     display: flex;
     flex-direction: column;
@@ -69,6 +77,8 @@ footer {
     gap: 1.25rem;
 }
 
+
+/* 2.4 Subfooter */
 .subfooter {
     display: flex;
     padding: 1rem 2rem;
@@ -85,14 +95,13 @@ footer {
     gap: 0.625rem;
 }
 
-/*Media Queries*/
+/* 3. Media Queries */
 @media screen and (max-width: 1200px) {
     .inner-container {
         gap: 5rem;
     }
 }
 
-/* Voor tablets */
 @media screen and (max-width: 992px) {
     .inner-container {
         flex-direction: column;

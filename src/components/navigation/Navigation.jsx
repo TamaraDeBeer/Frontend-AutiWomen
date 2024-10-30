@@ -33,7 +33,7 @@ function Navigation() {
                     <img src={logo} alt="logo" className={styles['home-logo']}/>
                 </NavLink>
 
-                <ul className={styles['navigation__inner-container']}>
+                <ul className={`section-links ${styles['navigation__inner-container']}`}>
                     <li>
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to={"/"}>Home</NavLink>
@@ -50,17 +50,17 @@ function Navigation() {
                         <>
                             {userData && userData.profilePictureUrl ? (
                                 <div className={styles['user-info']}>
-                                    <button onClick={() => navigate('/profile')}
-                                            className={styles['profile-photo-button']}>
+                                    <Button onClick={() => navigate('/profile')}
+                                            variant="profile">
                                         <img src={userData.profilePictureUrl} alt="Profielfoto"
                                              className={styles['profile-photo']}/>
                                         <span>{user.username}</span>
-                                    </button>
+                                    </Button>
                                 </div>
                             ) : (
                                 <span>Welkom {user.username}</span>
                             )}
-                            <button type="button" onClick={logout} className={styles['logout-button']}>Log uit</button>
+                            <Button type="button" onClick={logout} variant="logout">Log uit</Button>
                         </>
                     ) : (
                         <Button type="button" onClick={() => navigate('/login')}>Log in</Button>

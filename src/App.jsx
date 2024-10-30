@@ -1,5 +1,3 @@
-
-import './App.css';
 import Navigation from './components/navigation/Navigation.jsx';
 import Home from './pages/homePage/Home.jsx';
 import AccountLogin from './pages/accountLogin/AccountLogin.jsx';

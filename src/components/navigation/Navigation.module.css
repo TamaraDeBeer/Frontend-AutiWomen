@@ -1,3 +1,15 @@
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+    2. Areas
+        2.1 Logo
+        2.2 Links
+        2.3 Button
+    3. Media Queries
+////////////////////////*/
+
+
+/* 1. Global Styles */
 .outer-container {
     height: 6.25rem;
     background-color: var(--primary-color);
@@ -9,13 +21,21 @@
 }
 
 .navigation__outer-container {
-    flex-basis: 1400px;
+    flex-basis: 1300px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 20px;
 }
 
+/* 2. Areas */
+/* 2.1 Logo */
+.home-logo {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* 2.2 Links */
 .navigation__inner-container {
     display: flex;
     width: 15.8125rem;
@@ -37,6 +57,17 @@
     background-color: var(--secondary-color);
 }
 
+.navigation__inner-container a {
+    color: black;
+    text-decoration: none;
+}
+
+.navigation__inner-container--forum a {
+    color: white;
+    text-decoration: none;
+}
+
+/* 2.3 Button */
 .user-actions {
     display: flex;
     align-content: center;
@@ -54,24 +85,6 @@
     margin-left: -0.75rem;
 }
 
-.profile-photo-button {
-    display: inline-flex;
-    padding: 0.375rem 1.275rem 0.375rem 0;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1rem;
-    border-radius: 3.125rem;
-    background-color: hsla(45, 87%, 64%, 1);
-    color: var(--primary-text-color);
-    border: none;
-    font-size: 1.5625rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0.15625rem;
-    height: 3.125rem;
-}
-
 .profile-photo {
     width: 3.125rem;
     height: 3.125rem;
@@ -80,56 +93,7 @@
     vertical-align: middle;
 }
 
-.navigation__inner-container a {
-    color: black;
-    text-decoration: none;
-}
-
-.navigation__inner-container--forum a {
-    color: white;
-    text-decoration: none;
-}
-
-.navigation__inner-container--forum a:active {
-    font-weight: bolder;
-}
-
-.navigation__inner-container a:hover {
-    color: var(--primary-bg-button);
-    font-weight: bold;
-}
-
-.navigation__inner-container a:active {
-    color: var(--primary-bg-button);
-    font-weight: bold;
-}
-
-.logout-button {
-    display: inline-flex;
-    padding: 0.375rem 1.45rem 0.375rem 3rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
-    border-radius: 3.125rem;
-    background-color: hsla(45, 87%, 74%, 1);
-    color: var(--primary-text-color);
-    border: none;
-    font-size: 1.5625rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.15625rem;
-    height: 3.125rem;
-}
-
-.home-logo {
-    width: 3rem;
-    height: 3rem;
-}
-
-/* de active link css is te vinden in app.css - deze werkt niet wanneer ik hem hier toevoeg*/
-
-/*Media Queries*/
+/* 3. Media Queries */
 @media screen and (max-width: 1200px) {
     .navigation__outer-container {
         width: 100%;

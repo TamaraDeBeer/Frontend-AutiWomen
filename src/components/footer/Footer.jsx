@@ -22,8 +22,7 @@ function Footer() {
                         <div>
                             <p className={styles['section-about-me__about-me']}>Over mij</p>
                             <p className={styles['section-about-me__text']}>Ik ben Tamara. Toen ik 30 was kwam ik er pas
-                                achter dat ik autisme heb. Ik ken weinig mensen met dezelfde diagnose (waarschijnlijk
-                                meer
+                                achter dat ik autisme heb. Ik ken weinig mensen met dezelfde diagnose (waarschijnlijk meer
                                 dan ik denk) dus bedacht ik deze website zodat we elkaar kunnen helpen.
                             </p>
                         </div>
@@ -31,7 +30,7 @@ function Footer() {
                     </section>
 
                     <section>
-                        <ul className={styles['section-links']}>
+                        <ul className={`section-links ${styles['section-links']}`}>
                             <li><a href="/forum">Forums</a></li>
                             <li><a href="/contact">Contact opnemen</a></li>
                             <li><a href="/privacy">Privacy Verklaring</a></li>
