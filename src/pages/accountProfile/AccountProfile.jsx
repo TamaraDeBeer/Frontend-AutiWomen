@@ -24,12 +24,10 @@ function AccountProfile() {
     const [viewedForums, setViewedForums] = useState([]);
     const [review, setReview] = useState([]);
     const [activeForm, setActiveForm] = useState(null);
-    // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
-    const {user} = useContext(AuthContext);
     const [username, setUsername] = useState('');
+    const {user} = useContext(AuthContext);
 
     useEffect(() => {
         if (user) {
@@ -142,7 +140,9 @@ function AccountProfile() {
 
     return (
         <>
-            {user ? (
+            {loading && <p>Loading...</p>}
+            {error && <p>Er is iets fout gegaan, probeer het opnieuw.</p>}
+            {!loading && !error && user ? (
                 <>
                     <section className="outer-container">
                         <div className={`inner-container ${styles['section-hero__inner-container']}`}>
@@ -239,6 +239,7 @@ function AccountProfile() {
                             </div>
                         )}
                     </section>
+
                     <section className={styles['account-forum']}>
                         <h2>Jouw Forums</h2>
                         {forums.length > 0 ? (
@@ -348,7 +349,6 @@ function AccountProfile() {
                 <p>Loading...</p>
             )}
         </>
-    );
-}
+    );}
 
 export default AccountProfile;
