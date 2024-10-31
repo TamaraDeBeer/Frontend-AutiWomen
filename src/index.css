@@ -114,6 +114,26 @@ p {
     margin: 2rem 0 3rem 0;
 }
 
+/* 4.3 Error, Contact & NotFound Page */
+.section__outer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 5rem;
+    background-color: var(--primary-bg-color);
+}
+
+.section__inner-container {
+    align-items: center;
+    padding-top: 3.75rem;
+    gap: 2.12rem;
+}
+
+.error-image {
+    width: 15.8125rem;
+}
+
+
 /* 5. Media Queries */
 @media screen and (max-width: 992px) {
     h1 {

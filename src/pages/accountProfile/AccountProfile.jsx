@@ -140,9 +140,7 @@ function AccountProfile() {
 
     return (
         <>
-            {loading && <p>Loading...</p>}
-            {error && <p>Er is iets fout gegaan, probeer het opnieuw.</p>}
-            {!loading && !error && user ? (
+            {user ? (
                 <>
                     <section className="outer-container">
                         <div className={`inner-container ${styles['section-hero__inner-container']}`}>
@@ -349,6 +347,7 @@ function AccountProfile() {
                 <p>Loading...</p>
             )}
         </>
-    );}
+    );
+}
 
 export default AccountProfile;

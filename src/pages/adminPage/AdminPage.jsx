@@ -27,7 +27,6 @@ function AdminPage() {
         try {
             const response = await axiosHeader.get('/forums');
             setForums(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -47,7 +46,6 @@ function AdminPage() {
         try {
             const response = await axiosHeader.get('/forums/comments');
             setComments(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -150,7 +148,7 @@ function AdminPage() {
 
     return (
         <div className={styles['admin-page']}>
-            <h1>Admin Page</h1>
+            <h1 className={styles['hero']}>Admin Page</h1>
 
             <section>
                 <h2>Forums</h2>

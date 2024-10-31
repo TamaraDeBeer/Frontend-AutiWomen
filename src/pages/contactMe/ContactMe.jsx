@@ -6,8 +6,8 @@ function ContactMe() {
     const navigate = useNavigate();
 
     return (
-        <section className={styles['outer-container']}>
-            <div className={`${styles['inner-container']} ${styles['section-error__inner-container']}`}>
+        <section className="outer-container section__outer-container">
+            <div className="inner-container section__inner-container">
                 <h1>Auti-Women</h1>
                 <h3>De plek waar autistische vrouwen elkaar helpen</h3>
 
@@ -17,7 +17,7 @@ function ContactMe() {
                 </section>
 
 
-                <div className={styles['button-register']}>
+                <div>
                     <Button type="button"
                             onClick={() => navigate('/register')}
                     >Word gratis lid</Button>

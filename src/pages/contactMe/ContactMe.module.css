@@ -1,24 +1,9 @@
-.outer-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 5rem;
-    background-color: var(--primary-bg-color);
-}
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+////////////////////////*/
 
-.inner-container {
-    flex-basis: 1200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.section-error__inner-container {
-    align-items: center;
-    padding-top: 3.75rem;
-    gap: 1.12rem;
-}
-
+/* 1. Global Styles */
 .contact {
     width: 40rem;
     display: flex;
