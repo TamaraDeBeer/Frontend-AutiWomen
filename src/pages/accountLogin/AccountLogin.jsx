@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import {useContext, useState} from "react";
 import { AuthContext } from "../../context/AuthContextProvider.jsx";
 import axios from "axios";
 
@@ -18,7 +18,6 @@ function AccountLogin() {
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-    // const source = axios.CancelToken.source();
     const { login } = useContext(AuthContext);
 
     async function handleFormSubmit(data) {
@@ -29,10 +28,7 @@ function AccountLogin() {
             const result = await axios.post('http://localhost:1991/login', {
                 username: data.username,
                 password: data.password
-            }, {
-                // cancelToken: source.token,
             });
-            console.log(result.data);
             login(result.data.jwt);
             navigate('/profile');
         } catch (e) {
@@ -42,6 +38,7 @@ function AccountLogin() {
             toggleLoading(false);
         }
     }
+
 
     return (
         <section className="outer-container">

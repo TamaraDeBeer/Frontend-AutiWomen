@@ -22,7 +22,6 @@ import PrivacyPolicy from "./pages/privacyPolicy/PrivacyPolicy.jsx";
 import TermsAndConditions from "./pages/termsAndConditions/TermsAndConditions.jsx";
 
 function App() {
-    const { isAuth } = useContext(AuthContext);
 
     return (
         <AuthContextProvider>
@@ -37,8 +36,8 @@ function App() {
                     <Route path="/forums/topic/:topic" element={<TopicPage/>} />
                     <Route path="/forums/:forumId" element={<ForumPost />} />
                     <Route path="/users/:username" element={<UserProfile />} />
-                    <Route path={"/profile"} element={isAuth ? <AccountProfile /> : <Navigate to="/*"/>}/>
-                    <Route path={"/forum/create"} element={isAuth ? <ForumCreate/> : <Navigate to="/error"/>}/>
+                    <Route path={"/profile"} element={<ProtectedRoute component={AccountProfile} />} />
+                    <Route path={"/forum/create"} element={<ProtectedRoute component={ForumCreate} />} />
                     <Route path={"*"} element={<NotFound/>}/>
                     <Route path={"/error"} element={<ErrorPage/>}/>
                     <Route path={"/admin"} element={<PrivateRoute element={AdminPage} roles={['ROLE_ADMIN']}/>}/>
@@ -50,6 +49,11 @@ function App() {
             <Footer/>
         </AuthContextProvider>
     );
+}
+
+function ProtectedRoute({ component: Component }) {
+    const { isAuth } = useContext(AuthContext);
+    return isAuth ? <Component /> : <Navigate to="/*" />;
 }
 
 export default App;

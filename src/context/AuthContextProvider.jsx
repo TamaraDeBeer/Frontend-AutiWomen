@@ -5,7 +5,7 @@ import {jwtDecode} from "jwt-decode";
 
 export const AuthContext = createContext({});
 
-function AuthContextProvider ({children}) {
+function AuthContextProvider({children}) {
     const [isAuth, setIsAuth] = useState({
         isAuth: false,
         user: null,
@@ -17,17 +17,8 @@ function AuthContextProvider ({children}) {
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
-            try {
-                const decoded = jwtDecode(jwt);
-                void fetchUserData(decoded.sub, jwt);
-            } catch (e) {
-                console.error('Error decoding JWT:', e);
-                setIsAuth({
-                    isAuth: false,
-                    user: null,
-                    status: 'done',
-                });
-            }
+            const decoded = jwtDecode(jwt);
+            void fetchUserData(decoded.sub, jwt);
         } else {
             setIsAuth({
                 isAuth: false,
@@ -67,7 +58,6 @@ function AuthContextProvider ({children}) {
             user: null,
             status: 'done',
         });
-        console.log('Gebruiker is uitgelogd!');
         navigate('/');
     }
 
