@@ -23,7 +23,6 @@ import TermsAndConditions from "./pages/termsAndConditions/TermsAndConditions.js
 
 function App() {
     const { isAuth } = useContext(AuthContext);
-    console.log('isAuth:', isAuth);
 
     return (
         <AuthContextProvider>

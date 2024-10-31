@@ -16,7 +16,6 @@ function AuthContextProvider ({children}) {
 
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
-        console.log('JWT from localStorage on page load:', jwt);
         if (jwt) {
             try {
                 const decoded = jwtDecode(jwt);
@@ -39,14 +38,25 @@ function AuthContextProvider ({children}) {
     }, []);
 
     function login(jwt) {
-        console.log('JWT on login:', jwt);
         localStorage.setItem('jwt', jwt);
         try {
             const decoded = jwtDecode(jwt);
             localStorage.setItem('username', decoded.sub);
             fetchUserData(decoded.sub, jwt);
+            setIsAuth({
+                isAuth: true,
+                user: {
+                    username: decoded.sub,
+                },
+                status: 'done',
+            });
         } catch (e) {
             console.error('Error decoding JWT on login:', e);
+            setIsAuth({
+                isAuth: false,
+                user: null,
+                status: 'done',
+            });
         }
     }
 
@@ -69,7 +79,6 @@ function AuthContextProvider ({children}) {
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            console.log('Result:', result.data);
             setIsAuth({
                 isAuth: true,
                 user: {

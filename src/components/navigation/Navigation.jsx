@@ -16,7 +16,6 @@ function Navigation() {
         if (isAuth && user) {
             axios.get(`http://localhost:1991/users/${user.username}/image`)
                 .then(response => {
-                    console.log(response.data);
                     setUserData(response.data);
                 })
                 .catch(error => {

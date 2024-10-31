@@ -37,7 +37,6 @@ function Home() {
         try {
             const response = await axios.get('http://localhost:1991/reviews');
             setReviews(response.data);
-            console.log(response.data);
         } catch (error) {
             console.error('Error fetching reviews:', error);
         }
