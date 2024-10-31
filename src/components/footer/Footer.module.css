@@ -68,7 +68,6 @@ footer {
     color: var(--primary-text-color);
 }
 
-
 /* 2.3 Media */
 .section-media {
     display: flex;
@@ -76,7 +75,6 @@ footer {
     align-items: center;
     gap: 1.25rem;
 }
-
 
 /* 2.4 Subfooter */
 .subfooter {
