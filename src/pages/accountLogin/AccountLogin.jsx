@@ -46,7 +46,7 @@ function AccountLogin() {
     return (
         <section className="outer-container">
             <div className="inner-container">
-                <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['login-form']}>
+                <form onSubmit={handleSubmit(handleFormSubmit)} className={`main-form ${styles['login-form']}`}>
                     <InputField
                         inputId="username-field"
                         inputLabel="Username:"

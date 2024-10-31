@@ -89,7 +89,7 @@ function AccountRegister() {
     return (
         <section className="outer-container">
             <div className="inner-container">
-                <form onSubmit={handleSubmit(registerUser)} className={styles['register-form']}>
+                <form onSubmit={handleSubmit(registerUser)} className={`main-form ${styles['register-form']}`}>
 
                     <InputField
                         inputId="name-field"
