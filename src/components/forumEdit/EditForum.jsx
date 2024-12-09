@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import {useState} from "react";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function EditForum({ forumId, forumData, onUpdate }) {
+function EditForum({ forumId, user, forumData, onUpdate }) {
     const { handleSubmit, formState: { errors }, register} = useForm({
         defaultValues: {
             title: forumData.title,
@@ -25,7 +25,7 @@ function EditForum({ forumId, forumData, onUpdate }) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.put(`/forums/${forumId}`, data);
+            const response = await axiosHeader.put(`/forums/${forumId}/users/${user.username}`, data);
             onUpdate(response.data);
             setIsSubmitted(true);
         } catch (e) {

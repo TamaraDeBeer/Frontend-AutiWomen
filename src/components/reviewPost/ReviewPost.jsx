@@ -17,7 +17,7 @@ function ReviewPost({review, user, onUpdate}) {
 
     async function postReview(data) {
         try {
-            const response = await axiosHeader.post(`/reviews/${user.username}`, {
+            const response = await axiosHeader.post(`/reviews/users/${user.username}`, {
                 review: data.review,
             });
             setBioPost(response.data);

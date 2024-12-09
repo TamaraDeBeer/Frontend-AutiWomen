@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './UserForums.module.css';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function UserForums({ username, currentForumId }) {
     const [forums, setForums] = useState([]);
@@ -16,7 +16,7 @@ function UserForums({ username, currentForumId }) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosHeader.get('/forums');
             const userForums = response.data.filter(forum => forum.name === username && forum.id !== currentForumId);
             setForums(userForums);
         } catch (e) {

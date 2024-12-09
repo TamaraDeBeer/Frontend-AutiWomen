@@ -1,12 +1,26 @@
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+    2. Areas
+        2.1 Hero
+        2.2 Form
+    3. Media Queries
+////////////////////////*/
+
+/* 1. Global Styles */
 .background-color {
     background-color: var(--primary-bg-color);
 }
 
+/* 2. Areas */
+/* 2.1 Hero */
 .section-hero__inner-container {
     align-items: center;
     gap: 1.25rem;
+    padding-top: 2.4rem;
 }
 
+/* 2.2 Form */
 .section-forum {
     display: flex;
     flex-direction: row;
@@ -29,47 +43,24 @@
     width: 50%;
 }
 
-.forum-form__topic {
-    margin: 4px 0 0 0;
-    font-weight: bold;
-    text-align: left;
-}
-
 .forum-form__textarea {
     display: flex;
     flex-direction: column;
     font-family: 'Poppins', sans-serif;
     font-size: 1.125rem;
-    font-weight: bold;
     color: var(--primary-text-color);
 }
 
-textarea {
-    width: 100%;
-    padding: 4px 8px;
-    margin: 6px 0;
-    border: none;
-    font-family: 'Poppins', sans-serif;
-    color: var(--primary-text-color);
-    background-color: var(--primary-bg-color)
-}
-
-textarea:focus {
-    outline: none;
-    border: 2px solid var(--primary-color);
-}
-
-.forum-form__buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.forum-form__topic {
+    margin: 4px 0 12px 0;
+    text-align: left;
 }
 
 .forum-form__topic-select {
     background-color: var(--primary-bg-color);
     width: 100%;
     padding: 10px 8px;
-    margin: 0 0 6px 0;
+    margin: 6px 0;
     border: none;
     font-family: 'Poppins', sans-serif;
     color: var(--primary-text-color);
@@ -84,7 +75,13 @@ textarea:focus {
     background-color: var(--primary-bg-color);
 }
 
-/*Media Queries*/
+.forum-form__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* 3. Media Queries */
 @media screen and (max-width: 1200px) {
     .forum-form__buttons {
         flex-direction: column;

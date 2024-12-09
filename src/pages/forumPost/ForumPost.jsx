@@ -108,7 +108,6 @@ function ForumPost() {
         }
     };
 
-
     return (
         <>
             <section className={styles['outer-container']}>

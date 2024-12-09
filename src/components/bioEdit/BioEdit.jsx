@@ -16,7 +16,7 @@ function BioEdit({user, bio, onUpdate}) {
 
     async function editBio(data) {
         try {
-            await axiosHeader.put(`/users/profiles/${user.username}`, data);
+            await axiosHeader.put(`/profiles/users/${user.username}`, data);
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {

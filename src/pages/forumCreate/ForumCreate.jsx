@@ -52,7 +52,7 @@ function ForumCreate() {
 
             <div className={styles['background-color']}>
 
-                <section className="outer-container">q
+                <section className="outer-container">
                     <div className={`inner-container ${styles['section-hero__inner-container']}`}>
                         <h1>Auti-Women Forum</h1>
                         <h2>Deel je problemen, geef advies en wees respectvol</h2>
@@ -67,7 +67,6 @@ function ForumCreate() {
                                    name="name"
                                    id="name"
                                    value={name}
-                                   onChange={(e) => setName(e.target.value)}
                             />
                         </label>
 

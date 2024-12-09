@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './RelatedForums.module.css';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 
 function RelatedForums({ topic, currentForumId }) {
@@ -18,7 +18,7 @@ function RelatedForums({ topic, currentForumId }) {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosHeader.get('/forums');
             const filteredForums = response.data.filter(forum => forum.topic === topic && forum.id !== currentForumId);
             setRelatedForums(filteredForums);
         } catch (e) {

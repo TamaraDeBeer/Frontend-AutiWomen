@@ -25,7 +25,7 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
 
     async function checkUserLike(storedUsername) {
         try {
-            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/likes/check`);
+            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${storedUsername}`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
@@ -34,7 +34,7 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
 
     async function checkUserView(storedUsername) {
         try {
-            const response = await axiosHeader.get(`/forums/${forumId}/users/${storedUsername}/views/check`);
+            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${storedUsername}`);
             setHasViewed(response.data);
         } catch (e) {
             console.error(e);

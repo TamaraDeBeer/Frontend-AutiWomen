@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
+import axiosHeader from "../helpers/axiosHeader.jsx";
 
 export const AuthContext = createContext({});
 
@@ -63,7 +63,7 @@ function AuthContextProvider({children}) {
 
     async function fetchUserData(username, jwt) {
         try {
-            const result = await axios.get(`http://localhost:1991/users/${username}`, {
+            const result = await axiosHeader.get(`/users/${username}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,

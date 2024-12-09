@@ -5,7 +5,7 @@ import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function DeleteForum({forumId, onDelete}) {
+function DeleteForum({forumId, user, onDelete}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     // eslint-disable-next-line no-unused-vars
@@ -16,7 +16,7 @@ function DeleteForum({forumId, onDelete}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axiosHeader.delete(`/forums/${forumId}`);
+            await axiosHeader.delete(`/forums/${forumId}/users/${user.username}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => navigate('/profile'), 500);

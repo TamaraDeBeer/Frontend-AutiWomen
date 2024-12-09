@@ -1,12 +1,11 @@
 import {useForm} from "react-hook-form";
 import {useState} from "react";
-import axios from "axios";
 import styles from "../forumEdit/ForumEdit.module.css";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function EditComment ({forumId, commentId, commentData, onUpdate}) {
+function EditComment ({forumId, commentId, user, commentData, onUpdate}) {
     console.log('forumId:', forumId);
 
     const { handleSubmit, formState: {errors}, register} = useForm({
@@ -25,7 +24,7 @@ function EditComment ({forumId, commentId, commentData, onUpdate}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.put(`/forums/${forumId}/comments/${commentId}`, data);
+            const response = await axiosHeader.put(`/comments/${commentId}/forums/${forumId}/users/${user.username}`, data);
             onUpdate(response.data);
             setIsSubmitted(true);
         } catch (e) {

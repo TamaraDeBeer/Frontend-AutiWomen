@@ -17,7 +17,7 @@ function BioPost({bio, user, onUpdate}) {
 
     async function postBio(data) {
         try {
-            const response = await axiosHeader.post(`/users/profiles/${user.username}`, {
+            const response = await axiosHeader.post(`/profiles/users/${user.username}`, {
                 bio: data.bio,
             });
             setBioPost(response.data.bio);

@@ -4,7 +4,7 @@ import Button from "../button/Button.jsx";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
 import {useContext, useEffect, useState} from "react";
 import logo from '../../assets/logo/women.png';
-import axios from "axios";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function Navigation() {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ function Navigation() {
 
     useEffect(() => {
         if (isAuth && user) {
-            axios.get(`http://localhost:1991/users/${user.username}/image`)
+            axiosHeader.get(`/users/${user.username}/image`)
                 .then(response => {
                     setUserData(response.data);
                 })

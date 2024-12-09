@@ -4,7 +4,7 @@ import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from "../forumEdit/ForumEdit.module.css";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function DeleteComment({forumId, commentId, onDelete, fetchCommentsByForumId}) {
+function DeleteComment({user, commentId, onDelete, fetchCommentsByForumId}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     // eslint-disable-next-line no-unused-vars
@@ -14,7 +14,7 @@ function DeleteComment({forumId, commentId, onDelete, fetchCommentsByForumId}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axiosHeader.delete(`/forums/${forumId}/comments/${commentId}`);
+            await axiosHeader.delete(`/comments/${commentId}/users/${user.username}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => {

@@ -16,7 +16,7 @@ function ReviewEdit({user, review, onUpdate}) {
 
     async function editReview(data) {
         try {
-            await axiosHeader.put(`http://localhost:1991/reviews/${user.username}`, data);
+            await axiosHeader.put(`/reviews/users/${user.username}`, data);
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {
