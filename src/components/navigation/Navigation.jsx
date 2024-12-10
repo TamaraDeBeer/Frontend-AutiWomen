@@ -25,6 +25,7 @@ function Navigation() {
     }, [isAuth, user]);
 
     return (
+        <header>
         <nav className={styles['outer-container']}>
             <div className={styles['navigation__outer-container']}>
 
@@ -68,6 +69,7 @@ function Navigation() {
                 </div>
             </div>
         </nav>
+        </header>
     );
 }
 
