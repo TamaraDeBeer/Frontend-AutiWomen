@@ -10,6 +10,7 @@ import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
 import UserForums from "../../components/userForums/UserForums.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -53,7 +54,7 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axiosHeader.get(`/forums/${forumId}`);
+            const response = await axiosPublic.get(`/forums/${forumId}`);
             setForumById(response.data);
         } catch (e) {
             console.error(e);
@@ -67,7 +68,7 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axiosHeader.get(`/comments/forums/${forumId}`);
+            const response = await axiosPublic.get(`/comments/forums/${forumId}`);
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
         } catch (e) {
@@ -132,7 +133,7 @@ function ForumPost() {
                             title={forumById.title}
                             image={forumById.userDto?.profilePictureUrl} q
                             name={forumById.name}
-                            age={calculateAge(forumById.age) + ' jaar'}
+                            age={calculateAge(forumById.dob) + ' jaar'}
                             date={createDateToString(forumById.date)}
                             lastReaction={lastReaction ? lastReaction : 'Plaast de eerste reactie hieronder'}
                             text={forumById.text}
@@ -157,7 +158,7 @@ function ForumPost() {
                                 key={comment.id}
                                 image={comment.userDto?.profilePictureUrl}
                                 name={comment.name}
-                                age={calculateAge(comment.age) + ' jaar'}
+                                age={calculateAge(comment.dob) + ' jaar'}
                                 date={createDateToString(comment.date)}
                                 text={comment.text}
                                 commentId={comment.id}

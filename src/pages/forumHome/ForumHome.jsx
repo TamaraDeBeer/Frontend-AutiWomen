@@ -9,7 +9,7 @@ import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
-import axiosHeader from "../../helpers/axiosHeader.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function ForumHome() {
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ function ForumHome() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.get(`/forums/search`, {
+            const response = await axiosPublic.get(`/forums/search`, {
                 params: { searchQuery }
             });
             setForums(response.data);
@@ -102,7 +102,7 @@ function ForumHome() {
                             forumId={forum.id}
                             image={forum.userDto?.profilePictureUrl}
                             name={forum.name}
-                            age={calculateAge(forum.age) + ' jaar'}
+                            age={calculateAge(forum.dob) + ' jaar'}
                             title={forum.title}
                             date={createDateToString(forum.date)}
                             text={forum.text.split(' ').slice(0, 50).join(' ')}

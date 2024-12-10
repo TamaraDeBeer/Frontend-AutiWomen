@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './PopulairTopics.module.css';
-import axiosHeader from "../../helpers/axiosHeader.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function PopulairTopics() {
     const [topics, setTopics] = useState([]);
@@ -17,7 +17,7 @@ function PopulairTopics() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.get('/topics/sorted/forums');
+            const response = await axiosPublic.get('/topics/sorted/forums');
             setTopics(response.data);
         } catch (e) {
             console.error(e);

@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function ForumPostLong({title, image, name, age, date, lastReaction, text, likesCount, commentsCount, viewsCount, currentUser, fetchForumById, scrollToCommentForm, isAuth}) {
     const {forumId} = useParams();
@@ -47,7 +48,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function fetchLikeCount() {
         try {
-            const response = await axiosHeader.get(`/likes/count/forums/${forumId}`);
+            const response = await axiosPublic.get(`/likes/count/forums/${forumId}`);
             setCurrentLikesCount(response.data);
         } catch (e) {
             console.error(e);
@@ -87,7 +88,7 @@ function ForumPostLong({title, image, name, age, date, lastReaction, text, likes
 
     async function fetchViewCount() {
         try {
-            const response = await axiosHeader.get(`/views/count/forums/${forumId}`);
+            const response = await axiosPublic.get(`/views/count/forums/${forumId}`);
             setCurrentViewsCount(response.data);
         } catch (e) {
             console.error(e);

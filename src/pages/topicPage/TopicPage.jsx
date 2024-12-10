@@ -6,7 +6,7 @@ import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import Button from "../../components/button/Button.jsx";
-import axiosHeader from "../../helpers/axiosHeader.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function TopicPage() {
     const { topic } = useParams();
@@ -25,10 +25,9 @@ function TopicPage() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axiosHeader.get('/forums');
+            const response = await axiosPublic.get('/forums');
             const filteredForums = response.data.filter(forum => forum.topic === topic);
             setForums(filteredForums);
-            console.log(filteredForums);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -58,7 +57,7 @@ function TopicPage() {
                             key={forum.id}
                             image={forum.userDto?.profilePictureUrl}
                             name={forum.name}
-                            age={calculateAge(forum.age) + ' jaar'}
+                            age={calculateAge(forum.dob) + ' jaar'}
                             title={forum.title}
                             date={forum.date}
                             text={forum.text.split(' ').slice(0, 50).join(' ')}
