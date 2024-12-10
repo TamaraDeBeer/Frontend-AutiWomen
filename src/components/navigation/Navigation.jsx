@@ -50,7 +50,8 @@ function Navigation() {
                         <>
                             {userData && userData.profilePictureUrl ? (
                                 <div className={styles['user-info']}>
-                                    <Button onClick={() => navigate('/profile')}
+                                    <Button type="button"
+                                            onClick={() => navigate('/profile')}
                                             variant="profile">
                                         <img src={userData.profilePictureUrl} alt="Profielfoto"
                                              className={styles['profile-photo']}/>
@@ -60,7 +61,7 @@ function Navigation() {
                             ) : (
                                 <span>Welkom {user.username}</span>
                             )}
-                            <Button type="button" onClick={logout} variant="logout">Log uit</Button>
+                            <Button type="submit" onClick={logout} variant="logout">Log uit</Button>
                         </>
                     ) : (
                         <Button type="button" onClick={() => navigate('/login')}>Log in</Button>

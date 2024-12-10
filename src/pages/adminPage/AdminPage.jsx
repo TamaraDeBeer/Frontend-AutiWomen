@@ -168,7 +168,7 @@ function AdminPage() {
                             <td>{forum.name}</td>
                             <td><Link to={`/forums/${forum.id}`}>{forum.title}</Link></td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -200,7 +200,7 @@ function AdminPage() {
                                 </Link>
                             </td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
                                 </button>
                             </td>
                         </tr>
@@ -211,7 +211,7 @@ function AdminPage() {
 
             <section>
                 <h2>Users</h2>
-                <button className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
+                <button type="button" className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
                 {isFormVisible && (
                     <form onSubmit={addUserAuthority} className={styles['admin-form']}>
                         <button type="button" className={styles['close-button']} onClick={() => setFormVisible(false)}>x</button>
@@ -229,7 +229,7 @@ function AdminPage() {
                             onChange={(e) => setNewAuthority({...newAuthority, authority: e.target.value})}
                             required
                         />
-                        <button className={styles['admin-button']} type="submit">Submit</button>
+                        <button type="submit" className={styles['admin-button']} type="submit">Submit</button>
                     </form>
                 )}
                 <table>
@@ -254,7 +254,7 @@ function AdminPage() {
                             <td>{user.email}</td>
                             <td>{user.authorities[0]?.authority}</td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteUser(user.username)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteUser(user.username)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -280,7 +280,7 @@ function AdminPage() {
                             <td>{review.name}</td>
                             <td>{review.review}</td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteReview(review.id)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteReview(review.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -290,7 +290,7 @@ function AdminPage() {
 
             <section>
                 <h2>Authorities</h2>
-                <button className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
+                <button type="button" className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
                 {isUpdateFormVisible && (
                         <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
                             <button type="button" className={styles['close-button']}
@@ -334,7 +334,7 @@ function AdminPage() {
                             <td>{auth.username}</td>
                             <td>{auth.authority}</td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
                                 </button>
                             </td>
                         </tr>

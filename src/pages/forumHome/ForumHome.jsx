@@ -72,7 +72,7 @@ function ForumHome() {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button className={styles['section-forum__button-search']} onClick={searchForums}>
+                        <button type="button" className={styles['section-forum__button-search']} onClick={searchForums}>
                             <img src={search} alt="search logo"/>
                         </button>
                     </div>
@@ -83,12 +83,14 @@ function ForumHome() {
                 <section className={styles['section-forum__posts-short']}>
                     <div className={styles['slider']}>
                         <button
+                            type="button"
                             onClick={() => setSliderOption('newest')}
                             className={`${styles['button']} ${styles['newest']} ${sliderOption === 'newest' ? styles['active'] : ''}`}
                         >
                             Nieuwste
                         </button>
                         <button
+                            type="button"
                             onClick={() => setSliderOption('trending')}
                             className={`${styles['button']} ${styles['trending']} ${sliderOption === 'trending' ? styles['active'] : ''}`}
                         >

@@ -35,7 +35,7 @@ function DeleteComment({user, commentId, onDelete, fetchCommentsByForumId}) {
                 </div>
             ) : (
                 <div>
-                    <Button type="button" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
+                    <Button type="submit" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
                     {error && <ErrorMessage message={error}/>}
                 </div>
             )}

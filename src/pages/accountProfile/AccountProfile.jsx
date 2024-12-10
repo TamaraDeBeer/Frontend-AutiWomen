@@ -174,13 +174,13 @@ function AccountProfile() {
                                 </div>
                             </div>
                             <div className={styles['buttons']}>
-                                <button onClick={() => setActiveForm('profilePicture')}
+                                <button type="button" onClick={() => setActiveForm('profilePicture')}
                                         className={`${styles['button']} ${styles['button-left']}`}>Update Profielfoto
                                 </button>
-                                <button onClick={() => setActiveForm('password')}
+                                <button type="button" onClick={() => setActiveForm('password')}
                                         className={`${styles['button']} ${styles['button-middle']}`}>Update Wachtwoord
                                 </button>
-                                <button onClick={() => setActiveForm('userInfo')}
+                                <button type="button" onClick={() => setActiveForm('userInfo')}
                                         className={`${styles['button']} ${styles['button-right']}`}>Update Gegevens
                                 </button>
                             </div>
@@ -188,7 +188,7 @@ function AccountProfile() {
                         <div className={styles['forms-edit']}>
                             {activeForm === 'profilePicture' && (
                                 <div className={styles['form-container']}>
-                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                    <button type="button" className={styles['close-button']} onClick={() => setActiveForm(null)}>x
                                     </button>
                                     <EditProfilePicture user={user}
                                                         onUpdate={() => fetchProfile(username)}/>
@@ -196,7 +196,7 @@ function AccountProfile() {
                             )}
                             {activeForm === 'password' && (
                                 <div className={styles['form-container']}>
-                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
+                                    <button type="button" className={styles['close-button']} onClick={() => setActiveForm(null)}>X
                                     </button>
                                     <EditProfilePassword user={user}
                                                          onUpdate={() => fetchProfile(username)}/>
@@ -204,7 +204,7 @@ function AccountProfile() {
                             )}
                             {activeForm === 'userInfo' && (
                                 <div className={styles['form-container']}>
-                                    <button className={styles['close-button']} onClick={() => setActiveForm(null)}>X
+                                    <button type="button" className={styles['close-button']} onClick={() => setActiveForm(null)}>X
                                     </button>
                                     <EditProfileData user={user} profile={profile}
                                                      onUpdate={() => fetchProfile(username)}/>
@@ -218,7 +218,7 @@ function AccountProfile() {
                             <div className={styles['section-bio']}>
                                 <h2>Jouw Verhaal</h2>
                                 <p>{bio.bio}</p>
-                                <button onClick={() => setActiveForm('bioEdit')}
+                                <button type="button" onClick={() => setActiveForm('bioEdit')}
                                         className={`${styles['button']} ${styles['button-bio']}`}>Update jouw verhaal
                                 </button>
                             </div>
@@ -228,7 +228,7 @@ function AccountProfile() {
                         )}
                         {activeForm === 'bioEdit' && (
                             <div className={styles['form-container']}>
-                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                <button type="button" className={styles['close-button']} onClick={() => setActiveForm(null)}>x
                                 </button>
                                 <BioEdit bio={bio} user={user} onUpdate={() => {
                                     fetchBio(username);
@@ -323,7 +323,7 @@ function AccountProfile() {
                             <div className={styles['section-bio']}>
                                 <h2>Jouw Review</h2>
                                 <p>{review.review}</p>
-                                <button onClick={() => setActiveForm('reviewEdit')}
+                                <button type="button" onClick={() => setActiveForm('reviewEdit')}
                                         className={`${styles['button']} ${styles['button-bio']}`}>Update jouw review
                                 </button>
                             </div>
@@ -333,7 +333,7 @@ function AccountProfile() {
                         )}
                         {activeForm === 'reviewEdit' && (
                             <div className={styles['form-container']}>
-                                <button className={styles['close-button']} onClick={() => setActiveForm(null)}>x
+                                <button type="button" className={styles['close-button']} onClick={() => setActiveForm(null)}>x
                                 </button>
                                 <ReviewEdit review={review} user={user} onUpdate={() => {
                                     fetchReview(username);
