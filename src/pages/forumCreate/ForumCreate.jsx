@@ -27,7 +27,7 @@ function ForumCreate() {
         console.log(name, title, text, topic);
 
         try {
-            const response = await axiosHeader.post(`/forums/${username}`, {
+            const response = await axiosHeader.post(`/forums/users/${username}`, {
                 name: username,
                 title: title,
                 text: text,

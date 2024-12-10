@@ -4,8 +4,8 @@ import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { differenceInYears } from 'date-fns';
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function AccountRegister() {
     const { handleSubmit, formState: { errors }, register, watch } = useForm({
@@ -72,7 +72,7 @@ function AccountRegister() {
         }
 
         try {
-           await axios.post('http://localhost:1991/register', formData, {
+           await axiosHeader.post('/register', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

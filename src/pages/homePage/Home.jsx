@@ -11,8 +11,8 @@ import Reviews from "../../components/reviews/Reviews.jsx";
 import Button from "../../components/button/Button.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import calculateAge from "../../helpers/calculateAge.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function Home() {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ function Home() {
 
     async function fetchForums() {
         try {
-            const response = await axios.get('http://localhost:1991/forums/sorted-by-likes');
+            const response = await axiosHeader.get('/forums/sorted-by-likes');
             setForums(response.data.slice(0, 8));
         } catch (error) {
             console.error('Error fetching forums:', error);
@@ -35,7 +35,7 @@ function Home() {
 
     async function fetchReviews() {
         try {
-            const response = await axios.get('http://localhost:1991/reviews');
+            const response = await axiosHeader.get('/reviews');
             setReviews(response.data);
         } catch (error) {
             console.error('Error fetching reviews:', error);

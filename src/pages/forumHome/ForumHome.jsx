@@ -9,6 +9,7 @@ import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function ForumHome() {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ function ForumHome() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/forums/search`, {
+            const response = await axiosHeader.get(`/forums/search`, {
                 params: { searchQuery }
             });
             setForums(response.data);

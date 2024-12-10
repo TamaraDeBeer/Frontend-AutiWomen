@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
-import axios from "axios";
 import styles from './ForumPost.module.css';
 import Button from "../../components/button/Button.jsx";
 import ForumPostLong from "../../components/forumPostLong/ForumPostLong.jsx";
@@ -54,7 +53,7 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
+            const response = await axiosHeader.get(`/forums/${forumId}`);
             setForumById(response.data);
         } catch (e) {
             console.error(e);
@@ -68,7 +67,7 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
+            const response = await axiosHeader.get(`/comments/forums/${forumId}`);
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
         } catch (e) {
@@ -85,7 +84,7 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axiosHeader.post(`/forums/${forumId}/comments/${username}`, {
+            const response = await axiosHeader.post(`/comments/forums/${forumId}/users/${username}`, {
                 name: username,
                 text: commentText,
                 date: new Date().toISOString(),

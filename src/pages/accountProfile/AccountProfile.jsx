@@ -60,7 +60,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const profileResult = await axiosHeader.get(`/profiles/${username}`);
+            const profileResult = await axiosHeader.get(`/profiles/users/${username}`);
             setBio(profileResult.data);
         } catch (e) {
             console.error(e);
@@ -73,7 +73,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/forums`);
+            const forumsResult = await axiosHeader.get(`/forums/users/${username}`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setForums(sortedForums);
         } catch (e) {
@@ -87,7 +87,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/liked-forums`);
+            const forumsResult = await axiosHeader.get(`/forums/users/${username}/liked-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setLikedForums(sortedForums);
         } catch (e) {
@@ -101,7 +101,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/viewed-forums`);
+            const forumsResult = await axiosHeader.get(`/forums/users/${username}/viewed-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setViewedForums(sortedForums);
         } catch (e) {
@@ -115,7 +115,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const forumsResult = await axiosHeader.get(`/users/${username}/commented-forums`);
+            const forumsResult = await axiosHeader.get(`/forums/users/${username}/commented-forums`);
             const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
             setCommentedForums(sortedForums);
         } catch (e) {
@@ -129,7 +129,7 @@ function AccountProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.get(`/reviews/${username}`);
+            const response = await axiosHeader.get(`/reviews/users/${username}`);
             setReview(response.data);
         } catch (e) {
             console.error(e);

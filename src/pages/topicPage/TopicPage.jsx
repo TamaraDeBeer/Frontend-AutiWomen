@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import styles from './TopicPage.module.css';
 import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import ForumPostShort from "../../components/forumPostShort/ForumPostShort.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import Button from "../../components/button/Button.jsx";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function TopicPage() {
     const { topic } = useParams();
@@ -25,7 +25,7 @@ function TopicPage() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosHeader.get('/forums');
             const filteredForums = response.data.filter(forum => forum.topic === topic);
             setForums(filteredForums);
             console.log(filteredForums);

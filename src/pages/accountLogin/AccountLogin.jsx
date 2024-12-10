@@ -5,7 +5,7 @@ import InputField from "../../components/inputField/InputField.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import {useContext, useState} from "react";
 import { AuthContext } from "../../context/AuthContextProvider.jsx";
-import axios from "axios";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function AccountLogin() {
     const { handleSubmit, formState: { errors }, register } = useForm({
@@ -25,7 +25,7 @@ function AccountLogin() {
         toggleLoading(true);
 
         try {
-            const result = await axios.post('http://localhost:1991/login', {
+            const result = await axiosHeader.post('/login', {
                 username: data.username,
                 password: data.password
             });

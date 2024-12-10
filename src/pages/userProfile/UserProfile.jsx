@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import ForumPostShort from '../../components/forumPostShort/ForumPostShort';
 import calculateAge from '../../helpers/calculateAge';
@@ -40,7 +39,7 @@ function UserProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axiosHeader.get(`/profiles/${username}`);
+            const response = await axiosHeader.get(`/profiles/users/${username}`);
             setBio(response.data);
         } catch (e) {
             console.error(e);
@@ -53,7 +52,7 @@ function UserProfile() {
         toggleError(false);
         toggleLoading(true);
         try {
-            const response = await axios.get(`http://localhost:1991/users/${username}/forums`);
+            const response = await axiosHeader.get(`forums/users/${username}`);
             const sortedForums = response.data.sort((a, b) => b.id - a.id);
             setForums(sortedForums);
         } catch (e) {

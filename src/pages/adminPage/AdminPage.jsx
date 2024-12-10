@@ -32,10 +32,10 @@ function AdminPage() {
         }
     }
 
-    async function deleteForum(id) {
+    async function deleteForum(forumId, username) {
         try {
-            await axiosHeader.delete(`/forums/${id}`);
-            setForums(forums.filter(forum => forum.id !== id));
+            await axiosHeader.delete(`/forums/${forumId}/users/${username}`);
+            setForums(forums.filter(forum => forum.id !== forumId));
             getAllComments();
         } catch (e) {
             console.error(e);
@@ -44,16 +44,16 @@ function AdminPage() {
 
     async function getAllComments() {
         try {
-            const response = await axiosHeader.get('/forums/comments');
+            const response = await axiosHeader.get('/comments');
             setComments(response.data);
         } catch (e) {
             console.error(e);
         }
     }
 
-    async function deleteComment(forumId, commentId) {
+    async function deleteComment(commentId, username) {
         try {
-            await axiosHeader.delete(`/forums/comments/${commentId}`);
+            await axiosHeader.delete(`/comments/${commentId}/users/${username}`);
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (e) {
             console.error(e);
@@ -91,10 +91,10 @@ function AdminPage() {
         }
     }
 
-    async function deleteReview(id) {
+    async function deleteReview(reviewId, username) {
         try {
-            await axiosHeader.delete(`/reviews/${id}`);
-            setReview(review.filter(review => review.id !== id));
+            await axiosHeader.delete(`/reviews/${reviewId}/users/${username}`);
+            setReview(review.filter(review => review.id !== reviewId));
         } catch (e) {
             console.error(e);
         }
@@ -111,7 +111,7 @@ function AdminPage() {
 
     async function deleteUserAuthority(username, authority) {
         try {
-            await axiosHeader.delete(`/authorities/${username}/${authority}`);
+            await axiosHeader.delete(`/authorities/${authority}/users/${username}`);
             setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
             getAllUsers();
         } catch (e) {
@@ -122,7 +122,7 @@ function AdminPage() {
     async function addUserAuthority(event) {
         event.preventDefault();
         try {
-            await axiosHeader.post(`/authorities/${newAuthority.username}`, { authority: newAuthority.authority });
+            await axiosHeader.post(`/authorities/users/${newAuthority.username}`, { authority: newAuthority.authority });
             setFormVisible(false);
             getAllAuthorities();
             getAllUsers();
@@ -134,7 +134,7 @@ function AdminPage() {
     async function updateUserAuthority(event) {
         event.preventDefault();
         try {
-            await axiosHeader.put(`/authorities/${updateAuthority.username}`, {
+            await axiosHeader.put(`/authorities/users/${updateAuthority.username}`, {
                 oldAuthority: updateAuthority.oldAuthority,
                 newAuthority: updateAuthority.newAuthority
             });
