@@ -229,7 +229,7 @@ function AdminPage() {
                             onChange={(e) => setNewAuthority({...newAuthority, authority: e.target.value})}
                             required
                         />
-                        <button type="submit" className={styles['admin-button']} type="submit">Submit</button>
+                        <button type="submit" className={styles['admin-button']}>Submit</button>
                     </form>
                 )}
                 <table>
