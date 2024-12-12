@@ -26,8 +26,6 @@ function AccountProfile() {
     const [viewedForums, setViewedForums] = useState([]);
     const [review, setReview] = useState([]);
     const [activeForm, setActiveForm] = useState(null);
-    // const [error, toggleError] = useState(false);
-    // const [loading, toggleLoading] = useState(false);
     const { fetchData, error, loading } = useFetchAccountProfile();
     const {user} = useContext(AuthContext);
 
@@ -91,101 +89,6 @@ function AccountProfile() {
         const data = await fetchData('review', `/reviews/users/${username}`);
         if (data) setReview(data);
     }
-
-    // async function fetchProfile(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const profileResult = await axiosHeader.get(`/users/${username}`);
-    //         setProfile(profileResult.data);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
-    //
-    // async function fetchBio(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const profileResult = await axiosHeader.get(`/profiles/users/${username}`);
-    //         setBio(profileResult.data);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
-    //
-    // async function fetchForums(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const forumsResult = await axiosHeader.get(`/forums/users/${username}`);
-    //         const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
-    //         setForums(sortedForums);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
-    //
-    // async function fetchLikedForums(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const forumsResult = await axiosHeader.get(`/forums/users/${username}/liked-forums`);
-    //         const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
-    //         setLikedForums(sortedForums);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
-    //
-    // async function fetchViewedForums(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const forumsResult = await axiosHeader.get(`/forums/users/${username}/viewed-forums`);
-    //         const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
-    //         setViewedForums(sortedForums);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
-    //
-    // async function fetchCommentedForums(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const forumsResult = await axiosHeader.get(`/forums/users/${username}/commented-forums`);
-    //         const sortedForums = forumsResult.data.sort((a, b) => b.id - a.id);
-    //         setCommentedForums(sortedForums);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
-    //
-    // async function fetchReview(username) {
-    //     toggleError(false);
-    //     toggleLoading(true);
-    //     try {
-    //         const response = await axiosHeader.get(`/reviews/users/${username}`);
-    //         setReview(response.data);
-    //     } catch (e) {
-    //         console.error(e);
-    //         toggleError(true);
-    //     }
-    //     toggleLoading(false);
-    // }
 
     return (
         <>

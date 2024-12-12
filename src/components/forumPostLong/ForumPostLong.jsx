@@ -30,13 +30,11 @@ function ForumPostLong({
     const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
     const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
-    const [username, setUsername] = useState('');
     const [activeForm, setActiveForm] = useState(null);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
         if (username) {
-            setUsername(username);
             checkUserLike(username);
             if (!hasViewed) {
                 checkUserView(username);
@@ -73,7 +71,7 @@ function ForumPostLong({
         }
     }
 
-    async function addLike() {
+    async function addLike(username) {
         try {
             const response = await axiosHeader.post(`/likes/add/forums/${forumId}/users/${username}`);
             setCurrentLikesCount(response.data);
@@ -84,7 +82,7 @@ function ForumPostLong({
         }
     }
 
-    async function removeLike() {
+    async function removeLike(username) {
         try {
             const response = await axiosHeader.delete(`/likes/delete/forums/${forumId}/users/${username}`);
             setCurrentLikesCount(response.data);
@@ -186,14 +184,14 @@ function ForumPostLong({
             )}
 
             {activeForm === 'edit' && (
-                <EditForum forumId={forumId} username={username} forumData={{title, text}} onUpdate={() => {
+                <EditForum forumId={forumId} username={localStorage.getItem('username')} forumData={{title, text}} onUpdate={() => {
                     fetchForumById();
                     setTimeout(() => setActiveForm(null), 2000);
                 }}/>
             )}
 
             {activeForm === 'delete' && (
-                <DeleteForum forumId={forumId} username={username} onDelete={() => setActiveForm(null)}/>
+                <DeleteForum forumId={forumId} username={localStorage.getItem('username')} onDelete={() => setActiveForm(null)}/>
             )}
 
         </article>

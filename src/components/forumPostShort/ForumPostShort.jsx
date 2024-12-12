@@ -9,32 +9,29 @@ import {useEffect, useState} from "react";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function ForumPostShort({forumId, image, name, age, title, date, text, link, likesCount, commentsCount, viewsCount, lastReaction}) {
-    // eslint-disable-next-line no-unused-vars
-    const [username, setUsername] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
     const [hasViewed, setHasViewed] = useState(false);
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
         if (storedUsername) {
-            setUsername(storedUsername);
             checkUserLike(storedUsername);
             checkUserView(storedUsername);
         }
     }, [forumId]);
 
-    async function checkUserLike(storedUsername) {
+    async function checkUserLike(username) {
         try {
-            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${storedUsername}`);
+            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`);
             setHasLiked(response.data);
         } catch (e) {
             console.error(e);
         }
     }
 
-    async function checkUserView(storedUsername) {
+    async function checkUserView(username) {
         try {
-            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${storedUsername}`);
+            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`);
             setHasViewed(response.data);
         } catch (e) {
             console.error(e);
