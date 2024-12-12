@@ -164,6 +164,7 @@ function ForumPost() {
                                     commentId={comment.id}
                                     forumId={forumId}
                                     currentUser={name}
+                                    username={comment.name}
                                     fetchCommentsByForumId={fetchCommentsByForumId}
                                 />
                             ))

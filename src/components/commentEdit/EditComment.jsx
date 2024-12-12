@@ -5,7 +5,7 @@ import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function EditComment({forumId, commentId, user, commentData, onUpdate}) {
+function EditComment({forumId, commentId, username, commentData, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             text: commentData.text,
@@ -18,7 +18,7 @@ function EditComment({forumId, commentId, user, commentData, onUpdate}) {
     async function editComment(data) {
         toggleLoading(true);
         try {
-            const response = await axiosHeader.put(`/comments/${commentId}/forums/${forumId}/users/${user}`, data);
+            const response = await axiosHeader.put(`/comments/${commentId}/forums/${forumId}/users/${username}`, data);
             onUpdate(response.data);
             setIsSubmitted(true);
         } catch (e) {

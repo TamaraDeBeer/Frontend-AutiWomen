@@ -4,7 +4,7 @@ import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from "../forumEdit/ForumEdit.module.css";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function DeleteComment({user, commentId, onDelete, fetchCommentsByForumId}) {
+function DeleteComment({username, commentId, onDelete, fetchCommentsByForumId}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
@@ -13,7 +13,7 @@ function DeleteComment({user, commentId, onDelete, fetchCommentsByForumId}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axiosHeader.delete(`/comments/${commentId}/users/${user}`);
+            await axiosHeader.delete(`/comments/${commentId}/users/${username}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => {

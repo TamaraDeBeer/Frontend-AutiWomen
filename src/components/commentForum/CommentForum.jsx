@@ -3,7 +3,7 @@ import EditComment from "../commentEdit/EditComment.jsx";
 import DeleteComment from "../commentEdit/DeleteComment.jsx";
 import {useState} from "react";
 
-function CommentForum({image, name, age, date, text, commentId, currentUser, forumId, fetchCommentsByForumId}) {
+function CommentForum({image, name, age, date, text, commentId, currentUser, forumId, fetchCommentsByForumId, username}) {
     const [activeForm, setActiveForm] = useState(null);
 
     return (
@@ -37,14 +37,14 @@ function CommentForum({image, name, age, date, text, commentId, currentUser, for
             )}
 
             {activeForm === 'edit' && (
-                <EditComment forumId={forumId} commentId={commentId} commentData={{text}} onUpdate={() => {
+                <EditComment forumId={forumId} username={username} commentId={commentId} commentData={{text}} onUpdate={() => {
                     fetchCommentsByForumId();
                     setTimeout(() => setActiveForm(null), 2000);
                 }}/>
             )}
 
             {activeForm === 'delete' && (
-                <DeleteComment forumId={forumId} commentId={commentId} onDelete={() => {
+                <DeleteComment forumId={forumId} username={username} commentId={commentId} onDelete={() => {
                     setActiveForm(null);
                     setTimeout(() => setActiveForm(null), 2000);
                 }} fetchCommentsByForumId={fetchCommentsByForumId}/>

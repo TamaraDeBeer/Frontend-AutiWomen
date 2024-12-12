@@ -186,14 +186,14 @@ function ForumPostLong({
             )}
 
             {activeForm === 'edit' && (
-                <EditForum forumId={forumId} forumData={{title, text}} onUpdate={() => {
+                <EditForum forumId={forumId} username={username} forumData={{title, text}} onUpdate={() => {
                     fetchForumById();
                     setTimeout(() => setActiveForm(null), 2000);
                 }}/>
             )}
 
             {activeForm === 'delete' && (
-                <DeleteForum forumId={forumId} onDelete={() => setActiveForm(null)}/>
+                <DeleteForum forumId={forumId} username={username} onDelete={() => setActiveForm(null)}/>
             )}
 
         </article>
