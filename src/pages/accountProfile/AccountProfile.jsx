@@ -14,7 +14,7 @@ import ReviewEdit from "../../components/reviewEdit/ReviewEdit.jsx";
 import {Link} from "react-router-dom";
 // import axiosHeader from "../../helpers/axiosHeader.jsx";
 import styles from './AccountProfile.module.css';
-import useFetchData from "../../hooks/useFetchData.jsx";
+import useFetchAccountProfile from "../../hooks/useFetchAccountProfile.jsx";
 
 function AccountProfile() {
     const [name, setName] = useState('');
@@ -28,7 +28,7 @@ function AccountProfile() {
     const [activeForm, setActiveForm] = useState(null);
     // const [error, toggleError] = useState(false);
     // const [loading, toggleLoading] = useState(false);
-    const { fetchData, error, loading } = useFetchData();
+    const { fetchData, error, loading } = useFetchAccountProfile();
     const {user} = useContext(AuthContext);
 
     useEffect(() => {

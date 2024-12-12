@@ -8,7 +8,6 @@ import axiosHeader from "../../helpers/axiosHeader.jsx";
 function DeleteForum({forumId, user, onDelete}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -36,7 +35,8 @@ function DeleteForum({forumId, user, onDelete}) {
             ) : (
                 <div>
                     <Button type="submit" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
-                    {error && <ErrorMessage message={error}/>}
+                    {loading && <p>Laden...</p>}
+                    {error && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
                 </div>
             )}
         </div>

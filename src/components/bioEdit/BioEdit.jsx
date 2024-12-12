@@ -13,8 +13,10 @@ function BioEdit({user, profileId, bio, onUpdate}) {
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     async function editBio(data) {
+        toggleLoading(true);
         try {
             await axiosHeader.put(`/profiles/${profileId}/users/${user.username}`, data);
             onUpdate();
@@ -22,6 +24,7 @@ function BioEdit({user, profileId, bio, onUpdate}) {
         } catch (e) {
             console.error('Error updating bio:', e);
         }
+        toggleLoading(false);
     }
 
     return (
@@ -42,6 +45,7 @@ function BioEdit({user, profileId, bio, onUpdate}) {
                         ></textarea>
                     </label>
                     <Button type="submit" variant="secondary">Update jouw verhaal</Button>
+                    {loading && <p>Laden...</p>}
                     {errors.text && <ErrorMessage message="Update niet gelukt, probeer het later opnieuw"/>}
                 </form>
             )}

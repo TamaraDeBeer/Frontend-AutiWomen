@@ -19,14 +19,13 @@ function ForumPost() {
     const [loading, toggleLoading] = useState(false);
     const [forumById, setForumById] = useState([]);
     const [commentsByForumId, setCommentsByForumId] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [commentName, setCommentName] = useState('');
+    const [setCommentName] = useState('');
     const [commentText, setCommentText] = useState('');
-    // eslint-disable-next-line no-unused-vars
-    const [postComment, setPostComment] = useState([]);
     const [name, setName] = useState('');
+    // eslint-disable-next-line no-unused-vars
     const [lastReaction, setLastReaction] = useState('');
     const commentFormRef = useRef(null);
+    // eslint-disable-next-line no-unused-vars
     const [commentsCount, setCommentsCount] = useState(0);
 
     useEffect(() => {
@@ -56,6 +55,7 @@ function ForumPost() {
             toggleLoading(true);
             const response = await axiosPublic.get(`/forums/${forumId}`);
             setForumById(response.data);
+            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -72,8 +72,12 @@ function ForumPost() {
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.response && e.response.status === 404) {
+                setCommentsByForumId([]);
+            } else {
+                console.error(e);
+                toggleError(true);
+            }
         }
         toggleLoading(false);
     }
@@ -85,12 +89,12 @@ function ForumPost() {
         toggleLoading(true);
         try {
             toggleLoading(true);
-            const response = await axiosHeader.post(`/comments/forums/${forumId}/users/${username}`, {
+            await axiosHeader.post(`/comments/forums/${forumId}/users/${username}`, {
                 name: username,
                 text: commentText,
                 date: new Date().toISOString(),
             });
-            setPostComment(response.data);
+            // setPostComment(response.data);
             fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
@@ -102,11 +106,11 @@ function ForumPost() {
         toggleLoading(false);
     }
 
-    const scrollToCommentForm = () => {
-        if (commentFormRef.current) {
-            commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
+    // const scrollToCommentForm = () => {
+    //     if (commentFormRef.current) {
+    //         commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    // };
 
     return (
         <>
@@ -125,48 +129,51 @@ function ForumPost() {
             <section className={`${styles['outer-container']} ${styles['section-forum__main']}`}>
                 <section className={styles['section-forum__posts-long']}>
                     {error &&
-                        <p className="error-message">Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>}
-                    {loading && <p>Loading...</p>}
+                        <p className="error-message">Er ging iets mis, probeer het later opnieuw.</p>}
+                    {loading && <p>Laden...</p>}
 
                     {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
-                            title={forumById.title}
-                            image={forumById.userDto?.profilePictureUrl} q
-                            name={forumById.name}
+                            title={forumById.title || ''}
+                            image={forumById.userDto?.profilePictureUrl || ''}
+                            name={forumById.name || ''}
                             age={calculateAge(forumById.dob) + ' jaar'}
-                            date={createDateToString(forumById.date)}
-                            lastReaction={lastReaction ? lastReaction : 'Plaast de eerste reactie hieronder'}
-                            text={forumById.text}
-                            likesCount={forumById.likesCount}
-                            commentsCount={commentsCount}
-                            viewsCount={forumById.viewsCount}
-                            currentUser={name}
+                            date={createDateToString(forumById.date) || ''}
+                            lastReaction={typeof lastReaction === 'string' ? lastReaction : 'Plaats de eerste reactie hieronder'}
+                            text={forumById.text || ''}
+                            // likesCount={forumById.likesCount || 0}
+                            // commentsCount={commentsCount || 0}
+                            // viewsCount={forumById.viewsCount || 0}
+                            currentUser={name || ''}
                             fetchForumById={fetchForumById}
-                            scrollToCommentForm={scrollToCommentForm}
+                            // scrollToCommentForm={scrollToCommentForm}
                         />
                     )}
 
                     <div className={styles['section-forum__line']}></div>
 
                     <section className={styles['section-response']}>
-                        {error &&
-                            <p className="error-message">Data ophalen lukt niet, probeer het later nog een keer.</p>}
-                        {loading && <p>Loading...</p>}
+                        {error && <p className="error-message">Er ging iets mis, probeer het later opnieuw.</p>}
+                        {loading && <p>Laden...</p>}
 
-                        {commentsByForumId.length > 0 && commentsByForumId.map(comment => (
-                            <CommentForum
-                                key={comment.id}
-                                image={comment.userDto?.profilePictureUrl}
-                                name={comment.name}
-                                age={calculateAge(comment.dob) + ' jaar'}
-                                date={createDateToString(comment.date)}
-                                text={comment.text}
-                                commentId={comment.id}
-                                forumId={forumId}
-                                currentUser={name}
-                                fetchCommentsByForumId={fetchCommentsByForumId}
-                            />
-                        ))}
+                        {commentsByForumId.length > 0 ? (
+                            commentsByForumId.map(comment => (
+                                <CommentForum
+                                    key={comment.id}
+                                    image={comment.userDto?.profilePictureUrl}
+                                    name={comment.name}
+                                    age={calculateAge(comment.dob) + ' jaar'}
+                                    date={createDateToString(comment.date)}
+                                    text={comment.text}
+                                    commentId={comment.id}
+                                    forumId={forumId}
+                                    currentUser={name}
+                                    fetchCommentsByForumId={fetchCommentsByForumId}
+                                />
+                            ))
+                        ) : (
+                            !loading && !error && <p>Er zijn nog geen opmerkingen.</p>
+                        )}
                     </section>
 
                     <div className={styles['section-forum__line']}></div>
@@ -203,7 +210,7 @@ function ForumPost() {
                                 </form>
                             </>
                         ) : (
-                            <p>Je moet ingelogd zijn om een reactie te kunnen toevoegen.</p>
+                            <p>Je moet ingelogd zijn om een opmerking te kunnen toevoegen.</p>
                         )}
                     </div>
                 </section>

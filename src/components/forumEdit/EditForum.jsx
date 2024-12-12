@@ -2,12 +2,12 @@ import Button from "../button/Button.jsx";
 import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import InputField from "../inputField/InputField.jsx";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {useState} from "react";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function EditForum({ forumId, user, forumData, onUpdate }) {
-    const { handleSubmit, formState: { errors }, register} = useForm({
+function EditForum({forumId, user, forumData, onUpdate}) {
+    const {handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             title: forumData.title,
             text: forumData.text,
@@ -17,7 +17,6 @@ function EditForum({ forumId, user, forumData, onUpdate }) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [topic, setTopic] = useState(forumData.topic);
 
@@ -64,8 +63,7 @@ function EditForum({ forumId, user, forumData, onUpdate }) {
                             ></textarea>
                         </label>
 
-                        <label htmlFor="topic"> Selecteer het bijpassende
-                            onderwerp:
+                        <label htmlFor="topic"> Selecteer het bijpassende onderwerp:
                             <select
                                 className={styles['topic-select']}
                                 id="topic"
@@ -89,7 +87,8 @@ function EditForum({ forumId, user, forumData, onUpdate }) {
                         </label>
 
                         <Button type="submit" variant="secondary">Update Forum</Button>
-                        {error && <ErrorMessage message={error}/>}
+                        {loading && <p>Laden...</p>}
+                        {error && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
                     </form>
                 </div>
             )}

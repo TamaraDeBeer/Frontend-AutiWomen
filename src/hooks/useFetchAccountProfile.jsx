@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axiosHeader from '../helpers/axiosHeader';
 
-function useFetchData() {
+function useFetchAccountProfile() {
     const [error, setError] = useState({});
     const [loading, setLoading] = useState({});
 
@@ -27,4 +27,4 @@ function useFetchData() {
     return { fetchData, error, loading };
 }
 
-export default useFetchData;
+export default useFetchAccountProfile;

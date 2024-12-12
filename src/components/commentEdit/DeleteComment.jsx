@@ -7,14 +7,13 @@ import axiosHeader from "../../helpers/axiosHeader.jsx";
 function DeleteComment({user, commentId, onDelete, fetchCommentsByForumId}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
 
     async function handleDelete() {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axiosHeader.delete(`/comments/${commentId}/users/${user.username}`);
+            await axiosHeader.delete(`/comments/${commentId}/users/${user}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => {
@@ -36,7 +35,8 @@ function DeleteComment({user, commentId, onDelete, fetchCommentsByForumId}) {
             ) : (
                 <div>
                     <Button type="submit" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
-                    {error && <ErrorMessage message={error}/>}
+                    {loading && <p>Laden...</p>}
+                    {error && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
                 </div>
             )}
         </div>
