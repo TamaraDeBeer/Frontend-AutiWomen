@@ -1,8 +1,8 @@
 import styles from './ForumPostLong.module.css';
 import likes1 from "../../assets/logo/likes1.png";
 import likes2 from "../../assets/logo/likes2.png";
-// import comments1 from "../../assets/logo/comments.png";
-// import view2 from "../../assets/logo/view2.png";
+import comments1 from "../../assets/logo/comments.png";
+import view2 from "../../assets/logo/view2.png";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import EditForum from "../forumEdit/EditForum.jsx";
@@ -19,17 +19,17 @@ function ForumPostLong({
                            lastReaction,
                            text,
                            likesCount,
-                           // commentsCount,
-                           // viewsCount,
+                           commentsCount,
+                           viewsCount,
                            currentUser,
                            fetchForumById,
-                           // scrollToCommentForm
+                           scrollToCommentForm
                        }) {
     const {forumId} = useParams();
     const [hasLiked, setHasLiked] = useState(false);
-    // const [hasViewed, setHasViewed] = useState(false);
+    const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
-    // const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
+    const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
     const [username, setUsername] = useState('');
     const [activeForm, setActiveForm] = useState(null);
 
@@ -38,17 +38,17 @@ function ForumPostLong({
         if (username) {
             setUsername(username);
             checkUserLike(username);
-            // if (!hasViewed) {
-            //     checkUserView(username);
-            // }
+            if (!hasViewed) {
+                checkUserView(username);
+            }
         }
         fetchLikeCount();
-        // fetchViewCount();
+        fetchViewCount();
     }, [forumId]);
 
     useEffect(() => {
         setCurrentLikesCount(likesCount);
-        // setCurrentViewsCount(viewsCount);
+        setCurrentViewsCount(viewsCount);
     }, [likesCount]);
 
     async function checkUserLike(username) {
@@ -68,7 +68,6 @@ function ForumPostLong({
         try {
             const response = await axiosPublic.get(`/likes/count/forums/${forumId}`);
             setCurrentLikesCount(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -80,7 +79,6 @@ function ForumPostLong({
             setCurrentLikesCount(response.data);
             setHasLiked(true);
             fetchLikeCount();
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -92,47 +90,49 @@ function ForumPostLong({
             setCurrentLikesCount(response.data);
             setHasLiked(false);
             fetchLikeCount();
-            console.log(response.data);
         } catch (e) {
             console.error(e);
         }
     }
-    //
-    // async function fetchViewCount() {
-    //     try {
-    //         const response = await axiosPublic.get(`/views/count/forums/${forumId}`);
-    //         setCurrentViewsCount(response.data);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
-    //
-    // async function checkUserView(username) {
-    //     try {
-    //         const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`);
-    //         if (!response.data) {
-    //             await addView(username);
-    //         }
-    //         setHasViewed(response.data);
-    //         console.log(response.data);
-    //     } catch (e) {
-    //         if (e.response && e.response.status === 409) {
-    //             setHasViewed(true);
-    //         } else {
-    //             console.error(e);
-    //         }
-    //     }
-    // }
-    //
-    // async function addView(username) {
-    //     try {
-    //         const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`);
-    //         setCurrentViewsCount(response.data);
-    //         setHasViewed(true);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
+
+    async function fetchViewCount() {
+        try {
+            const response = await axiosPublic.get(`/views/count/forums/${forumId}`);
+            setCurrentViewsCount(response.data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function checkUserView(username) {
+        try {
+            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`);
+            if (!response.data) {
+                await addView(username);
+            }
+            setHasViewed(response.data);
+        } catch (e) {
+            if (e.response && e.response.status === 409) {
+                setHasViewed(true);
+            } else {
+                console.error(e);
+            }
+        }
+    }
+
+    async function addView(username) {
+        try {
+            const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`);
+            setCurrentViewsCount(response.data);
+            setHasViewed(true);
+        } catch (e) {
+            if (e.response && e.response.status === 409) {
+                setHasViewed(true);
+            } else {
+                console.error(e);
+            }
+        }
+    }
 
     return (<>
         <article className={styles['section-forum__card']}>
@@ -164,14 +164,14 @@ function ForumPostLong({
                     />{currentLikesCount}
                 </p>
 
-            {/*    <p className={styles['card-information__logo']}><img src={comments1}*/}
-            {/*                                                         alt="Comments Logo"*/}
-            {/*                                                         className={styles['logo']}*/}
-            {/*                                                         onClick={scrollToCommentForm}/>{commentsCount}</p>*/}
-            {/*    <p className={styles['card-information__logo']}><img src={view2}*/}
-            {/*                                                         alt="Views Logo"*/}
-            {/*                                                         className={styles['logo-view']}/>{currentViewsCount}*/}
-            {/*    </p>*/}
+                <p className={styles['card-information__logo']}><img src={comments1}
+                                                                     alt="Comments Logo"
+                                                                     className={styles['logo']}
+                                                                     onClick={scrollToCommentForm}/>{commentsCount}</p>
+                <p className={styles['card-information__logo']}><img src={view2}
+                                                                     alt="Views Logo"
+                                                                     className={styles['logo-view']}/>{currentViewsCount}
+                </p>
             </div>
 
             {currentUser === name && (

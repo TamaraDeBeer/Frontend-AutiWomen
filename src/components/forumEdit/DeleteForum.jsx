@@ -5,7 +5,7 @@ import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function DeleteForum({forumId, user, onDelete}) {
+function DeleteForum({forumId, username, onDelete}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
@@ -15,7 +15,7 @@ function DeleteForum({forumId, user, onDelete}) {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axiosHeader.delete(`/forums/${forumId}/users/${user.username}`);
+            await axiosHeader.delete(`/forums/${forumId}/users/${username}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => navigate('/profile'), 500);

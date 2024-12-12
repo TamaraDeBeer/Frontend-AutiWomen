@@ -13,7 +13,7 @@ function useFetchAccountProfile() {
             return response.data;
         } catch (e) {
             if (e.response && e.response.status === 404) {
-                console.warn(`404 error: No ${key} found: ${url}`);
+                console.error(`404 error: No ${key} found: ${url}`);
             } else {
                 console.error(e);
                 setError(prev => ({ ...prev, [key]: true }));

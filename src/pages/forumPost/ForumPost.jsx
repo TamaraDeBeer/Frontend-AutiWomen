@@ -22,10 +22,8 @@ function ForumPost() {
     const [setCommentName] = useState('');
     const [commentText, setCommentText] = useState('');
     const [name, setName] = useState('');
-    // eslint-disable-next-line no-unused-vars
     const [lastReaction, setLastReaction] = useState('');
     const commentFormRef = useRef(null);
-    // eslint-disable-next-line no-unused-vars
     const [commentsCount, setCommentsCount] = useState(0);
 
     useEffect(() => {
@@ -55,7 +53,6 @@ function ForumPost() {
             toggleLoading(true);
             const response = await axiosPublic.get(`/forums/${forumId}`);
             setForumById(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -94,7 +91,6 @@ function ForumPost() {
                 text: commentText,
                 date: new Date().toISOString(),
             });
-            // setPostComment(response.data);
             fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
@@ -106,11 +102,11 @@ function ForumPost() {
         toggleLoading(false);
     }
 
-    // const scrollToCommentForm = () => {
-    //     if (commentFormRef.current) {
-    //         commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    // };
+    const scrollToCommentForm = () => {
+        if (commentFormRef.current) {
+            commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <>
@@ -134,19 +130,19 @@ function ForumPost() {
 
                     {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
-                            title={forumById.title || ''}
-                            image={forumById.userDto?.profilePictureUrl || ''}
-                            name={forumById.name || ''}
+                            title={forumById.title}
+                            image={forumById.userDto?.profilePictureUrl}
+                            name={forumById.name}
                             age={calculateAge(forumById.dob) + ' jaar'}
-                            date={createDateToString(forumById.date) || ''}
-                            lastReaction={typeof lastReaction === 'string' ? lastReaction : 'Plaats de eerste reactie hieronder'}
-                            text={forumById.text || ''}
-                            // likesCount={forumById.likesCount || 0}
-                            // commentsCount={commentsCount || 0}
-                            // viewsCount={forumById.viewsCount || 0}
-                            currentUser={name || ''}
+                            date={createDateToString(forumById.date)}
+                            lastReaction={lastReaction ? lastReaction : 'Plaats de eerste reactie hieronder'}
+                            text={forumById.text}
+                            likesCount={forumById.likesCount}
+                            commentsCount={commentsCount}
+                            viewsCount={forumById.viewsCount}
+                            currentUser={name}
                             fetchForumById={fetchForumById}
-                            // scrollToCommentForm={scrollToCommentForm}
+                            scrollToCommentForm={scrollToCommentForm}
                         />
                     )}
 
