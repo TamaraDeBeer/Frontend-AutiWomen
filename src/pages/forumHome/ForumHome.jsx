@@ -15,7 +15,6 @@ function ForumHome() {
     const navigate = useNavigate();
     const [forums, setForums] = useState([]);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [sliderOption, setSliderOption] = useState('newest');
     const [searchQuery, setSearchQuery] = useState('');
@@ -98,6 +97,8 @@ function ForumHome() {
                         </button>
                     </div>
 
+                    {loading && <p>Laden...</p>}
+                    {error && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de forums. Probeer het opnieuw."/>}
                     {forums.map((forum) => {
                         return <ForumPostShort
                             key={forum.id}
@@ -115,8 +116,6 @@ function ForumHome() {
                             lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
                         />
                     })}
-                    {error && <ErrorMessage
-                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
                 </section>
 
                 <section className={styles['section-forum__sidebar']}>
@@ -128,4 +127,3 @@ function ForumHome() {
 }
 
 export default ForumHome;
-

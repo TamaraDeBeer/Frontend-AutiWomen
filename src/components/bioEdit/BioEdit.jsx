@@ -5,7 +5,7 @@ import {useState} from "react";
 import styles from './BioEdit.module.css';
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function BioEdit({user, bio, onUpdate}) {
+function BioEdit({user, profileId, bio, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             bio: bio.bio,
@@ -16,7 +16,7 @@ function BioEdit({user, bio, onUpdate}) {
 
     async function editBio(data) {
         try {
-            await axiosHeader.put(`/profiles/users/${user.username}`, data);
+            await axiosHeader.put(`/profiles/${profileId}/users/${user.username}`, data);
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {

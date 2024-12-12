@@ -17,8 +17,17 @@ function AuthContextProvider({children}) {
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
-            const decoded = jwtDecode(jwt);
-            void fetchUserData(decoded.sub, jwt);
+            try {
+                const decoded = jwtDecode(jwt);
+                void fetchUserData(decoded.sub, jwt);
+            } catch (e) {
+                console.error('Error decoding JWT:', e);
+                setIsAuth({
+                    isAuth: false,
+                    user: null,
+                    status: 'done',
+                });
+            }
         } else {
             setIsAuth({
                 isAuth: false,
@@ -27,6 +36,7 @@ function AuthContextProvider({children}) {
             });
         }
     }, []);
+
 
     function login(jwt) {
         localStorage.setItem('jwt', jwt);

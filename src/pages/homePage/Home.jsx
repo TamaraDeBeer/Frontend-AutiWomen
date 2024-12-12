@@ -80,8 +80,8 @@ function Home() {
             <section className={styles['section-forums']}>
                 <h2 className={styles['section-title']}>Populaire Forums</h2>
                 <div className={styles['section-forums__inner-container']}>
-                    {forumsLoading && <p>Loading...</p>}
-                    {forumsError && <p>Error loading forums</p>}
+                    {forumsLoading && <p>Laden...</p>}
+                    {forumsError && <p>Er is iets misgegaan bij het ophalen van de forums. Probeer het opnieuw.</p>}
                     {forums && forums.map((forum) => (
                         <PopulairForum
                             key={forum.id}
@@ -99,8 +99,8 @@ function Home() {
                 <h2 className={styles['section-title']}>Wat leden zeggen:</h2>
                 <div className={styles['section-reviews__inner-container']}>
                     <Slider {...settings}>
-                        {reviewsLoading && <p>Loading...</p>}
-                        {reviewsError && <p>Error loading reviews</p>}
+                        {reviewsLoading && <p>Laden...</p>}
+                        {reviewsError && <p>Er is iets misgegaan bij het ophalen van de reviews. Probeer het opnieuw</p>}
                         {reviews && reviews.map((review) => (
                             <div key={review.id} className={styles['review']}>
                                 <Reviews

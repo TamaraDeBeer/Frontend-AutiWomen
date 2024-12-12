@@ -5,7 +5,7 @@ import {useState} from "react";
 import styles from './ReviewEdit.module.css';
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function ReviewEdit({user, review, onUpdate}) {
+function ReviewEdit({user, review, reviewId, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             review: review.review,
@@ -16,7 +16,7 @@ function ReviewEdit({user, review, onUpdate}) {
 
     async function editReview(data) {
         try {
-            await axiosHeader.put(`/reviews/users/${user.username}`, data);
+            await axiosHeader.put(`/reviews/${reviewId}/users/${user.username}`, data);
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {
