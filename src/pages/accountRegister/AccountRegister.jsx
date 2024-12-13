@@ -35,9 +35,10 @@ function AccountRegister() {
     };
 
     useEffect(() => {
-        return function cleanup() {
-            // source.cancel();
-        }
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
     }, []);
 
     const handlePhotoChange = (e) => {
@@ -53,7 +54,8 @@ function AccountRegister() {
     async function registerUser(data) {
         toggleError(false);
         toggleLoading(true);
-
+        const controller = new AbortController();
+        const signal = controller.signal;
         const formData = new FormData();
         formData.append('user', new Blob([JSON.stringify({
             email: data.email,
@@ -71,18 +73,19 @@ function AccountRegister() {
         }
 
         try {
-           await axiosPublic.post('/register', formData, {
+            await axiosPublic.post('/register', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                },
-                // cancelToken: source.token,
-            });
+                }, signal });
             navigate('/login');
         } catch (e) {
-            console.error('Error during registration:', e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (
@@ -222,8 +225,7 @@ function AccountRegister() {
                     />
 
                     <label htmlFor="photo-field" className={styles['register-image']}>
-                        {/*Profielfoto: foto kiezen*/}
-                        Op je profilepagina kun je een profielfoto toevoegen.
+                        Profielfoto: foto kiezen
                         <input
                             id="photo-field"
                             type="file"

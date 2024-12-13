@@ -16,7 +16,6 @@ import styles from './AccountProfile.module.css';
 import useFetchAccountProfile from "../../hooks/useFetchAccountProfile.jsx";
 
 function AccountProfile() {
-    const [name, setName] = useState('');
     const [profile, setProfile] = useState({});
     const [bio, setBio] = useState({});
     const [forums, setForums] = useState([]);
@@ -26,12 +25,11 @@ function AccountProfile() {
     const [review, setReview] = useState([]);
     const [activeForm, setActiveForm] = useState(null);
     const { fetchData, error, loading } = useFetchAccountProfile();
-    const {user} = useContext(AuthContext);
+    const {isAuth, user} = useContext(AuthContext);
 
     useEffect(() => {
-        const username = localStorage.getItem('username');
-        if (username) {
-            setName(username);
+        if (isAuth && user) {
+            const username = user.username;
             void fetchProfile(username);
             void fetchBio(username);
             void fetchForums(username);
@@ -40,7 +38,7 @@ function AccountProfile() {
             void fetchCommentedForums(username);
             void fetchReview(username);
         }
-    }, []);
+    }, [isAuth, user]);
 
     async function fetchProfile(username) {
         const data = await fetchData('profile', `/users/${username}`);
@@ -91,7 +89,6 @@ function AccountProfile() {
 
     return (
         <>
-
             {(loading.profile || loading.bio || loading.forums || loading.likedForums || loading.commentedForums || loading.viewedForums || loading.review) && <p>Loading...</p>}
             {(error.profile || error.bio || error.forums || error.likedForums || error.commentedForums || error.viewedForums || error.review) && <p>Er is een fout opgetreden. Probeer het later opnieuw.</p>}
             {!loading.profile && !loading.bio && !loading.forums && !loading.likedForums && !loading.commentedForums && !loading.viewedForums && !loading.review && !error.profile && !error.bio && !error.forums && !error.likedForums && !error.commentedForums && !error.viewedForums && !error.review && user ? (
@@ -99,7 +96,7 @@ function AccountProfile() {
                     <section className="outer-container">
                         <div className={`inner-container ${styles['section-hero__inner-container']}`}>
                             <h1>Auti-Women</h1>
-                            <h2>Welkom {name}!</h2>
+                            <h2>Welkom {user.username}!</h2>
                             {profile.authorities && profile.authorities.length > 0 && profile.authorities[0].authority === 'ROLE_ADMIN' && (
                                 <Link to="/admin" className={styles['admin-link']}>Admin Page</Link>
                             )}

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContextProvider.jsx";
 import axiosPublic from "../../helpers/axiosPublic.jsx";
 
@@ -20,19 +20,31 @@ function AccountLogin() {
     const navigate = useNavigate();
     const { login } = useContext(AuthContext);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
+
     async function handleFormSubmit(data) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             const result = await axiosPublic.post('/login', {
                 username: data.username,
                 password: data.password
-            });
+            }, { signal });
             login(result.data.jwt);
             navigate('/profile');
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
         } finally {
             toggleLoading(false);
         }
