@@ -69,53 +69,59 @@ function UserProfile() {
                 <h2>Welkom op de pagina van {username}</h2>
             </section>
 
-            <section className={styles['section-user']}>
-                <div>
-                    <img src={userInfo.profilePictureUrl} className={styles['profile-image']} alt={username}/>
-                </div>
-                <div>
-                    <h2 className={styles['title-information']}>Informatie {username}</h2>
-                    <ul className={styles['user-data']}>
-                        <li>Username: {userInfo.username}</li>
-                        <li>Leeftijd: {userInfo.dob}</li>
-                        <li>Autisme: {userInfo.autismDiagnoses}</li>
-                        <li>Autisme diagnose sinds: {userInfo.autismDiagnosesYear}</li>
-                    </ul>
-                </div>
-            </section>
+            {loading && <p>Laden...</p>}
+            {error && <p>Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw.</p>}
 
-            <section className={styles['profile-bio_container']}>
-                <div className={styles['profile-bio']}>
-                <h2>Bio van {username}</h2>
-                <p>{bio.bio}</p>
-                </div>
-            </section>
+            {!loading && !error && (
+                <>
+                    <section className={styles['section-user']}>
+                        <div>
+                            <img src={userInfo.profilePictureUrl} className={styles['profile-image']} alt={username}/>
+                        </div>
+                        <div>
+                            <h2 className={styles['title-information']}>Informatie {username}</h2>
+                            <ul className={styles['user-data']}>
+                                <li>Username: {userInfo.username}</li>
+                                <li>Leeftijd: {userInfo.dob}</li>
+                                <li>Autisme: {userInfo.autismDiagnoses}</li>
+                                <li>Autisme diagnose sinds: {userInfo.autismDiagnosesYear}</li>
+                            </ul>
+                        </div>
+                    </section>
 
-            <section className={styles['profile-forums']}>
-                <h2>Forums door {username}</h2>
-                {forums.length > 0 ? (
-                    forums.map((forum) => (
-                        <ForumPostShort
-                            key={forum.id}
-                            forumId={forum.id}
-                            image={forum.userDto?.profilePictureUrl}
-                            name={forum.name}
-                            age={calculateAge(forum.age) + ' years'}
-                            title={forum.title}
-                            date={createDateToString(forum.date)}
-                            text={forum.text.split(' ').slice(0, 50).join(' ')}
-                            link={`/forums/${forum.id}`}
-                            likesCount={forum.likesCount}
-                            commentsCount={forum.commentsCount}
-                            viewsCount={forum.viewsCount}
-                            lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'No reactions yet'}
-                        />
-                    ))
-                ) : (
-                    <p>No forums found.</p>
-                )}
-            </section>
+                    <section className={styles['profile-bio_container']}>
+                        <div className={styles['profile-bio']}>
+                            <h2>Bio van {username}</h2>
+                            <p>{bio.bio}</p>
+                        </div>
+                    </section>
 
+                    <section className={styles['profile-forums']}>
+                        <h2>Forums door {username}</h2>
+                        {forums.length > 0 ? (
+                            forums.map((forum) => (
+                                <ForumPostShort
+                                    key={forum.id}
+                                    forumId={forum.id}
+                                    image={forum.userDto?.profilePictureUrl}
+                                    name={forum.name}
+                                    age={calculateAge(forum.age) + ' years'}
+                                    title={forum.title}
+                                    date={createDateToString(forum.date)}
+                                    text={forum.text.split(' ').slice(0, 50).join(' ')}
+                                    link={`/forums/${forum.id}`}
+                                    likesCount={forum.likesCount}
+                                    commentsCount={forum.commentsCount}
+                                    viewsCount={forum.viewsCount}
+                                    lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'No reactions yet'}
+                                />
+                            ))
+                        ) : (
+                            <p>No forums found.</p>
+                        )}
+                    </section>
+                </>
+            )}
         </>
     );
 }

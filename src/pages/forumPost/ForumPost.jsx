@@ -19,18 +19,12 @@ function ForumPost() {
     const [loading, toggleLoading] = useState(false);
     const [forumById, setForumById] = useState([]);
     const [commentsByForumId, setCommentsByForumId] = useState([]);
-    const [setCommentName] = useState('');
     const [commentText, setCommentText] = useState('');
-    const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
     const commentFormRef = useRef(null);
     const [commentsCount, setCommentsCount] = useState(0);
 
     useEffect(() => {
-        const username = localStorage.getItem('username');
-        if (username) {
-            setName(username);
-        }
         if (forumId) {
             fetchForumById();
         }
@@ -50,7 +44,6 @@ function ForumPost() {
         toggleError(false);
         toggleLoading(true);
         try {
-            toggleLoading(true);
             const response = await axiosPublic.get(`/forums/${forumId}`);
             setForumById(response.data);
         } catch (e) {
@@ -64,7 +57,6 @@ function ForumPost() {
         toggleError(false);
         toggleLoading(true);
         try {
-            toggleLoading(true);
             const response = await axiosPublic.get(`/comments/forums/${forumId}`);
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
@@ -85,7 +77,6 @@ function ForumPost() {
         toggleError(false);
         toggleLoading(true);
         try {
-            toggleLoading(true);
             await axiosHeader.post(`/comments/forums/${forumId}/users/${username}`, {
                 name: username,
                 text: commentText,
@@ -140,7 +131,7 @@ function ForumPost() {
                             likesCount={forumById.likesCount}
                             commentsCount={commentsCount}
                             viewsCount={forumById.viewsCount}
-                            currentUser={name}
+                            currentUser={localStorage.getItem('username')}
                             fetchForumById={fetchForumById}
                             scrollToCommentForm={scrollToCommentForm}
                         />
@@ -163,7 +154,7 @@ function ForumPost() {
                                     text={comment.text}
                                     commentId={comment.id}
                                     forumId={forumId}
-                                    currentUser={name}
+                                    currentUser={localStorage.getItem('username')}
                                     username={comment.name}
                                     fetchCommentsByForumId={fetchCommentsByForumId}
                                 />
@@ -176,7 +167,7 @@ function ForumPost() {
                     <div className={styles['section-forum__line']}></div>
 
                     <div className={styles['section-forum__comment']} ref={commentFormRef}>
-                        {name ? (
+                        {localStorage.getItem('username') ? (
                             <>
                                 <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
                                 <form onSubmit={addComment} className={styles['section-forum__comment-card']}>
@@ -184,8 +175,8 @@ function ForumPost() {
                                         <input type="text"
                                                name="name"
                                                id="name"
-                                               value={name}
-                                               onChange={(e) => setCommentName(e.target.value)}
+                                               value={localStorage.getItem('username')}
+                                               readOnly
                                         />
                                     </label>
 

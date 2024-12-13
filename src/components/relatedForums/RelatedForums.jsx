@@ -32,7 +32,7 @@ function RelatedForums({ topic, currentForumId }) {
         <div className={styles['related-forums']}>
             <h2 className={styles['title']}>Gerelateerde Forums</h2>
             {error && <p>Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw.</p>}
-            {loading && <p>Loading...</p>}
+            {loading && <p>Laden...</p>}
             {relatedForums.length === 0 ? (
                 <p>Geen gerelateerde forums gevonden</p>
             ) : (

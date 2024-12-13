@@ -13,7 +13,6 @@ function TopicPage() {
     const navigate = useNavigate();
     const [forums, setForums] = useState([]);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(true);
 
     useEffect(() => {
@@ -68,6 +67,7 @@ function TopicPage() {
                             lastReaction={forum.lastReaction}
                         />
                     })}
+                    {loading && <p>Laden...</p>}
                     {error && <ErrorMessage
                         message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
                 </section>
