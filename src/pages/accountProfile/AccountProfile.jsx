@@ -12,7 +12,6 @@ import BioPost from "../../components/bioPost/BioPost.jsx";
 import ReviewPost from "../../components/reviewPost/ReviewPost.jsx";
 import ReviewEdit from "../../components/reviewEdit/ReviewEdit.jsx";
 import {Link} from "react-router-dom";
-// import axiosHeader from "../../helpers/axiosHeader.jsx";
 import styles from './AccountProfile.module.css';
 import useFetchAccountProfile from "../../hooks/useFetchAccountProfile.jsx";
 

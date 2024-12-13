@@ -19,7 +19,6 @@ function EditProfileData({ user, profile, onUpdate }) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const watchAutismDiagnoses = watch('autismDiagnoses');
 
@@ -87,6 +86,7 @@ function EditProfileData({ user, profile, onUpdate }) {
                 />
             )}
             <Button type="submit" variant="secondary">Update Gegevens</Button>
+            {loading && <p>Laden...</p>}
             {error && <ErrorMessage message={error} />}
         </form>
         )}

@@ -10,9 +10,9 @@ function ForumCreate() {
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [topic, setTopic] = useState('');
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-    // eslint-disable-next-line no-unused-vars
-    const [postForum, setPostForum] = useState([]);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -22,9 +22,10 @@ function ForumCreate() {
     }, []);
 
     async function addForum(e) {
+        toggleError(false);
+        toggleLoading(true);
         e.preventDefault();
         const username = localStorage.getItem('username');
-        console.log(name, title, text, topic);
 
         try {
             const response = await axiosHeader.post(`/forums/users/${username}`, {
@@ -34,12 +35,12 @@ function ForumCreate() {
                 topic: topic,
                 date: new Date().toISOString(),
             });
-            setPostForum(response.data);
-            console.log(response.data);
             navigate(`/forums/${response.data.id}`);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     function handleReset() {
@@ -113,6 +114,8 @@ function ForumCreate() {
                         </label>
 
                         <div className={styles['forum-form__buttons']}>
+                            {loading && <p>Laden...</p>}
+                            {error && <p>Er is iets fout gegaan, controleer of alle velden ingevuld zijn.</p>}
                             <Button type="reset">Annuleren</Button>
                             <Button type="submit">Verstuur</Button>
                         </div>

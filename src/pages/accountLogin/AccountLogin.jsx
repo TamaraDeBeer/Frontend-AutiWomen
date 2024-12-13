@@ -23,7 +23,6 @@ function AccountLogin() {
     async function handleFormSubmit(data) {
         toggleError(false);
         toggleLoading(true);
-
         try {
             const result = await axiosPublic.post('/login', {
                 username: data.username,
@@ -77,6 +76,7 @@ function AccountLogin() {
                         register={register}
                         errors={errors}
                     />
+                    {loading && <p>Laden...</p>}
                     {error && <p>Er is iets fout gegaan, controleer je username en wachtwoord</p>}
                     <Button type="submit" disabled={loading}>Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>

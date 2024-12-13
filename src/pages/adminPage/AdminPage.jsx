@@ -3,8 +3,11 @@ import styles from './AdminPage.module.css';
 import {Link} from "react-router-dom";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage.jsx";
 
 function AdminPage() {
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
     const [forums, setForums] = useState([]);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
@@ -24,52 +27,75 @@ function AdminPage() {
     }, []);
 
     async function getAllForums() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/forums');
             setForums(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteForum(forumId, username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.delete(`/forums/${forumId}/users/${username}`);
             setForums(forums.filter(forum => forum.id !== forumId));
             getAllComments();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllComments() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/comments');
             setComments(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteComment(commentId, username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.delete(`/comments/${commentId}/users/${username}`);
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllUsers() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/users');
             setUsers(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(false);
+            toggleLoading(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteUser(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.delete(`/users/${username}`);
             setUsers(users.filter(user => user.username !== username));
@@ -79,47 +105,68 @@ function AdminPage() {
             getAllReviews();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllReviews() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/reviews');
             setReview(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteReview(reviewId, username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.delete(`/reviews/${reviewId}/users/${username}`);
             setReview(review.filter(review => review.id !== reviewId));
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllAuthorities() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/authorities');
             setAuthorities(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteUserAuthority(username, authority) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.delete(`/authorities/${authority}/users/${username}`);
             setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
             getAllUsers();
         } catch (e) {
             console.error(e);
+            toggleError(false);
+            toggleLoading(true);
         }
+        toggleLoading(false);
     }
 
     async function addUserAuthority(event) {
+        toggleError(false);
+        toggleLoading(true);
         event.preventDefault();
         try {
             await axiosHeader.post(`/authorities/users/${newAuthority.username}`, { authority: newAuthority.authority });
@@ -128,10 +175,14 @@ function AdminPage() {
             getAllUsers();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function updateUserAuthority(event) {
+        toggleError(false);
+        toggleLoading(true);
         event.preventDefault();
         try {
             await axiosHeader.put(`/authorities/users/${updateAuthority.username}`, {
@@ -143,12 +194,17 @@ function AdminPage() {
             getAllUsers();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (
         <div className={styles['admin-page']}>
             <h1 className={styles['hero']}>Admin Page</h1>
+
+            {loading && <p>Laden...</p>}
+            {error && <ErrorMessage message="Er ging iets mis, probeer het later opnieuw." />}
 
             <section>
                 <h2>Forums</h2>
@@ -200,7 +256,7 @@ function AdminPage() {
                                 </Link>
                             </td>
                             <td>
-                                <button type="submit" className={styles['admin-button']} onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteComment(comment.id)}>Delete
                                 </button>
                             </td>
                         </tr>
@@ -280,7 +336,7 @@ function AdminPage() {
                             <td>{review.name}</td>
                             <td>{review.review}</td>
                             <td>
-                                <button type="submit" className={styles['admin-button']} onClick={() => deleteReview(review.id)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteReview(review.id, review.name)}>Delete</button>
                             </td>
                         </tr>
                     ))}

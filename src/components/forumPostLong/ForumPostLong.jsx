@@ -2,6 +2,7 @@ import styles from './ForumPostLong.module.css';
 import likes1 from "../../assets/logo/likes1.png";
 import likes2 from "../../assets/logo/likes2.png";
 import comments1 from "../../assets/logo/comments.png";
+import view1 from "../../assets/logo/view1.png";
 import view2 from "../../assets/logo/view2.png";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -9,6 +10,7 @@ import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 import axiosPublic from "../../helpers/axiosPublic.jsx";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.jsx";
 
 function ForumPostLong({
                            title,
@@ -31,6 +33,8 @@ function ForumPostLong({
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
     const [currentViewsCount, setCurrentViewsCount] = useState(viewsCount);
     const [activeForm, setActiveForm] = useState(null);
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -50,6 +54,8 @@ function ForumPostLong({
     }, [likesCount]);
 
     async function checkUserLike(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`);
             setHasLiked(response.data);
@@ -58,20 +64,28 @@ function ForumPostLong({
                 setHasLiked(true);
             } else {
                 console.error(e);
+                toggleError(true);
             }
         }
+        toggleLoading(false);
     }
 
     async function fetchLikeCount() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosPublic.get(`/likes/count/forums/${forumId}`);
             setCurrentLikesCount(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function addLike(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.post(`/likes/add/forums/${forumId}/users/${username}`);
             setCurrentLikesCount(response.data);
@@ -79,10 +93,14 @@ function ForumPostLong({
             fetchLikeCount();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function removeLike(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.delete(`/likes/delete/forums/${forumId}/users/${username}`);
             setCurrentLikesCount(response.data);
@@ -90,19 +108,27 @@ function ForumPostLong({
             fetchLikeCount();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function fetchViewCount() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosPublic.get(`/views/count/forums/${forumId}`);
             setCurrentViewsCount(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function checkUserView(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`);
             if (!response.data) {
@@ -114,11 +140,15 @@ function ForumPostLong({
                 setHasViewed(true);
             } else {
                 console.error(e);
+                toggleError(true);
             }
         }
+        toggleLoading(false);
     }
 
     async function addView(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`);
             setCurrentViewsCount(response.data);
@@ -128,11 +158,15 @@ function ForumPostLong({
                 setHasViewed(true);
             } else {
                 console.error(e);
+                toggleError(true);
             }
         }
+        toggleLoading(false);
     }
 
     return (<>
+        {loading && <p>Laden...</p>}
+        {error && <ErrorMessage message="Er ging iets mis, probeer het later opnieuw." />}
         <article className={styles['section-forum__card']}>
             <h2 className={styles['card-information__title']}>{title}</h2>
 
@@ -158,7 +192,7 @@ function ForumPostLong({
                     <img src={hasLiked ? likes2 : likes1}
                          alt="Likes Logo"
                          className={styles['logo-like']}
-                         onClick={hasLiked ? removeLike : addLike}
+                         onClick={() => hasLiked ? removeLike(localStorage.getItem('username')) : addLike(localStorage.getItem('username'))}
                     />{currentLikesCount}
                 </p>
 
@@ -166,7 +200,7 @@ function ForumPostLong({
                                                                      alt="Comments Logo"
                                                                      className={styles['logo']}
                                                                      onClick={scrollToCommentForm}/>{commentsCount}</p>
-                <p className={styles['card-information__logo']}><img src={view2}
+                <p className={styles['card-information__logo']}><img src={hasViewed ? view2 : view1}
                                                                      alt="Views Logo"
                                                                      className={styles['logo-view']}/>{currentViewsCount}
                 </p>

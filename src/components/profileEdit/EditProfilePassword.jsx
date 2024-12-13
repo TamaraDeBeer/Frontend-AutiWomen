@@ -9,6 +9,7 @@ function EditProfilePassword({ user, onUpdate }) {
     const [password, setPassword] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     const handleOldPasswordChange = (e) => {
         setOldPassword(e.target.value);
@@ -20,6 +21,8 @@ function EditProfilePassword({ user, onUpdate }) {
 
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.put(`/users/${user.username}/password`, {
                 username: user.username,
@@ -32,6 +35,7 @@ function EditProfilePassword({ user, onUpdate }) {
             console.error("Error updating password:", error);
             toggleError(true);
         }
+        toggleLoading(false);
     };
 
     return (
@@ -51,6 +55,7 @@ function EditProfilePassword({ user, onUpdate }) {
                 <input type="password" value={password} onChange={handlePasswordChange} />
             </label>
             <Button type="submit" variant="secondary">Update Wachtwoord</Button>
+            {loading && <p>Laden...</p>}
             {error && <ErrorMessage message={error} />}
         </form>
                 )}

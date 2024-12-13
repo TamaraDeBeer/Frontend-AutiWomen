@@ -9,7 +9,6 @@ import axiosHeader from "../../helpers/axiosHeader.jsx";
 function Navigation() {
     const navigate = useNavigate();
     const {isAuth, logout, user} = useContext(AuthContext);
-    // eslint-disable-next-line no-unused-vars
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {

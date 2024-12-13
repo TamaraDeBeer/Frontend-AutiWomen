@@ -13,8 +13,10 @@ function ReviewEdit({user, review, reviewId, onUpdate}) {
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     async function editReview(data) {
+        toggleLoading(true);
         try {
             await axiosHeader.put(`/reviews/${reviewId}/users/${user.username}`, data);
             onUpdate();
@@ -22,6 +24,7 @@ function ReviewEdit({user, review, reviewId, onUpdate}) {
         } catch (e) {
             console.error('Error updating review:', e);
         }
+        toggleLoading(false);
     }
 
     return (
@@ -42,6 +45,7 @@ function ReviewEdit({user, review, reviewId, onUpdate}) {
                         ></textarea>
                     </label>
                     <Button type="submit" variant="secondary">Update jouw review</Button>
+                    {loading && <p>Laden...</p>}
                     {errors.text && <ErrorMessage message="Update niet gelukt, probeer het later opnieuw"/>}
                 </form>
             )}

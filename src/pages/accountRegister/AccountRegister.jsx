@@ -27,7 +27,6 @@ function AccountRegister() {
     const [fileName, setFileName] = useState('');
     const [photo, setPhoto] = useState(null);
     const navigate = useNavigate();
-    // const source = axios.CancelToken.source();
     const watchSelectedAutism = watch('autism-question');
     const isAtLeast16YearsOld = (dob) => {
         const today = new Date();

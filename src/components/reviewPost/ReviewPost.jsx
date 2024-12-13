@@ -12,19 +12,19 @@ function ReviewPost({review, user, onUpdate}) {
         }
     });
 
-    // eslint-disable-next-line no-unused-vars
-    const [bioPost, setBioPost] = useState(review || "");
+    const [loading, toggleLoading] = useState(false);
 
     async function postReview(data) {
+        toggleLoading(true);
         try {
-            const response = await axiosHeader.post(`/reviews/users/${user.username}`, {
+            await axiosHeader.post(`/reviews/users/${user.username}`, {
                 review: data.review,
             });
-            setBioPost(response.data);
             onUpdate();
         } catch (e) {
             console.error(e);
         }
+        toggleLoading(false);
     }
 
     return (
@@ -36,11 +36,12 @@ function ReviewPost({review, user, onUpdate}) {
                         id="review-field"
                         cols="60"
                         rows="10"
-                        {...register('review', { required: true })}
+                        {...register('review', {required: true})}
                     ></textarea>
                 </label>
                 <Button type="submit" variant="secondary">Update Review</Button>
-                {errors.bio && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."} />}
+                {loading && <p>Laden...</p>}
+                {errors.bio && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
             </form>
         </div>
     );

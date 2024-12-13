@@ -9,6 +9,7 @@ function EditProfilePicture({user, onUpdate}) {
     const [fileName, setFileName] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     const handleProfilePictureChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -19,6 +20,8 @@ function EditProfilePicture({user, onUpdate}) {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", profilePicture);
+        toggleError(false);
+        toggleLoading(true);
 
         try {
             await axiosHeader.put(`/users/${user.username}/profile-picture`, formData, {
@@ -32,6 +35,7 @@ function EditProfilePicture({user, onUpdate}) {
             console.error("Error updating profile picture:", error);
             toggleError(true);
         }
+        toggleLoading(false);
     };
 
     return (
@@ -54,6 +58,7 @@ function EditProfilePicture({user, onUpdate}) {
                     </label>
                     {fileName && <p className={styles['file-name']}>{fileName}</p>}
                     <Button type="submit" variant="secondary">Update Profielfoto</Button>
+                    {loading && <p>Laden...</p>}
                     {error && <ErrorMessage message={error}/>}
                 </form>
             )}
