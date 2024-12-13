@@ -13,19 +13,31 @@ function RelatedForums({ topic, currentForumId }) {
         fetchRelatedForums();
     }, [topic, currentForumId]);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function fetchRelatedForums() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             toggleLoading(true);
-            const response = await axiosPublic.get('/forums');
+            const response = await axiosPublic.get('/forums', { signal });
             const filteredForums = response.data.filter(forum => forum.topic === topic && forum.id !== currentForumId);
             setRelatedForums(filteredForums);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (

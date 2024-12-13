@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Button from "../button/Button.jsx";
 import styles from './ForumEdit.module.css';
@@ -10,6 +10,13 @@ function DeleteForum({forumId, username, onDelete}) {
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function handleDelete() {
         toggleError(false);

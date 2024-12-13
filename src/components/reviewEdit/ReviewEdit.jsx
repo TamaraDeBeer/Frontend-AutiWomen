@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import Button from "../button/Button.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from './ReviewEdit.module.css';
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
@@ -15,16 +15,28 @@ function ReviewEdit({user, review, reviewId, onUpdate}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, toggleLoading] = useState(false);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function editReview(data) {
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            await axiosHeader.put(`/reviews/${reviewId}/users/${user.username}`, data);
+            await axiosHeader.put(`/reviews/${reviewId}/users/${user.username}`, data, {signal});
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {
-            console.error('Error updating review:', e);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (

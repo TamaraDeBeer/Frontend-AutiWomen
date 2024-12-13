@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from "../forumEdit/ForumEdit.module.css";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
@@ -14,6 +14,13 @@ function EditComment({forumId, commentId, username, commentData, onUpdate}) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, toggleLoading] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function editComment(data) {
         toggleLoading(true);

@@ -3,7 +3,7 @@ import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from './BioPost.module.css';
 import axiosHeader from "../../helpers/axiosHeader.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function BioPost({bio, user, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
@@ -13,6 +13,13 @@ function BioPost({bio, user, onUpdate}) {
     });
 
     const [loading, toggleLoading] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function postBio(data) {
         toggleLoading(true);

@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import Button from "../button/Button.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from './BioEdit.module.css';
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
@@ -14,6 +14,13 @@ function BioEdit({user, profileId, bio, onUpdate}) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [loading, toggleLoading] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function editBio(data) {
         toggleLoading(true);

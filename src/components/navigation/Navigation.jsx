@@ -12,15 +12,24 @@ function Navigation() {
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         if (isAuth && user) {
-            axiosHeader.get(`/users/${user.username}/image`)
+            axiosHeader.get(`/users/${user.username}/image`, { signal })
                 .then(response => {
                     setUserData(response.data);
                 })
                 .catch(error => {
-                    console.error("Er is een fout opgetreden bij het ophalen van de gebruikersgegevens:", error);
+                    if (error.name !== 'CanceledError') {
+                        console.error("Er is een fout opgetreden bij het ophalen van de gebruikersgegevens:", error);
+                    }
                 });
         }
+
+        return () => {
+            controller.abort();
+        };
     }, [isAuth, user]);
 
     return (

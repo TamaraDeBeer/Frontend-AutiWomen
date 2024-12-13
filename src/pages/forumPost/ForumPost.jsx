@@ -28,9 +28,6 @@ function ForumPost() {
         if (forumId) {
             fetchForumById();
         }
-    }, [forumId]);
-
-    useEffect(() => {
         if (forumById.id) {
             setCommentsCount(forumById.commentsCount);
             fetchCommentsByForumId();
@@ -38,29 +35,47 @@ function ForumPost() {
         if (forumById.lastReaction) {
             setLastReaction(createDateToString(forumById.lastReaction));
         }
-    }, [forumById]);
+    }, [forumId]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function fetchForumById() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosPublic.get(`/forums/${forumId}`);
+            const response = await axiosPublic.get(`/forums/${forumId}`, {signal});
             setForumById(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function fetchCommentsByForumId() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosPublic.get(`/comments/forums/${forumId}`);
+            const response = await axiosPublic.get(`/comments/forums/${forumId}`, {signal});
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
         } catch (e) {
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
             if (e.response && e.response.status === 404) {
                 setCommentsByForumId([]);
             } else {
@@ -76,26 +91,32 @@ function ForumPost() {
         const username = localStorage.getItem('username');
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             await axiosHeader.post(`/comments/forums/${forumId}/users/${username}`, {
                 name: username,
                 text: commentText,
                 date: new Date().toISOString(),
+                signal
             });
             fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
             setCommentsCount(prevCount => prevCount + 1);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     const scrollToCommentForm = () => {
         if (commentFormRef.current) {
-            commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
+            commentFormRef.current.scrollIntoView({behavior: 'smooth'});
         }
     };
 

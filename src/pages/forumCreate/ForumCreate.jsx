@@ -1,25 +1,16 @@
 import styles from "../forumCreate/ForumCreate.module.css";
 import Button from "../../components/button/Button.jsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-
 function ForumCreate() {
-    const [name, setName] = useState('');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [topic, setTopic] = useState('');
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const username = localStorage.getItem('username');
-        if (username) {
-            setName(username);
-        }
-    }, []);
 
     async function addForum(e) {
         toggleError(false);
@@ -67,7 +58,7 @@ function ForumCreate() {
                             <input type="text"
                                    name="name"
                                    id="name"
-                                   value={name}
+                                   value={localStorage.getItem('username')}
                             />
                         </label>
 

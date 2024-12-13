@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
@@ -14,17 +14,29 @@ function ReviewPost({review, user, onUpdate}) {
 
     const [loading, toggleLoading] = useState(false);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function postReview(data) {
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             await axiosHeader.post(`/reviews/users/${user.username}`, {
-                review: data.review,
-            });
+                review: data.review
+            }, { signal });
             onUpdate();
         } catch (e) {
-            console.error(e);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (

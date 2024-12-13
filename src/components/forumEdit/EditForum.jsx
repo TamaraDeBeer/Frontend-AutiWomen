@@ -3,7 +3,7 @@ import styles from './ForumEdit.module.css';
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import InputField from "../inputField/InputField.jsx";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function EditForum({forumId, username, forumData, onUpdate}) {
@@ -19,6 +19,13 @@ function EditForum({forumId, username, forumData, onUpdate}) {
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const [topic, setTopic] = useState(forumData.topic);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function editForum(data) {
         toggleError(false);

@@ -11,9 +11,7 @@ function UserProfile() {
     const [userInfo, setUserInfo] = useState({});
     const [bio, setBio] = useState({});
     const [forums, setForums] = useState([]);
-    // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
@@ -22,44 +20,66 @@ function UserProfile() {
         fetchForums();
     }, [username]);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function fetchUserInfo() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/users/${username}`);
+            const response = await axiosHeader.get(`/users/${username}`, {signal});
             setUserInfo(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function fetchBio() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/profiles/users/${username}`);
+            const response = await axiosHeader.get(`/profiles/users/${username}`, {signal});
             setBio(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function fetchForums() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`forums/users/${username}`);
+            const response = await axiosHeader.get(`forums/users/${username}`, {signal});
             const sortedForums = response.data.sort((a, b) => b.id - a.id);
             setForums(sortedForums);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (
@@ -105,7 +125,7 @@ function UserProfile() {
                                     forumId={forum.id}
                                     image={forum.userDto?.profilePictureUrl}
                                     name={forum.name}
-                                    age={calculateAge(forum.age) + ' years'}
+                                    age={calculateAge(forum.dob) + ' years'}
                                     title={forum.title}
                                     date={createDateToString(forum.date)}
                                     text={forum.text.split(' ').slice(0, 50).join(' ')}
@@ -113,7 +133,7 @@ function UserProfile() {
                                     likesCount={forum.likesCount}
                                     commentsCount={forum.commentsCount}
                                     viewsCount={forum.viewsCount}
-                                    lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'No reactions yet'}
+                                    lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
                                 />
                             ))
                         ) : (

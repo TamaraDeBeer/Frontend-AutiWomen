@@ -15,7 +15,6 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
 
-
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
         if (storedUsername) {
@@ -24,30 +23,47 @@ function ForumPostShort({forumId, image, name, age, title, date, text, link, lik
         }
     }, [forumId]);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function checkUserLike(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`, {signal});
             setHasLiked(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function checkUserView(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`, {signal});
             setHasViewed(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from './ProfileEdit.module.css';
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
@@ -16,27 +16,39 @@ function EditProfilePicture({user, onUpdate}) {
         setFileName(e.target.files[0].name);
     };
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     const handleProfilePictureSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", profilePicture);
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
 
         try {
             await axiosHeader.put(`/users/${user.username}/profile-picture`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                }
+                }, signal
             });
             onUpdate();
             setIsSubmitted(true);
-        } catch (error) {
-            console.error("Error updating profile picture:", error);
-            toggleError(true);
+        } catch (e) {
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
-    };
+    }
 
     return (
         <div>

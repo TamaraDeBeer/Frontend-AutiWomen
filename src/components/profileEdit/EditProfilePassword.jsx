@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import styles from './ProfileEdit.module.css';
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
@@ -19,24 +19,37 @@ function EditProfilePassword({ user, onUpdate }) {
         setPassword(e.target.value);
     };
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             await axiosHeader.put(`/users/${user.username}/password`, {
                 username: user.username,
                 password: password,
-                oldPassword: oldPassword
+                oldPassword: oldPassword,
+                signal
             });
             onUpdate();
             setIsSubmitted(true);
-        } catch (error) {
-            console.error("Error updating password:", error);
-            toggleError(true);
+        } catch (e) {
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
-    };
+    }
 
     return (
         <div>

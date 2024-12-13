@@ -51,86 +51,118 @@ function ForumPostLong({
     useEffect(() => {
         setCurrentLikesCount(likesCount);
         setCurrentViewsCount(viewsCount);
-    }, [likesCount]);
+    }, [likesCount, viewsCount]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function checkUserLike(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`, {signal});
             setHasLiked(response.data);
         } catch (e) {
             if (e.response && e.response.status === 409) {
                 setHasLiked(true);
-            } else {
+            } else if (e.name !== 'CanceledError') {
                 console.error(e);
                 toggleError(true);
             }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function fetchLikeCount() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosPublic.get(`/likes/count/forums/${forumId}`);
+            const response = await axiosPublic.get(`/likes/count/forums/${forumId}`, {signal});
             setCurrentLikesCount(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function addLike(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.post(`/likes/add/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.post(`/likes/add/forums/${forumId}/users/${username}`, {}, {signal});
             setCurrentLikesCount(response.data);
             setHasLiked(true);
             fetchLikeCount();
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function removeLike(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.delete(`/likes/delete/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.delete(`/likes/delete/forums/${forumId}/users/${username}`, {signal});
             setCurrentLikesCount(response.data);
             setHasLiked(false);
             fetchLikeCount();
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function fetchViewCount() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosPublic.get(`/views/count/forums/${forumId}`);
+            const response = await axiosPublic.get(`/views/count/forums/${forumId}`, {signal});
             setCurrentViewsCount(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function checkUserView(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`, {signal});
             if (!response.data) {
                 await addView(username);
             }
@@ -138,30 +170,34 @@ function ForumPostLong({
         } catch (e) {
             if (e.response && e.response.status === 409) {
                 setHasViewed(true);
-            } else {
+            } else if (e.name !== 'CanceledError') {
                 console.error(e);
                 toggleError(true);
             }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function addView(username) {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`);
+            const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`, {}, {signal});
             setCurrentViewsCount(response.data);
             setHasViewed(true);
         } catch (e) {
             if (e.response && e.response.status === 409) {
                 setHasViewed(true);
-            } else {
+            } else if (e.name !== 'CanceledError') {
                 console.error(e);
                 toggleError(true);
             }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (<>
