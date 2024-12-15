@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import styles from './ForumPostLong.module.css';
 import likes1 from "../../assets/logo/likes1.png";
 import likes2 from "../../assets/logo/likes2.png";
 import comments1 from "../../assets/logo/comments.png";
 import view1 from "../../assets/logo/view1.png";
 import view2 from "../../assets/logo/view2.png";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import EditForum from "../forumEdit/EditForum.jsx";
 import DeleteForum from "../forumEdit/DeleteForum.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
@@ -27,7 +28,7 @@ function ForumPostLong({
                            fetchForumById,
                            scrollToCommentForm
                        }) {
-    const {forumId} = useParams();
+    const { forumId } = useParams();
     const [hasLiked, setHasLiked] = useState(false);
     const [hasViewed, setHasViewed] = useState(false);
     const [currentLikesCount, setCurrentLikesCount] = useState(likesCount);
@@ -35,6 +36,7 @@ function ForumPostLong({
     const [activeForm, setActiveForm] = useState(null);
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
+    const [showLoginMessage, setShowLoginMessage] = useState(false);
 
     useEffect(() => {
         const username = localStorage.getItem('username');
@@ -66,7 +68,7 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`, {signal});
+            const response = await axiosHeader.get(`/likes/check/forums/${forumId}/users/${username}`, { signal });
             setHasLiked(response.data);
         } catch (e) {
             if (e.response && e.response.status === 409) {
@@ -86,7 +88,7 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosPublic.get(`/likes/count/forums/${forumId}`, {signal});
+            const response = await axiosPublic.get(`/likes/count/forums/${forumId}`, { signal });
             setCurrentLikesCount(response.data);
         } catch (e) {
             if (e.name !== 'CanceledError') {
@@ -104,7 +106,7 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosHeader.post(`/likes/add/forums/${forumId}/users/${username}`, {}, {signal});
+            const response = await axiosHeader.post(`/likes/add/forums/${forumId}/users/${username}`, {}, { signal });
             setCurrentLikesCount(response.data);
             setHasLiked(true);
             fetchLikeCount();
@@ -124,7 +126,7 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosHeader.delete(`/likes/delete/forums/${forumId}/users/${username}`, {signal});
+            const response = await axiosHeader.delete(`/likes/delete/forums/${forumId}/users/${username}`, { signal });
             setCurrentLikesCount(response.data);
             setHasLiked(false);
             fetchLikeCount();
@@ -144,7 +146,7 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosPublic.get(`/views/count/forums/${forumId}`, {signal});
+            const response = await axiosPublic.get(`/views/count/forums/${forumId}`, { signal });
             setCurrentViewsCount(response.data);
         } catch (e) {
             if (e.name !== 'CanceledError') {
@@ -162,11 +164,12 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`, {signal});
+            const response = await axiosHeader.get(`/views/check/forums/${forumId}/users/${username}`, { signal });
             if (!response.data) {
                 await addView(username);
             }
             setHasViewed(response.data);
+            console.log(response.data);
         } catch (e) {
             if (e.response && e.response.status === 409) {
                 setHasViewed(true);
@@ -185,7 +188,7 @@ function ForumPostLong({
         const controller = new AbortController();
         const signal = controller.signal;
         try {
-            const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`, {}, {signal});
+            const response = await axiosHeader.post(`/views/add/forums/${forumId}/users/${username}`, {}, { signal });
             setCurrentViewsCount(response.data);
             setHasViewed(true);
         } catch (e) {
@@ -200,9 +203,23 @@ function ForumPostLong({
         }
     }
 
+    function handleLikeClick() {
+        const username = localStorage.getItem('username');
+        if (!username) {
+            setShowLoginMessage(true);
+            return;
+        }
+        if (hasLiked) {
+            removeLike(username);
+        } else {
+            addLike(username);
+        }
+    }
+
     return (<>
         {loading && <p>Laden...</p>}
         {error && <ErrorMessage message="Er ging iets mis, probeer het later opnieuw." />}
+        {showLoginMessage && <p>U moet ingelogd zijn om een forum te liken.</p>}
         <article className={styles['section-forum__card']}>
             <h2 className={styles['card-information__title']}>{title}</h2>
 
@@ -228,7 +245,7 @@ function ForumPostLong({
                     <img src={hasLiked ? likes2 : likes1}
                          alt="Likes Logo"
                          className={styles['logo-like']}
-                         onClick={() => hasLiked ? removeLike(localStorage.getItem('username')) : addLike(localStorage.getItem('username'))}
+                         onClick={handleLikeClick}
                     />{currentLikesCount}
                 </p>
 
@@ -254,14 +271,14 @@ function ForumPostLong({
             )}
 
             {activeForm === 'edit' && (
-                <EditForum forumId={forumId} username={localStorage.getItem('username')} forumData={{title, text}} onUpdate={() => {
+                <EditForum forumId={forumId} username={localStorage.getItem('username')} forumData={{ title, text }} onUpdate={() => {
                     fetchForumById();
                     setTimeout(() => setActiveForm(null), 2000);
-                }}/>
+                }} />
             )}
 
             {activeForm === 'delete' && (
-                <DeleteForum forumId={forumId} username={localStorage.getItem('username')} onDelete={() => setActiveForm(null)}/>
+                <DeleteForum forumId={forumId} username={localStorage.getItem('username')} onDelete={() => setActiveForm(null)} />
             )}
 
         </article>

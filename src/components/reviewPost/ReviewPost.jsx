@@ -51,7 +51,7 @@ function ReviewPost({review, user, onUpdate}) {
                         {...register('review', {required: true})}
                     ></textarea>
                 </label>
-                <Button type="submit" variant="secondary">Update Review</Button>
+                <Button type="submit" variant="secondary">Verzenden</Button>
                 {loading && <p>Laden...</p>}
                 {errors.bio && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
             </form>
