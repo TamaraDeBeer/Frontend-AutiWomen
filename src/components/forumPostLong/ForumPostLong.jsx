@@ -169,7 +169,6 @@ function ForumPostLong({
                 await addView(username);
             }
             setHasViewed(response.data);
-            console.log(response.data);
         } catch (e) {
             if (e.response && e.response.status === 409) {
                 setHasViewed(true);
