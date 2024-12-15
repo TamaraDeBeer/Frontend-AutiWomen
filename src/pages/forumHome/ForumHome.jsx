@@ -9,12 +9,12 @@ import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import createDateToString from "../../helpers/createDateToString.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function ForumHome() {
     const navigate = useNavigate();
     const [forums, setForums] = useState([]);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [sliderOption, setSliderOption] = useState('newest');
     const [searchQuery, setSearchQuery] = useState('');
@@ -23,32 +23,50 @@ function ForumHome() {
         fetchAllForums();
     }, [sliderOption]);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function fetchAllForums() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         const endpoint = sliderOption === 'newest' ? 'http://localhost:1991/forums/sorted-by-date' : 'http://localhost:1991/forums/sorted-by-likes';
         try {
-            const response = await axios.get(endpoint);
+            const response = await axios.get(endpoint, signal);
             setForums(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function searchForums() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axios.get(`http://localhost:1991/forums/search/${searchQuery}`);
+            const response = await axiosPublic.get(`/forums/search`, {
+                params: { searchQuery }, signal
+            });
             setForums(response.data);
-            console.log(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (
@@ -70,7 +88,7 @@ function ForumHome() {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button className={styles['section-forum__button-search']} onClick={searchForums}>
+                        <button type="button" className={styles['section-forum__button-search']} onClick={searchForums}>
                             <img src={search} alt="search logo"/>
                         </button>
                     </div>
@@ -81,12 +99,14 @@ function ForumHome() {
                 <section className={styles['section-forum__posts-short']}>
                     <div className={styles['slider']}>
                         <button
+                            type="button"
                             onClick={() => setSliderOption('newest')}
                             className={`${styles['button']} ${styles['newest']} ${sliderOption === 'newest' ? styles['active'] : ''}`}
                         >
                             Nieuwste
                         </button>
                         <button
+                            type="button"
                             onClick={() => setSliderOption('trending')}
                             className={`${styles['button']} ${styles['trending']} ${sliderOption === 'trending' ? styles['active'] : ''}`}
                         >
@@ -94,13 +114,15 @@ function ForumHome() {
                         </button>
                     </div>
 
+                    {loading && <p>Laden...</p>}
+                    {error && <ErrorMessage message="Er is iets misgegaan bij het ophalen van de forums. Probeer het opnieuw."/>}
                     {forums.map((forum) => {
                         return <ForumPostShort
                             key={forum.id}
                             forumId={forum.id}
                             image={forum.userDto?.profilePictureUrl}
                             name={forum.name}
-                            age={calculateAge(forum.age) + ' jaar'}
+                            age={calculateAge(forum.dob) + ' jaar'}
                             title={forum.title}
                             date={createDateToString(forum.date)}
                             text={forum.text.split(' ').slice(0, 50).join(' ')}
@@ -111,8 +133,6 @@ function ForumHome() {
                             lastReaction={forum.lastReaction ? createDateToString(forum.lastReaction) : 'Nog geen reacties'}
                         />
                     })}
-                    {error && <ErrorMessage
-                        message="Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw."/>}
                 </section>
 
                 <section className={styles['section-forum__sidebar']}>
@@ -124,4 +144,3 @@ function ForumHome() {
 }
 
 export default ForumHome;
-

@@ -3,7 +3,7 @@ import EditComment from "../commentEdit/EditComment.jsx";
 import DeleteComment from "../commentEdit/DeleteComment.jsx";
 import {useState} from "react";
 
-function CommentForum({image, name, age, date, text, commentId, currentUser, forumId, fetchCommentsByForumId}) {
+function CommentForum({image, name, age, date, text, commentId, currentUser, forumId, fetchCommentsByForumId, username}) {
     const [activeForm, setActiveForm] = useState(null);
 
     return (
@@ -27,17 +27,27 @@ function CommentForum({image, name, age, date, text, commentId, currentUser, for
 
             {currentUser === name && (
                 <div className={styles['forum-actions']}>
-                    <button type="button" onClick={() => setActiveForm('edit')} className={`${styles['button']} ${styles['button-left']}`}>Bewerken</button>
-                    <button type="button" onClick={() => setActiveForm('delete')} className={`${styles['button']} ${styles['button-right']}`}>Verwijderen</button>
+                    <button type="button" onClick={() => setActiveForm('edit')}
+                            className={`${styles['button']} ${styles['button-left']}`}>Bewerken
+                    </button>
+                    <button type="button" onClick={() => setActiveForm('delete')}
+                            className={`${styles['button']} ${styles['button-right']}`}>Verwijderen
+                    </button>
                 </div>
             )}
 
             {activeForm === 'edit' && (
-                <EditComment forumId={forumId}  commentId={commentId} commentData={{ text }} onUpdate={() => { fetchCommentsByForumId(); setTimeout(() => setActiveForm(null), 2000); }} />
+                <EditComment forumId={forumId} username={username} commentId={commentId} commentData={{text}} onUpdate={() => {
+                    fetchCommentsByForumId();
+                    setTimeout(() => setActiveForm(null), 2000);
+                }}/>
             )}
 
             {activeForm === 'delete' && (
-                <DeleteComment forumId={forumId} commentId={commentId} onDelete={() => { setActiveForm(null); setTimeout(() => setActiveForm(null), 2000); }} fetchCommentsByForumId={fetchCommentsByForumId} />
+                <DeleteComment forumId={forumId} username={username} commentId={commentId} onDelete={() => {
+                    setActiveForm(null);
+                    setTimeout(() => setActiveForm(null), 2000);
+                }} fetchCommentsByForumId={fetchCommentsByForumId}/>
             )}
 
 

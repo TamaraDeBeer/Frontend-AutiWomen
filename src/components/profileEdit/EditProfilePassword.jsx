@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import styles from './ProfileEdit.module.css';
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
@@ -9,6 +9,7 @@ function EditProfilePassword({ user, onUpdate }) {
     const [password, setPassword] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     const handleOldPasswordChange = (e) => {
         setOldPassword(e.target.value);
@@ -18,21 +19,37 @@ function EditProfilePassword({ user, onUpdate }) {
         setPassword(e.target.value);
     };
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
+        toggleError(false);
+        toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             await axiosHeader.put(`/users/${user.username}/password`, {
                 username: user.username,
                 password: password,
-                oldPassword: oldPassword
+                oldPassword: oldPassword,
+                signal
             });
             onUpdate();
             setIsSubmitted(true);
-        } catch (error) {
-            console.error("Error updating password:", error);
-            toggleError(true);
+        } catch (e) {
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-    };
+    }
 
     return (
         <div>
@@ -51,6 +68,7 @@ function EditProfilePassword({ user, onUpdate }) {
                 <input type="password" value={password} onChange={handlePasswordChange} />
             </label>
             <Button type="submit" variant="secondary">Update Wachtwoord</Button>
+            {loading && <p>Laden...</p>}
             {error && <ErrorMessage message={error} />}
         </form>
                 )}

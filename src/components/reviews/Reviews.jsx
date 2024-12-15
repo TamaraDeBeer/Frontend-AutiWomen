@@ -1,8 +1,6 @@
 import styles from './Reviews.module.css';
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 
-// eslint-disable-next-line react/prop-types
 function Reviews({text, image, name, age, diagnoseYear}) {
     return (
         <article className={styles['section-forum__card']}>

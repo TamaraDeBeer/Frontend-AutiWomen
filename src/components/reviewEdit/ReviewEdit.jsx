@@ -1,11 +1,11 @@
 import {useForm} from "react-hook-form";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import Button from "../button/Button.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from './ReviewEdit.module.css';
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function ReviewEdit({user, review, onUpdate}) {
+function ReviewEdit({user, review, reviewId, onUpdate}) {
     const {handleSubmit, formState: {errors}, register} = useForm({
         defaultValues: {
             review: review.review,
@@ -13,14 +13,29 @@ function ReviewEdit({user, review, onUpdate}) {
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loading, toggleLoading] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function editReview(data) {
+        toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            await axiosHeader.put(`http://localhost:1991/reviews/${user.username}`, data);
+            await axiosHeader.put(`/reviews/${reviewId}/users/${user.username}`, data, {signal});
             onUpdate();
             setIsSubmitted(true);
         } catch (e) {
-            console.error('Error updating review:', e);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+            }
+        } finally {
+            toggleLoading(false);
         }
     }
 
@@ -42,6 +57,7 @@ function ReviewEdit({user, review, onUpdate}) {
                         ></textarea>
                     </label>
                     <Button type="submit" variant="secondary">Update jouw review</Button>
+                    {loading && <p>Laden...</p>}
                     {errors.text && <ErrorMessage message="Update niet gelukt, probeer het later opnieuw"/>}
                 </form>
             )}

@@ -4,28 +4,36 @@ import Button from "../button/Button.jsx";
 import {AuthContext} from "../../context/AuthContextProvider.jsx";
 import {useContext, useEffect, useState} from "react";
 import logo from '../../assets/logo/women.png';
-import axios from "axios";
+import axiosHeader from "../../helpers/axiosHeader.jsx";
 
 function Navigation() {
     const navigate = useNavigate();
     const {isAuth, logout, user} = useContext(AuthContext);
-    // eslint-disable-next-line no-unused-vars
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         if (isAuth && user) {
-            axios.get(`http://localhost:1991/users/${user.username}/image`)
+            axiosHeader.get(`/users/${user.username}/image`, { signal })
                 .then(response => {
-                    console.log(response.data);
                     setUserData(response.data);
                 })
                 .catch(error => {
-                    console.error("Er is een fout opgetreden bij het ophalen van de gebruikersgegevens:", error);
+                    if (error.name !== 'CanceledError') {
+                        console.error("Er is een fout opgetreden bij het ophalen van de gebruikersgegevens:", error);
+                    }
                 });
         }
+
+        return () => {
+            controller.abort();
+        };
     }, [isAuth, user]);
 
     return (
+        <header>
         <nav className={styles['outer-container']}>
             <div className={styles['navigation__outer-container']}>
 
@@ -33,7 +41,7 @@ function Navigation() {
                     <img src={logo} alt="logo" className={styles['home-logo']}/>
                 </NavLink>
 
-                <ul className={styles['navigation__inner-container']}>
+                <ul className={`section-links ${styles['navigation__inner-container']}`}>
                     <li>
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to={"/"}>Home</NavLink>
@@ -50,17 +58,18 @@ function Navigation() {
                         <>
                             {userData && userData.profilePictureUrl ? (
                                 <div className={styles['user-info']}>
-                                    <button onClick={() => navigate('/profile')}
-                                            className={styles['profile-photo-button']}>
+                                    <Button type="button"
+                                            onClick={() => navigate('/profile')}
+                                            variant="profile">
                                         <img src={userData.profilePictureUrl} alt="Profielfoto"
                                              className={styles['profile-photo']}/>
                                         <span>{user.username}</span>
-                                    </button>
+                                    </Button>
                                 </div>
                             ) : (
                                 <span>Welkom {user.username}</span>
                             )}
-                            <button type="button" onClick={logout} className={styles['logout-button']}>Log uit</button>
+                            <Button type="submit" onClick={logout} variant="logout">Log uit</Button>
                         </>
                     ) : (
                         <Button type="button" onClick={() => navigate('/login')}>Log in</Button>
@@ -69,6 +78,7 @@ function Navigation() {
                 </div>
             </div>
         </nav>
+        </header>
     );
 }
 

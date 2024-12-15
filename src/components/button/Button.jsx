@@ -1,7 +1,6 @@
 import styles from './Button.module.css';
 
-// eslint-disable-next-line react/prop-types
-function Button({ type, children, onClick, disabled, variant = 'primary' }) {
+function Button({type, children, onClick, disabled, variant = 'primary'}) {
     const buttonClass = `${styles.button} ${styles[`button-${variant}`]}`;
 
     return (

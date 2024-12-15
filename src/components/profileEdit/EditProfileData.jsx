@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import styles from './ProfileEdit.module.css';
 import InputField from '../inputField/InputField.jsx';
 import Button from "../button/Button.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
@@ -19,23 +19,34 @@ function EditProfileData({ user, profile, onUpdate }) {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const watchAutismDiagnoses = watch('autismDiagnoses');
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     const handleProfileDataSubmit = async (data) => {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            await axiosHeader.put(`/users/${user.username}/profile-data`, data);
+            await axiosHeader.put(`/users/${user.username}/profile-data`, data, { signal });
             onUpdate();
             setIsSubmitted(true);
-        } catch (error) {
-            console.error('Error updating profile data:', error);
-            toggleError(true);
+        } catch (e) {
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
-    };
+    }
 
     return (
         <div>
@@ -87,6 +98,7 @@ function EditProfileData({ user, profile, onUpdate }) {
                 />
             )}
             <Button type="submit" variant="secondary">Update Gegevens</Button>
+            {loading && <p>Laden...</p>}
             {error && <ErrorMessage message={error} />}
         </form>
         )}

@@ -1,3 +1,18 @@
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+    2. Areas
+        2.1 Hero
+        2.2 Profile
+        2.3 Bio & Review
+        2.3 Forums
+    3. Buttons
+    4. Media Queries
+////////////////////////*/
+
+
+/* 1. Global Styles */
+
 .outer-container {
     display: flex;
     flex-direction: row;

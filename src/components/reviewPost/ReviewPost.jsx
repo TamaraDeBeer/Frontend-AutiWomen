@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
@@ -12,18 +12,30 @@ function ReviewPost({review, user, onUpdate}) {
         }
     });
 
-    // eslint-disable-next-line no-unused-vars
-    const [bioPost, setBioPost] = useState(review || "");
+    const [loading, toggleLoading] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function postReview(data) {
+        toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axiosHeader.post(`/reviews/${user.username}`, {
-                review: data.review,
-            });
-            setBioPost(response.data);
+            await axiosHeader.post(`/reviews/users/${user.username}`, {
+                review: data.review
+            }, { signal });
             onUpdate();
         } catch (e) {
-            console.error(e);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+            }
+        } finally {
+            toggleLoading(false);
         }
     }
 
@@ -36,11 +48,12 @@ function ReviewPost({review, user, onUpdate}) {
                         id="review-field"
                         cols="60"
                         rows="10"
-                        {...register('review', { required: true })}
+                        {...register('review', {required: true})}
                     ></textarea>
                 </label>
-                <Button type="submit" variant="secondary">Update Review</Button>
-                {errors.bio && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."} />}
+                <Button type="submit" variant="secondary">Verzenden</Button>
+                {loading && <p>Laden...</p>}
+                {errors.bio && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
             </form>
         </div>
     );

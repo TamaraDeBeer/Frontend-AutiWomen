@@ -1,14 +1,14 @@
 import styles from './AccountRegister.module.css';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
-import {Link, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { differenceInYears } from 'date-fns';
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function AccountRegister() {
-    const {handleSubmit, formState: {errors}, register, watch} = useForm({
+    const { handleSubmit, formState: { errors }, register, watch } = useForm({
         defaultValues: {
             name: "",
             email: "",
@@ -22,13 +22,11 @@ function AccountRegister() {
         }
     });
 
-    // eslint-disable-next-line no-unused-vars
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
     const [fileName, setFileName] = useState('');
+    const [photo, setPhoto] = useState(null);
     const navigate = useNavigate();
-    const source = axios.CancelToken.source();
     const watchSelectedAutism = watch('autism-question');
     const isAtLeast16YearsOld = (dob) => {
         const today = new Date();
@@ -37,52 +35,27 @@ function AccountRegister() {
     };
 
     useEffect(() => {
-        return function cleanup() {
-            source.cancel();
-        }
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
     }, []);
 
     const handlePhotoChange = (e) => {
         if (e.target.files[0]) {
+            setPhoto(e.target.files[0]);
             setFileName(e.target.files[0].name);
         } else {
+            setPhoto(null);
             setFileName('');
         }
     };
 
-    // async function registerUser(data) {
-    //     const formData = new FormData();
-    //     formData.append('user', new Blob([JSON.stringify({
-    //         email: data.email,
-    //         username: data.username,
-    //         password: data.password,
-    //         name: data.name,
-    //         gender: data.gender,
-    //         dob: data.dob,
-    //         autismDiagnoses: data['autism-question'],
-    //         autismDiagnosesYear: data['autism-question-Ja'],
-    //     })], { type: 'application/json' }));
-    //
-    //     if (data.photo && data.photo[0]) {
-    //         formData.append('file', data.photo[0]);
-    //     }
-    //     try {
-    //         const response = await axios.post('http://localhost:1991/register', formData, {
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data'
-    //             },
-    //             cancelToken: source.token,
-    //         });
-    //         console.log(response.data); // Check the response data
-    //         navigate('/login');
-    //     } catch (e) {
-    //         console.error('Error during registration:', e);
-    //         toggleError(true);
-    //     }
-    //
-    // }
-
     async function registerUser(data) {
+        toggleError(false);
+        toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         const formData = new FormData();
         formData.append('user', new Blob([JSON.stringify({
             email: data.email,
@@ -95,30 +68,30 @@ function AccountRegister() {
             autismDiagnosesYear: data['autism-question-Ja'],
         })], { type: 'application/json' }));
 
-        if (data.photo && data.photo[0]) {
-            formData.append('file', data.photo[0]);
+        if (photo) {
+            formData.append('file', photo);
         }
 
         try {
-            const response = await axios.post('http://localhost:1991/register', formData, {
+            await axiosPublic.post('/register', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                },
-                cancelToken: source.token,
-            });
-            console.log(response.data); // Check the response data
+                }, signal });
             navigate('/login');
         } catch (e) {
-            console.error('Error during registration:', e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
     }
 
-    return (<>
-
+    return (
         <section className="outer-container">
             <div className="inner-container">
-                <form onSubmit={handleSubmit(registerUser)} className={styles['register-form']}>
+                <form onSubmit={handleSubmit(registerUser)} className={`main-form ${styles['register-form']}`}>
 
                     <InputField
                         inputId="name-field"
@@ -144,7 +117,7 @@ function AccountRegister() {
                             },
                             validate: (value) => value === 'vrouw' || "Sorry, alleen vrouwen zijn welkom op deze website",
                         })}>
-                            <option value="" disabled selected>-- Selecteer een optie --</option>
+                            <option value="" disabled>-- Selecteer een optie --</option>
                             <option value="vrouw">vrouw</option>
                             <option value="man">man</option>
                         </select>
@@ -161,9 +134,7 @@ function AccountRegister() {
                                 value: true,
                                 message: "Geboortedatum is verplicht",
                             },
-                            validate: {
-                                isOldEnough: (value) => isAtLeast16YearsOld(value) || "Je moet minimaal 16 jaar oud zijn",
-                            },
+                            validate: (value) => isAtLeast16YearsOld(value) || "Je moet minimaal 16 jaar oud zijn",
                         }}
                         register={register}
                         errors={errors}
@@ -178,7 +149,7 @@ function AccountRegister() {
                             },
                             validate: (value) => value !== "Nee" || "Sorry, deze website is voor vrouwen met autisme of een vermoeden van",
                         })}>
-                            <option value="" disabled selected>-- Selecteer een optie --</option>
+                            <option value="" disabled>-- Selecteer een optie --</option>
                             <option value="Ja">Ja</option>
                             <option value="Nee">Nee</option>
                             <option value="Vermoeden">Vermoeden</option>
@@ -254,8 +225,7 @@ function AccountRegister() {
                     />
 
                     <label htmlFor="photo-field" className={styles['register-image']}>
-                        {/*Profielfoto: foto kiezen*/}
-                        Op je profilepagina kun je een profielfoto toevoegen.
+                        Profielfoto: foto kiezen
                         <input
                             id="photo-field"
                             type="file"
@@ -272,11 +242,9 @@ function AccountRegister() {
                     <Button type="submit" disabled={loading}>Registreren</Button>
                     <p>Heb je al een account? <Link to="/login">Log</Link> dan in.</p>
                 </form>
-
-
             </div>
         </section>
-    </>);
+    );
 }
 
 export default AccountRegister;

@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
-import axios from "axios";
 import styles from './ForumPost.module.css';
 import Button from "../../components/button/Button.jsx";
 import ForumPostLong from "../../components/forumPostLong/ForumPostLong.jsx";
@@ -11,6 +10,7 @@ import PopulairTopics from "../../components/populairTopics/PopulairTopics.jsx";
 import RelatedForums from "../../components/relatedForums/RelatedForums.jsx";
 import UserForums from "../../components/userForums/UserForums.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function ForumPost() {
     const {forumId} = useParams();
@@ -19,27 +19,15 @@ function ForumPost() {
     const [loading, toggleLoading] = useState(false);
     const [forumById, setForumById] = useState([]);
     const [commentsByForumId, setCommentsByForumId] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [commentName, setCommentName] = useState('');
     const [commentText, setCommentText] = useState('');
-    // eslint-disable-next-line no-unused-vars
-    const [postComment, setPostComment] = useState([]);
-    const [name, setName] = useState('');
     const [lastReaction, setLastReaction] = useState('');
     const commentFormRef = useRef(null);
     const [commentsCount, setCommentsCount] = useState(0);
 
     useEffect(() => {
-        const username = localStorage.getItem('username');
-        if (username) {
-            setName(username);
-        }
         if (forumId) {
             fetchForumById();
         }
-    }, [forumId]);
-
-    useEffect(() => {
         if (forumById.id) {
             setCommentsCount(forumById.commentsCount);
             fetchCommentsByForumId();
@@ -47,33 +35,53 @@ function ForumPost() {
         if (forumById.lastReaction) {
             setLastReaction(createDateToString(forumById.lastReaction));
         }
-    }, [forumById]);
+    }, [forumId]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function fetchForumById() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            toggleLoading(true);
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}`);
+            const response = await axiosPublic.get(`/forums/${forumId}`, {signal});
             setForumById(response.data);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     async function fetchCommentsByForumId() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            toggleLoading(true);
-            const response = await axios.get(`http://localhost:1991/forums/${forumId}/comments`);
+            const response = await axiosPublic.get(`/comments/forums/${forumId}`, {signal});
             const sortedComments = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setCommentsByForumId(sortedComments);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+            if (e.response && e.response.status === 404) {
+                setCommentsByForumId([]);
+            } else {
+                console.error(e);
+                toggleError(true);
+            }
         }
         toggleLoading(false);
     }
@@ -83,31 +91,34 @@ function ForumPost() {
         const username = localStorage.getItem('username');
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            toggleLoading(true);
-            const response = await axiosHeader.post(`/forums/${forumId}/comments/${username}`, {
+            await axiosHeader.post(`/comments/forums/${forumId}/users/${username}`, {
                 name: username,
                 text: commentText,
                 date: new Date().toISOString(),
+                signal
             });
-            setPostComment(response.data);
             fetchCommentsByForumId();
             setCommentText('');
             setLastReaction(createDateToString(new Date().toISOString()));
             setCommentsCount(prevCount => prevCount + 1);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     const scrollToCommentForm = () => {
         if (commentFormRef.current) {
-            commentFormRef.current.scrollIntoView({ behavior: 'smooth' });
+            commentFormRef.current.scrollIntoView({behavior: 'smooth'});
         }
     };
-
 
     return (
         <>
@@ -126,22 +137,22 @@ function ForumPost() {
             <section className={`${styles['outer-container']} ${styles['section-forum__main']}`}>
                 <section className={styles['section-forum__posts-long']}>
                     {error &&
-                        <p className="error-message">Je moet ingelogd zijn om een comment te kunnen toevoegen.</p>}
-                    {loading && <p>Loading...</p>}
+                        <p className="error-message">Er ging iets mis, probeer het later opnieuw.</p>}
+                    {loading && <p>Laden...</p>}
 
                     {Object.keys(forumById).length > 0 && (
                         <ForumPostLong
                             title={forumById.title}
-                            image={forumById.userDto?.profilePictureUrl} q
+                            image={forumById.userDto?.profilePictureUrl}
                             name={forumById.name}
-                            age={calculateAge(forumById.age) + ' jaar'}
+                            age={calculateAge(forumById.dob) + ' jaar'}
                             date={createDateToString(forumById.date)}
-                            lastReaction={lastReaction ? lastReaction : 'Plaast de eerste reactie hieronder'}
+                            lastReaction={lastReaction ? lastReaction : 'Plaats de eerste reactie hieronder'}
                             text={forumById.text}
                             likesCount={forumById.likesCount}
                             commentsCount={commentsCount}
                             viewsCount={forumById.viewsCount}
-                            currentUser={name}
+                            currentUser={localStorage.getItem('username')}
                             fetchForumById={fetchForumById}
                             scrollToCommentForm={scrollToCommentForm}
                         />
@@ -150,30 +161,34 @@ function ForumPost() {
                     <div className={styles['section-forum__line']}></div>
 
                     <section className={styles['section-response']}>
-                        {error &&
-                            <p className="error-message">Data ophalen lukt niet, probeer het later nog een keer.</p>}
-                        {loading && <p>Loading...</p>}
+                        {error && <p className="error-message">Er ging iets mis, probeer het later opnieuw.</p>}
+                        {loading && <p>Laden...</p>}
 
-                        {commentsByForumId.length > 0 && commentsByForumId.map(comment => (
-                            <CommentForum
-                                key={comment.id}
-                                image={comment.userDto?.profilePictureUrl}
-                                name={comment.name}
-                                age={calculateAge(comment.age) + ' jaar'}
-                                date={createDateToString(comment.date)}
-                                text={comment.text}
-                                commentId={comment.id}
-                                forumId={forumId}
-                                currentUser={name}
-                                fetchCommentsByForumId={fetchCommentsByForumId}
-                            />
-                        ))}
+                        {commentsByForumId.length > 0 ? (
+                            commentsByForumId.map(comment => (
+                                <CommentForum
+                                    key={comment.id}
+                                    image={comment.userDto?.profilePictureUrl}
+                                    name={comment.name}
+                                    age={calculateAge(comment.dob) + ' jaar'}
+                                    date={createDateToString(comment.date)}
+                                    text={comment.text}
+                                    commentId={comment.id}
+                                    forumId={forumId}
+                                    currentUser={localStorage.getItem('username')}
+                                    username={comment.name}
+                                    fetchCommentsByForumId={fetchCommentsByForumId}
+                                />
+                            ))
+                        ) : (
+                            !loading && !error && <p>Er zijn nog geen opmerkingen.</p>
+                        )}
                     </section>
 
                     <div className={styles['section-forum__line']}></div>
 
                     <div className={styles['section-forum__comment']} ref={commentFormRef}>
-                        {name ? (
+                        {localStorage.getItem('username') ? (
                             <>
                                 <h3 className={styles['section-forum__comment-reactie']}>Jouw Reactie:</h3>
                                 <form onSubmit={addComment} className={styles['section-forum__comment-card']}>
@@ -181,8 +196,8 @@ function ForumPost() {
                                         <input type="text"
                                                name="name"
                                                id="name"
-                                               value={name}
-                                               onChange={(e) => setCommentName(e.target.value)}
+                                               value={localStorage.getItem('username')}
+                                               readOnly
                                         />
                                     </label>
 
@@ -204,7 +219,7 @@ function ForumPost() {
                                 </form>
                             </>
                         ) : (
-                            <p>Je moet ingelogd zijn om een reactie te kunnen toevoegen.</p>
+                            <p>Je moet ingelogd zijn om een opmerking te kunnen toevoegen.</p>
                         )}
                     </div>
                 </section>

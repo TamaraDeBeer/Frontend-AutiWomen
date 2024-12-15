@@ -1,45 +1,37 @@
 import styles from "../forumCreate/ForumCreate.module.css";
 import Button from "../../components/button/Button.jsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-
 function ForumCreate() {
-    const [name, setName] = useState('');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [topic, setTopic] = useState('');
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-    // eslint-disable-next-line no-unused-vars
-    const [postForum, setPostForum] = useState([]);
-
-    useEffect(() => {
-        const username = localStorage.getItem('username');
-        if (username) {
-            setName(username);
-        }
-    }, []);
 
     async function addForum(e) {
+        toggleError(false);
+        toggleLoading(true);
         e.preventDefault();
         const username = localStorage.getItem('username');
-        console.log(name, title, text, topic);
 
         try {
-            const response = await axiosHeader.post(`/forums/${username}`, {
+            const response = await axiosHeader.post(`/forums/users/${username}`, {
                 name: username,
                 title: title,
                 text: text,
                 topic: topic,
                 date: new Date().toISOString(),
             });
-            setPostForum(response.data);
-            console.log(response.data);
             navigate(`/forums/${response.data.id}`);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     function handleReset() {
@@ -52,7 +44,7 @@ function ForumCreate() {
 
             <div className={styles['background-color']}>
 
-                <section className="outer-container">q
+                <section className="outer-container">
                     <div className={`inner-container ${styles['section-hero__inner-container']}`}>
                         <h1>Auti-Women Forum</h1>
                         <h2>Deel je problemen, geef advies en wees respectvol</h2>
@@ -66,8 +58,7 @@ function ForumCreate() {
                             <input type="text"
                                    name="name"
                                    id="name"
-                                   value={name}
-                                   onChange={(e) => setName(e.target.value)}
+                                   value={localStorage.getItem('username')}
                             />
                         </label>
 
@@ -114,6 +105,8 @@ function ForumCreate() {
                         </label>
 
                         <div className={styles['forum-form__buttons']}>
+                            {loading && <p>Laden...</p>}
+                            {error && <p>Er is iets fout gegaan, controleer of alle velden ingevuld zijn.</p>}
                             <Button type="reset">Annuleren</Button>
                             <Button type="submit">Verstuur</Button>
                         </div>

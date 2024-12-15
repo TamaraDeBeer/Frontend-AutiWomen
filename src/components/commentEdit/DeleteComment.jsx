@@ -1,20 +1,26 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "../button/Button.jsx";
 import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 import styles from "../forumEdit/ForumEdit.module.css";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
 
-function DeleteComment({forumId, commentId, onDelete, fetchCommentsByForumId}) {
+function DeleteComment({username, commentId, onDelete, fetchCommentsByForumId}) {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [error, toggleError] = useState(false);
-    // eslint-disable-next-line no-unused-vars
     const [loading, toggleLoading] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
     async function handleDelete() {
         toggleError(false);
         toggleLoading(true);
         try {
-            await axiosHeader.delete(`/forums/${forumId}/comments/${commentId}`);
+            await axiosHeader.delete(`/comments/${commentId}/users/${username}`);
             setIsSubmitted(true);
             onDelete();
             setTimeout(() => {
@@ -35,8 +41,9 @@ function DeleteComment({forumId, commentId, onDelete, fetchCommentsByForumId}) {
                 </div>
             ) : (
                 <div>
-                    <Button type="button" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
-                    {error && <ErrorMessage message={error}/>}
+                    <Button type="submit" onClick={handleDelete} variant="secondary">Bevestig Verwijderen</Button>
+                    {loading && <p>Laden...</p>}
+                    {error && <ErrorMessage message={"Er ging iets mis, probeer het later opnieuw."}/>}
                 </div>
             )}
         </div>

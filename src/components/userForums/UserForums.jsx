@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './UserForums.module.css';
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function UserForums({ username, currentForumId }) {
     const [forums, setForums] = useState([]);
@@ -12,18 +12,30 @@ function UserForums({ username, currentForumId }) {
         fetchUserForums();
     }, [username, currentForumId]);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function fetchUserForums() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosPublic.get('/forums', { signal });
             const userForums = response.data.filter(forum => forum.name === username && forum.id !== currentForumId);
             setForums(userForums);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (

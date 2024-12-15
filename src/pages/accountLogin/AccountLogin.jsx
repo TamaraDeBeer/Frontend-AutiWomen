@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContextProvider.jsx";
-import axios from "axios";
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 function AccountLogin() {
     const { handleSubmit, formState: { errors }, register } = useForm({
@@ -18,35 +18,43 @@ function AccountLogin() {
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
     const navigate = useNavigate();
-    // const source = axios.CancelToken.source();
     const { login } = useContext(AuthContext);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
 
     async function handleFormSubmit(data) {
         toggleError(false);
         toggleLoading(true);
-
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
-            const result = await axios.post('http://localhost:1991/login', {
+            const result = await axiosPublic.post('/login', {
                 username: data.username,
                 password: data.password
-            }, {
-                // cancelToken: source.token,
-            });
-            console.log(result.data);
+            }, { signal });
             login(result.data.jwt);
             navigate('/profile');
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
         } finally {
             toggleLoading(false);
         }
     }
 
+
     return (
         <section className="outer-container">
             <div className="inner-container">
-                <form onSubmit={handleSubmit(handleFormSubmit)} className={styles['login-form']}>
+                <form onSubmit={handleSubmit(handleFormSubmit)} className={`main-form ${styles['login-form']}`}>
                     <InputField
                         inputId="username-field"
                         inputLabel="Username:"
@@ -80,6 +88,7 @@ function AccountLogin() {
                         register={register}
                         errors={errors}
                     />
+                    {loading && <p>Laden...</p>}
                     {error && <p>Er is iets fout gegaan, controleer je username en wachtwoord</p>}
                     <Button type="submit" disabled={loading}>Log in</Button>
                     <p>Heb je nog geen account? <Link to="/register">Registreer</Link> je dan eerst.</p>

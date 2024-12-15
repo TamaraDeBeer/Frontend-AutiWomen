@@ -3,8 +3,11 @@ import styles from './AdminPage.module.css';
 import {Link} from "react-router-dom";
 import calculateAge from "../../helpers/calculateAge.jsx";
 import axiosHeader from "../../helpers/axiosHeader.jsx";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage.jsx";
 
 function AdminPage() {
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
     const [forums, setForums] = useState([]);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
@@ -24,54 +27,75 @@ function AdminPage() {
     }, []);
 
     async function getAllForums() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/forums');
             setForums(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
-    async function deleteForum(id) {
+    async function deleteForum(forumId, username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
-            await axiosHeader.delete(`/forums/${id}`);
-            setForums(forums.filter(forum => forum.id !== id));
+            await axiosHeader.delete(`/forums/${forumId}/users/${username}`);
+            setForums(forums.filter(forum => forum.id !== forumId));
             getAllComments();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllComments() {
+        toggleError(false);
+        toggleLoading(true);
         try {
-            const response = await axiosHeader.get('/forums/comments');
+            const response = await axiosHeader.get('/comments');
             setComments(response.data);
-            console.log(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
-    async function deleteComment(forumId, commentId) {
+    async function deleteComment(commentId, username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
-            await axiosHeader.delete(`/forums/${forumId}/comments/${commentId}`);
+            await axiosHeader.delete(`/comments/${commentId}/users/${username}`);
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllUsers() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/users');
             setUsers(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(false);
+            toggleLoading(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteUser(username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
             await axiosHeader.delete(`/users/${username}`);
             setUsers(users.filter(user => user.username !== username));
@@ -81,62 +105,87 @@ function AdminPage() {
             getAllReviews();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllReviews() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/reviews');
             setReview(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
-    async function deleteReview(id) {
+    async function deleteReview(reviewId, username) {
+        toggleError(false);
+        toggleLoading(true);
         try {
-            await axiosHeader.delete(`/reviews/${id}`);
-            setReview(review.filter(review => review.id !== id));
+            await axiosHeader.delete(`/reviews/${reviewId}/users/${username}`);
+            setReview(review.filter(review => review.id !== reviewId));
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function getAllAuthorities() {
+        toggleError(false);
+        toggleLoading(true);
         try {
             const response = await axiosHeader.get('/authorities');
             setAuthorities(response.data);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function deleteUserAuthority(username, authority) {
+        toggleError(false);
+        toggleLoading(true);
         try {
-            await axiosHeader.delete(`/${username}/authorities/${authority}`);
+            await axiosHeader.delete(`/authorities/${authority}/users/${username}`);
             setAuthorities(authorities.filter(auth => !(auth.username === username && auth.authority === authority)));
             getAllUsers();
         } catch (e) {
             console.error(e);
+            toggleError(false);
+            toggleLoading(true);
         }
+        toggleLoading(false);
     }
 
     async function addUserAuthority(event) {
+        toggleError(false);
+        toggleLoading(true);
         event.preventDefault();
         try {
-            await axiosHeader.post(`/${newAuthority.username}/authorities`, { authority: newAuthority.authority });
+            await axiosHeader.post(`/authorities/users/${newAuthority.username}`, { authority: newAuthority.authority });
             setFormVisible(false);
             getAllAuthorities();
             getAllUsers();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     async function updateUserAuthority(event) {
+        toggleError(false);
+        toggleLoading(true);
         event.preventDefault();
         try {
-            await axiosHeader.put(`/${updateAuthority.username}/authorities`, {
+            await axiosHeader.put(`/authorities/users/${updateAuthority.username}`, {
                 oldAuthority: updateAuthority.oldAuthority,
                 newAuthority: updateAuthority.newAuthority
             });
@@ -145,12 +194,17 @@ function AdminPage() {
             getAllUsers();
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
     return (
         <div className={styles['admin-page']}>
-            <h1>Admin Page</h1>
+            <h1 className={styles['hero']}>Admin Page</h1>
+
+            {loading && <p>Laden...</p>}
+            {error && <ErrorMessage message="Er ging iets mis, probeer het later opnieuw." />}
 
             <section>
                 <h2>Forums</h2>
@@ -170,7 +224,7 @@ function AdminPage() {
                             <td>{forum.name}</td>
                             <td><Link to={`/forums/${forum.id}`}>{forum.title}</Link></td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteForum(forum.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -202,7 +256,7 @@ function AdminPage() {
                                 </Link>
                             </td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteComment(comment.forumDto.id, comment.id)}>Delete
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteComment(comment.id)}>Delete
                                 </button>
                             </td>
                         </tr>
@@ -213,7 +267,7 @@ function AdminPage() {
 
             <section>
                 <h2>Users</h2>
-                <button className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
+                <button type="button" className={styles['admin-button']} onClick={() => setFormVisible(true)}>Add Authority</button>
                 {isFormVisible && (
                     <form onSubmit={addUserAuthority} className={styles['admin-form']}>
                         <button type="button" className={styles['close-button']} onClick={() => setFormVisible(false)}>x</button>
@@ -231,7 +285,7 @@ function AdminPage() {
                             onChange={(e) => setNewAuthority({...newAuthority, authority: e.target.value})}
                             required
                         />
-                        <button className={styles['admin-button']} type="submit">Submit</button>
+                        <button type="submit" className={styles['admin-button']}>Submit</button>
                     </form>
                 )}
                 <table>
@@ -256,7 +310,7 @@ function AdminPage() {
                             <td>{user.email}</td>
                             <td>{user.authorities[0]?.authority}</td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteUser(user.username)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteUser(user.username)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -282,7 +336,7 @@ function AdminPage() {
                             <td>{review.name}</td>
                             <td>{review.review}</td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteReview(review.id)}>Delete</button>
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteReview(review.id, review.name)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -292,7 +346,7 @@ function AdminPage() {
 
             <section>
                 <h2>Authorities</h2>
-                <button className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
+                <button type="button" className={styles['admin-button']} onClick={() => setUpdateFormVisible(true)}>Update Authority</button>
                 {isUpdateFormVisible && (
                         <form onSubmit={updateUserAuthority} className={styles['admin-form']}>
                             <button type="button" className={styles['close-button']}
@@ -336,7 +390,7 @@ function AdminPage() {
                             <td>{auth.username}</td>
                             <td>{auth.authority}</td>
                             <td>
-                                <button className={styles['admin-button']} onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
+                                <button type="submit" className={styles['admin-button']} onClick={() => deleteUserAuthority(auth.username, auth.authority)}>Delete
                                 </button>
                             </td>
                         </tr>

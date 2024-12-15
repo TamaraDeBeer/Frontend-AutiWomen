@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './RelatedForums.module.css';
+import axiosPublic from "../../helpers/axiosPublic.jsx";
 
 
 function RelatedForums({ topic, currentForumId }) {
@@ -13,26 +13,38 @@ function RelatedForums({ topic, currentForumId }) {
         fetchRelatedForums();
     }, [topic, currentForumId]);
 
+    useEffect(() => {
+        const controller = new AbortController();
+        return () => {
+            controller.abort();
+        };
+    }, []);
+
     async function fetchRelatedForums() {
         toggleError(false);
         toggleLoading(true);
+        const controller = new AbortController();
+        const signal = controller.signal;
         try {
             toggleLoading(true);
-            const response = await axios.get('http://localhost:1991/forums');
+            const response = await axiosPublic.get('/forums', { signal });
             const filteredForums = response.data.filter(forum => forum.topic === topic && forum.id !== currentForumId);
             setRelatedForums(filteredForums);
         } catch (e) {
-            console.error(e);
-            toggleError(true);
+            if (e.name !== 'CanceledError') {
+                console.error(e);
+                toggleError(true);
+            }
+        } finally {
+            toggleLoading(false);
         }
-        toggleLoading(false);
     }
 
     return (
         <div className={styles['related-forums']}>
             <h2 className={styles['title']}>Gerelateerde Forums</h2>
             {error && <p>Er is iets misgegaan bij het ophalen van de data. Probeer het opnieuw.</p>}
-            {loading && <p>Loading...</p>}
+            {loading && <p>Laden...</p>}
             {relatedForums.length === 0 ? (
                 <p>Geen gerelateerde forums gevonden</p>
             ) : (

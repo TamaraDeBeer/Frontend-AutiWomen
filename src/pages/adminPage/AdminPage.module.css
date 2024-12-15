@@ -1,14 +1,18 @@
-.admin-page {
-    padding: 10rem 3rem 5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
+/*////////////////////////
+    Table of Contents
+    1. Global Styles
+    2. Areas
+        2.1 Hero
+        2.2 Form
+    3. Buttons
+////////////////////////*/
 
+/* 1. Global Styles */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    border: 2px solid var(--secondary-color);
 }
 
 th, td {
@@ -25,6 +29,26 @@ td {
     background-color: var(--primary-bg-color);
 }
 
+/* 2. Areas */
+/* 2.1 Hero */
+.admin-page {
+    padding: 10rem 3rem 5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hero {
+    text-align: center;
+}
+
+/* 2.2 Form */
+.admin-form {
+    border: 2px solid var(--primary-bg-button);
+    width: 25%;
+}
+
+/* 3. Buttons */
 .admin-button {
     display: inline-flex;
     justify-content: center;
@@ -34,15 +58,6 @@ td {
     font-size: 1rem;
     border: none;
     background-color: var(--secondary-bg-button);
-}
-
-.admin-form {
-    border: 2px solid var(--primary-bg-button);
-    width: 25%;
-}
-
-table {
-    border: 2px solid var(--secondary-color);
 }
 
 .close-button {

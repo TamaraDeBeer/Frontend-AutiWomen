@@ -1,11 +1,11 @@
 import {createContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
+import axiosHeader from "../helpers/axiosHeader.jsx";
 
 export const AuthContext = createContext({});
 
-function AuthContextProvider ({children}) {
+function AuthContextProvider({children}) {
     const [isAuth, setIsAuth] = useState({
         isAuth: false,
         user: null,
@@ -16,7 +16,6 @@ function AuthContextProvider ({children}) {
 
     useEffect(() => {
         const jwt = localStorage.getItem('jwt');
-        console.log('JWT from localStorage on page load:', jwt);
         if (jwt) {
             try {
                 const decoded = jwtDecode(jwt);
@@ -38,15 +37,27 @@ function AuthContextProvider ({children}) {
         }
     }, []);
 
+
     function login(jwt) {
-        console.log('JWT on login:', jwt);
         localStorage.setItem('jwt', jwt);
         try {
             const decoded = jwtDecode(jwt);
             localStorage.setItem('username', decoded.sub);
             fetchUserData(decoded.sub, jwt);
+            setIsAuth({
+                isAuth: true,
+                user: {
+                    username: decoded.sub,
+                },
+                status: 'done',
+            });
         } catch (e) {
             console.error('Error decoding JWT on login:', e);
+            setIsAuth({
+                isAuth: false,
+                user: null,
+                status: 'done',
+            });
         }
     }
 
@@ -57,19 +68,17 @@ function AuthContextProvider ({children}) {
             user: null,
             status: 'done',
         });
-        console.log('Gebruiker is uitgelogd!');
         navigate('/');
     }
 
     async function fetchUserData(username, jwt) {
         try {
-            const result = await axios.get(`http://localhost:1991/users/${username}`, {
+            const result = await axiosHeader.get(`/users/${username}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
                 },
             });
-            console.log('Result:', result.data);
             setIsAuth({
                 isAuth: true,
                 user: {
